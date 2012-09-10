@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fi.lolcatz</groupId>
-    <artifactId>Lolcatz</artifactId>
+    <artifactId>Profiler</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -29,10 +29,9 @@
                 <version>2.4</version>
                 <configuration>
                     <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>fi.lolcatz.profiler.App</mainClass>
-                        </manifest>
+                        <manifestEntries>
+                            <Premain-Class>ProfilerAgent</Premain-Class>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>
