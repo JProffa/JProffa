@@ -13,6 +13,10 @@ public class Agent {
         inst.addTransformer(new MyTransformer());
 
     }
+    
+    public static void agentmain(String args, Instrumentation inst) throws Exception {
+        inst.addTransformer(new MyTransformer());
+    }
 
     private static void printInstrumentationInfo(Instrumentation inst) {
         System.out.println(inst);
