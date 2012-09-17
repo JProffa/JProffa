@@ -10,12 +10,12 @@ public class Agent {
         System.out.println("agentArgs: " + agentArgs);
         Agent.inst = inst;
         printInstrumentationInfo(inst);
-        inst.addTransformer(new MyTransformer());
-
+        //inst.addTransformer(new PrinterTransformer());
+        inst.addTransformer(new BytecodeCountTransformer());
     }
     
     public static void agentmain(String args, Instrumentation inst) throws Exception {
-        inst.addTransformer(new MyTransformer());
+        inst.addTransformer(new PrinterTransformer());
     }
 
     private static void printInstrumentationInfo(Instrumentation inst) {

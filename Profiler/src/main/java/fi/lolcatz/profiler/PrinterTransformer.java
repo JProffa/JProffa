@@ -6,7 +6,7 @@ import java.security.ProtectionDomain;
 import java.util.Arrays;
 import org.objectweb.asm.ClassReader;
 
-class MyTransformer implements ClassFileTransformer {
+class PrinterTransformer implements ClassFileTransformer {
 
     @Override
     public byte[] transform(
