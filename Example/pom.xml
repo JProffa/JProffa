@@ -13,6 +13,25 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <build>
+      <plugins>
+          <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.mycompany.example.Example</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>          
+      </plugins>
+      
+  </build>
 
   <dependencies>
     <dependency>
