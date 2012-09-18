@@ -7,15 +7,15 @@ import org.objectweb.asm.MethodVisitor;
 import static org.objectweb.asm.Opcodes.*;
 
 public class BytecodeCounterVisitor extends ClassVisitor {
-    
     ClassWriter cw = new ClassWriter(0);
-    
+ 
     public BytecodeCounterVisitor() {
         super(ASM4);
     }
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+
         System.out.println(" Method: " + name + desc);
         MethodVisitor mv = cw.visitMethod(access, name, desc, signature, exceptions);
         MethodVisitor counterVisitor = new CounterVisitor(api, mv);
