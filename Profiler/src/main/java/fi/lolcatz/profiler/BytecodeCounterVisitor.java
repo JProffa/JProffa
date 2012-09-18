@@ -8,28 +8,40 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class BytecodeCounterVisitor extends ClassVisitor {
     
-    ClassWriter cw = new ClassWriter(0);
+    ClassWriter cw;
     
-    public BytecodeCounterVisitor() {
-        super(ASM4);
+    public BytecodeCounterVisitor(ClassWriter cw) {
+        super(ASM4, cw);
+        this.cw = cw;
     }
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         System.out.println(" Method: " + name + desc);
         MethodVisitor mv = cw.visitMethod(access, name, desc, signature, exceptions);
-        MethodVisitor counterVisitor = new CounterVisitor(api, mv);
+        MethodVisitor counterVisitor = new CounterVisitor(api, mv, name);
         return counterVisitor;
     }
 
     private class CounterVisitor extends MethodVisitor {
 
-        public CounterVisitor(int api, MethodVisitor mv) {
+        private String name;
+        
+        public CounterVisitor(int api, MethodVisitor mv, String name) {
             super(api, mv);
+            this.name = name;
         }
         
         private void visitOpcode(int opcode) {
             System.out.println("  OPCODE: " + opcode);
+        }
+        
+        @Override
+        public void visitCode() {
+            super.visitCode();
+            super.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+            super.visitLdcInsn("RUNTIME: method: " + name);
+            super.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V");
         }
 
         @Override
