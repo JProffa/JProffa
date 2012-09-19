@@ -28,17 +28,18 @@ public class BytecodeCountTransformer implements ClassFileTransformer {
             byte[] classfileBuffer) throws IllegalClassFormatException{
         System.out.println("Class: " + className);
         ClassReader cr = new ClassReader(classfileBuffer);
-        ClassWriter cw =  new ClassWriter(ClassWriter.COMPUTE_MAXS);;
+        ClassWriter cw =  new ClassWriter(ClassWriter.COMPUTE_MAXS);
         BytecodeCounterVisitor cv = new BytecodeCounterVisitor(cw);
         cr.accept(cv, 0);
         DataOutputStream dout;
+        byte[] modifiedClassFileBuffer = cw.toByteArray();
         try {
             dout = new DataOutputStream(new FileOutputStream(new File(className.substring(className.lastIndexOf("/")+1) + ".class")));
-            dout.write(cw.toByteArray());
+            dout.write(modifiedClassFileBuffer);
         } catch (Exception ex) {
             Logger.getLogger(BytecodeCountTransformer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return null;
+        return modifiedClassFileBuffer;
     }
 }
