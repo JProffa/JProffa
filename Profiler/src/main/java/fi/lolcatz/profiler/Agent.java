@@ -1,19 +1,25 @@
 package fi.lolcatz.profiler;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.instrument.Instrumentation;
+import org.objectweb.asm.ClassWriter;
 
 public class Agent {
 
     private static Instrumentation inst;
 
-    public static void premain(String agentArgs, Instrumentation inst) {
+    public static void premain(String agentArgs, Instrumentation inst) throws IOException {
         System.out.println("agentArgs: " + agentArgs);
         Agent.inst = inst;
         printInstrumentationInfo(inst);
         //inst.addTransformer(new PrinterTransformer());
         inst.addTransformer(new BytecodeCountTransformer());
     }
-    
+
     public static void agentmain(String args, Instrumentation inst) throws Exception {
         inst.addTransformer(new PrinterTransformer());
     }
