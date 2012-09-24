@@ -41,7 +41,8 @@ public class BytecodeCounterVisitor extends ClassVisitor {
         }
 
         /**
-         * Adds counter.
+         * Prints methods name.
+         * Source: <url>http://www.geekyarticles.com/2011/10/manipulating-java-class-files-with-asm.html</url>.
          * {@inheritDoc}
          */
         @Override
