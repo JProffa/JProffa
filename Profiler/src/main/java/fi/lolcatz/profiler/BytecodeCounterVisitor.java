@@ -19,6 +19,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
     }
 
     /**
+     * Create CounterVisitor object and return it as MethodVisitor.
      * {@inheritDoc}
      */
     @Override
