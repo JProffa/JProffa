@@ -1,13 +1,11 @@
 package fi.lolcatz.profiler;
 
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.*;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.objectweb.asm.Opcodes.*;
@@ -29,6 +27,7 @@ public class TreeNodeTransformer implements ClassFileTransformer {
             Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer) throws IllegalClassFormatException {
+
         // Don't touch internal classes for now.
         if (className.startsWith("java/") || className.startsWith("sun/")) {
             return null;
@@ -49,11 +48,13 @@ public class TreeNodeTransformer implements ClassFileTransformer {
             insns.insert(printInsn);
         }
 
-        return generateBytecode(classNode);
+        return Util.generateBytecode(classNode);
     }
 
     /**
-     * Creates a list of instructions that print the given message.
+     * Creates a list of instructions that print the given message. Returned InsnList represents
+     * System.out.println(message);
+     *
      * @param message Message to print.
      * @return InsnList with proper instructions.
      */
@@ -71,22 +72,11 @@ public class TreeNodeTransformer implements ClassFileTransformer {
      * @param classfileBuffer Class as byte[] to generate ClassNode from.
      * @return Initialized ClassNode object.
      */
-    private ClassNode initClassNode(byte[] classfileBuffer) {
+    public static ClassNode initClassNode(byte[] classfileBuffer) {
         ClassNode cn = new ClassNode();
         ClassReader cr = new ClassReader(classfileBuffer);
         cr.accept(cn, 0);
         return cn;
     }
 
-    /**
-     * Create bytecode from ClassNode object.
-     *
-     * @param cn ClassNode to generate bytecode from.
-     * @return Bytecode.
-     */
-    private byte[] generateBytecode(ClassNode cn) {
-        ClassWriter cw = new ClassWriter(0);
-        cn.accept(cw);
-        return cw.toByteArray();
-    }
 }
