@@ -22,18 +22,18 @@ public class BytecodeCounterVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         System.out.println(" Method: " + name + desc);
-        MethodVisitor mv = cw.visitMethod(access, name, desc, signature, exceptions);
+        MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
         MethodVisitor counterVisitor = new CounterVisitor(api, mv, name);
         return counterVisitor;
     }
 
     private class CounterVisitor extends MethodVisitor {
 
-        private String name;
+        private String methodName;
 
         public CounterVisitor(int api, MethodVisitor mv, String name) {
             super(api, mv);
-            this.name = name;
+            this.methodName = name;
         }
 
         private void visitOpcode(int opcode) {
@@ -41,7 +41,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
         }
 
         /**
-         * Prints methods name.
+         * Prints methods methodName.
          * Source: <url>http://www.geekyarticles.com/2011/10/manipulating-java-class-files-with-asm.html</url>.
          * {@inheritDoc}
          */
@@ -49,7 +49,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
         public void visitCode() {
             super.visitCode();
             super.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-            super.visitLdcInsn("RUNTIME: method: " + name);
+            super.visitLdcInsn("RUNTIME: method: " + methodName);
             super.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V");
         }
 
@@ -58,6 +58,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
          */
         @Override
         public void visitFieldInsn(int opcode, String owner, String name, String desc) {
+            super.visitFieldInsn(opcode, owner, name, desc);
             visitOpcode(opcode);
         }
 
@@ -66,6 +67,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
          */
         @Override
         public void visitInsn(int opcode) {
+            super.visitInsn(opcode);
             visitOpcode(opcode);
         }
 
@@ -74,6 +76,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
          */
         @Override
         public void visitIntInsn(int opcode, int operand) {
+            super.visitIntInsn(opcode, operand);
             visitOpcode(opcode);
         }
 
@@ -82,6 +85,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
          */
         @Override
         public void visitJumpInsn(int opcode, Label label) {
+            super.visitJumpInsn(opcode, label);
             visitOpcode(opcode);
         }
 
@@ -90,6 +94,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
          */
         @Override
         public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+            super.visitMethodInsn(opcode, owner, name, desc);
             visitOpcode(opcode);
         }
 
@@ -98,6 +103,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
          */
         @Override
         public void visitTypeInsn(int opcode, String type) {
+            super.visitTypeInsn(opcode, type);
             visitOpcode(opcode);
         }
 
@@ -106,6 +112,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
          */
         @Override
         public void visitVarInsn(int opcode, int var) {
+            super.visitVarInsn(opcode, var);
             visitOpcode(opcode);
         }
     }

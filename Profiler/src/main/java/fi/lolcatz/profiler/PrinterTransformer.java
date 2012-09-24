@@ -32,17 +32,4 @@ class PrinterTransformer implements ClassFileTransformer {
         cr.accept(cp, 0);
         return null;
     }
-
-    private void printBytes(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        int bytecounter = 1;
-        for (byte b : bytes) {
-            sb.append(String.format("%02X ", b));
-            if (bytecounter % 4 == 0) {
-                sb.append(System.getProperty("line.separator"));
-            }
-            bytecounter++;
-        }
-        System.out.println(sb.toString());
-    }
 }
