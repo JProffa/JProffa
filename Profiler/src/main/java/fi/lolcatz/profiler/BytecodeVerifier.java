@@ -10,6 +10,7 @@ import static org.objectweb.asm.Opcodes.*;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
+import org.objectweb.asm.tree.analysis.Frame;
 
 /**
  *
@@ -31,7 +32,12 @@ public class BytecodeVerifier extends MethodVisitor {
         MethodNode mn = (MethodNode) mv;
         Analyzer a = new Analyzer(new BasicInterpreter());
         try{
-            a.analyze(owner, mn);
+            Frame[] f = a.analyze(owner, mn);
+            System.out.println("Iterating Frame Array...");
+            for (Frame v : f){
+                System.out.println(v.getStackSize());
+            }
+            
         }catch (AnalyzerException e){
             throw new RuntimeException(e.getMessage());
         }
