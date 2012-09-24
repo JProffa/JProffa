@@ -10,33 +10,40 @@ import static org.objectweb.asm.Opcodes.*;
 public class BytecodeCounterVisitor extends ClassVisitor {
 
     ClassWriter cw;
+    String className;
 
-    public BytecodeCounterVisitor(ClassWriter cw) {
+    public BytecodeCounterVisitor(ClassWriter cw, String className) {
         super(ASM4, cw);
         this.cw = cw;
+        this.className = className;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        System.out.println(" Method: " + name + desc);
-        MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
-        MethodVisitor counterVisitor = new CounterVisitor(api, mv, name);
+    public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
+        System.out.println(" Method: " + methodName + desc);
+        MethodVisitor mv = super.visitMethod(access, methodName, desc, signature, exceptions);
+        MethodVisitor counterVisitor = new CounterVisitor(api, mv, methodName, className);
         return counterVisitor;
     }
 
     private class CounterVisitor extends MethodVisitor {
 
         private String methodName;
+        private String className;
 
-        public CounterVisitor(int api, MethodVisitor mv, String name) {
+        public CounterVisitor(int api, MethodVisitor mv, String methodName, String className) {
             super(api, mv);
-            this.methodName = name;
+            this.methodName = methodName;
+            this.className = className;
         }
 
         private void visitOpcode(int opcode) {
+            if (className.startsWith("java/lang/") || className.startsWith("sun/")) {
+                return;
+            }
             System.out.println("  OPCODE: " + opcode);
         }
 

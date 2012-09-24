@@ -36,7 +36,7 @@ public class BytecodeCountTransformer implements ClassFileTransformer {
         System.out.println("Class: " + className);
         ClassReader cr = new ClassReader(classfileBuffer);
         ClassWriter cw =  new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        BytecodeCounterVisitor cv = new BytecodeCounterVisitor(cw);
+        BytecodeCounterVisitor cv = new BytecodeCounterVisitor(cw, className);
         cr.accept(cv, 0);
         DataOutputStream dout;
         byte[] modifiedClassFileBuffer = cw.toByteArray();
