@@ -36,6 +36,9 @@
                                 <Main-Class>fi.lolcatz.profiler.App</Main-Class>
                                 <Premain-Class>fi.lolcatz.profiler.Agent</Premain-Class>
                                 <Agent-Class>fi.lolcatz.profiler.Agent</Agent-Class>
+                                <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                                <Can-Retransform-Classes>true</Can-Retransform-Classes>
+                                <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
                             </manifestEntries>
                         </transformer>
                     </transformers>
