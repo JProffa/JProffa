@@ -17,8 +17,15 @@ import java.util.logging.Logger;
 
 import static org.objectweb.asm.Opcodes.*;
 
+/**
+ * Transformer that runs ByteCodeCounterVisitor with classes given for transformation.
+ */
 public class BytecodeCountTransformer implements ClassFileTransformer {
 
+    /**
+     * Transform class using BytecodeCounterVisitor.
+     * {@inheritDoc}
+     */
     @Override
     public byte[] transform(
             ClassLoader loader,

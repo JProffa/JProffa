@@ -6,8 +6,15 @@ import java.security.ProtectionDomain;
 import java.util.Arrays;
 import org.objectweb.asm.ClassReader;
 
+/**
+ * ClassFileTransormer that visits classes using ClassPrinter.
+ */
 class PrinterTransformer implements ClassFileTransformer {
 
+    /**
+     * Visit classes with ClassPrinter.
+     * {@inheritDoc}
+     */
     @Override
     public byte[] transform(
             ClassLoader loader,
