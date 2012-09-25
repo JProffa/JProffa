@@ -19,6 +19,10 @@ import org.objectweb.asm.ClassWriter;
  *
  * @author oorissan
  */
+
+/**
+ * Transformer that runs BytecodeVerifierVisitor with classes given for transformation.
+ */
 public class BytecodeVerifierTransformer implements ClassFileTransformer  {
     
      /**
