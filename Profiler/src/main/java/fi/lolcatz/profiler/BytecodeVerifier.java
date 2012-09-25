@@ -90,6 +90,7 @@ public class BytecodeVerifier extends MethodVisitor {
                             protected void newControlFlowEdge(int src, int dst) {
                                 Node s = (Node) getFrames()[src];
                                 s.successors.add((Node) getFrames()[dst]);
+                                
                             }
                         };
                 a.analyze(owner, mn);
@@ -98,7 +99,10 @@ public class BytecodeVerifier extends MethodVisitor {
                 int nodes = 0;
                 for (int i = 0; i < frames.length; ++i) {
                     if (frames[i] != null) {
-                        edges += ((Node) frames[i]).successors.size();
+                        edges += ((Node) frames[i]).successors.size();                
+                        for (Node n : ((Node) frames[i]).successors){
+                            //COUNTERS!!!!
+                        }
                         nodes += 1;
                     }
                 }
