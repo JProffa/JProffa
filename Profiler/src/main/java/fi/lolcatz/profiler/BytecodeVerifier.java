@@ -20,12 +20,16 @@ public class BytecodeVerifier extends MethodVisitor {
     
     String owner;
     MethodVisitor next;
+    
     public BytecodeVerifier(String owner, int access, String name, String desc, MethodVisitor mv){
         super(ASM4, new MethodNode(access, name, desc, null, null));
         this.owner = owner;
         next = mv;
     }
-    
+    /**
+     * Currently prints max stack for each frame
+     * {@inheritDoc}
+     */
     @Override
     public void visitEnd(){
         System.out.println("BytecodeVerifier:...");

@@ -23,7 +23,10 @@ public class BytecodeVerifierVisitor extends ClassVisitor {
         this.className = className;
     }
 
-    
+     /**
+     * Create BytecodeVerifier object and return it as a MethodVisitor.
+     * {@inheritDoc}
+     */
     @Override
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions){
          System.out.println(" Method: " + methodName + desc);

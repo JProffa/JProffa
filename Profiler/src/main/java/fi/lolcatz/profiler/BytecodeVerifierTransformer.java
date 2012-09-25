@@ -21,6 +21,10 @@ import org.objectweb.asm.ClassWriter;
  */
 public class BytecodeVerifierTransformer implements ClassFileTransformer  {
     
+     /**
+     * Transform class using BytecodeVerifier.
+     * {@inheritDoc}
+     */
     @Override
     public byte[] transform(
             ClassLoader loader,
