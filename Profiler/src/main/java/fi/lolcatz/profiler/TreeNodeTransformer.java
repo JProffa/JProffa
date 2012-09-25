@@ -27,28 +27,43 @@ public class TreeNodeTransformer implements ClassFileTransformer {
             Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer) throws IllegalClassFormatException {
-
-        // Don't touch internal classes for now.
-        if (className.startsWith("java/") || className.startsWith("sun/")) {
-            return null;
-        }
-
-        ClassNode classNode = initClassNode(classfileBuffer);
-
-        for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
-            // Skip constructors
-            if ("<init>".equals(methodNode.name) || "<clinit>".equals(methodNode.name)) {
-                continue;
+        try {
+            // Don't touch internal classes for now.
+            if (className.startsWith("java/") || className.startsWith("sun/")) {
+                return null;
             }
 
-            System.out.println(className + "." + methodNode.name);
+            System.out.println("Class: " + className);
 
-            InsnList insns = methodNode.instructions;
-            InsnList printInsn = getPrintInsn("Method: " + methodNode.name);
-            insns.insert(printInsn);
+            ClassNode classNode = initClassNode(classfileBuffer);
+
+            System.out.println("ClassNode: " + classNode);
+
+            // Add a static field to class
+            classNode.fields.add(new FieldNode(ACC_PUBLIC + ACC_STATIC, "counter", "J", null, new Integer(0)));
+
+            // Add print instruction to beginning of each method
+            for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
+                // Skip constructors
+                if ("<init>".equals(methodNode.name) || "<clinit>".equals(methodNode.name)) {
+                    continue;
+                }
+
+                System.out.println(className + "." + methodNode.name);
+
+                InsnList insns = methodNode.instructions;
+                InsnList printInsn = getPrintInsn("Method: " + methodNode.name);
+                insns.insert(printInsn);
+            }
+
+            byte[] bytecode = Util.generateBytecode(classNode);
+            String filename = className.substring(className.lastIndexOf('/') + 1);
+            Util.writeByteArrayToFile(filename + ".class", bytecode);
+            return bytecode;
+        } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
+            e.printStackTrace();
         }
-
-        return Util.generateBytecode(classNode);
+        return null;
     }
 
     /**
