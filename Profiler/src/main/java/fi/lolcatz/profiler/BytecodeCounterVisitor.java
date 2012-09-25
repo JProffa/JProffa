@@ -30,6 +30,9 @@ public class BytecodeCounterVisitor extends ClassVisitor {
         return counterVisitor;
     }
 
+    /**
+     * Class that adds code to methods it visits.
+     */
     private class CounterVisitor extends MethodVisitor {
 
         private String methodName;
@@ -41,6 +44,10 @@ public class BytecodeCounterVisitor extends ClassVisitor {
             this.className = className;
         }
 
+        /**
+         * Print opcode if method is in a non-internal class.
+         * @param opcode opcode to print.
+         */
         private void visitOpcode(int opcode) {
             if (className.startsWith("java/lang/") || className.startsWith("sun/")) {
                 return;
@@ -49,7 +56,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
         }
 
         /**
-         * Prints methods methodName.
+         * Adds code to method to prints its name.
          * Source: <url>http://www.geekyarticles.com/2011/10/manipulating-java-class-files-with-asm.html</url>.
          * {@inheritDoc}
          */
