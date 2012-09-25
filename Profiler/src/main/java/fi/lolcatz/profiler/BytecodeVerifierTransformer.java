@@ -36,6 +36,11 @@ public class BytecodeVerifierTransformer implements ClassFileTransformer  {
             Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer) throws IllegalClassFormatException{
+        
+        if (className.startsWith("java/") || className.startsWith("sun/")) {
+            return null;
+        }
+         
         System.out.println("Class: " + className);
         ClassReader cr = new ClassReader(classfileBuffer);
         ClassWriter cw =  new ClassWriter(ClassWriter.COMPUTE_MAXS);
