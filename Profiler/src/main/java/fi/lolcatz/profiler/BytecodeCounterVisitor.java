@@ -52,7 +52,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
             if (className.startsWith("java/lang/") || className.startsWith("sun/")) {
                 return;
             }
-            System.out.println("  OPCODE: " + opcode);
+            System.out.println("  OPCODE: " + Integer.toHexString(opcode));
         }
 
         /**

@@ -40,7 +40,7 @@ public class TreeNodeTransformer implements ClassFileTransformer {
             System.out.println("ClassNode: " + classNode);
 
             // Add a static field to class
-            classNode.fields.add(new FieldNode(ACC_PUBLIC + ACC_STATIC, "counter", "J", null, new Integer(0)));
+            classNode.fields.add(new FieldNode(ACC_PUBLIC + ACC_STATIC, "counter", "J", null, new Long(0)));
 
             // Add print instruction to beginning of each method
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
@@ -48,12 +48,19 @@ public class TreeNodeTransformer implements ClassFileTransformer {
                 if ("<init>".equals(methodNode.name) || "<clinit>".equals(methodNode.name)) {
                     continue;
                 }
-
-                System.out.println(className + "." + methodNode.name);
-
                 InsnList insns = methodNode.instructions;
                 InsnList printInsn = getPrintInsn("Method: " + methodNode.name);
                 insns.insert(printInsn);
+                
+                methodNode.maxStack += 4;
+                InsnList counterIncreaseInsn = new InsnList();
+                counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, className, "counter", "J"));
+                counterIncreaseInsn.add(new InsnNode(LCONST_1));
+                counterIncreaseInsn.add(new InsnNode(LADD));
+                counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, className, "counter", "J"));
+                insns.insert(counterIncreaseInsn);
+
+                System.out.println(className + "." + methodNode.name);
             }
 
             byte[] bytecode = Util.generateBytecode(classNode);

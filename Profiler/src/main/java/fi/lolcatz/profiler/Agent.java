@@ -25,7 +25,7 @@ public class Agent {
         printInstrumentationInfo(inst);
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
         inst.addTransformer(new TreeNodeTransformer());
-        inst.addTransformer(new BytecodeVerifierTransformer());
+        //inst.addTransformer(new BytecodeVerifierTransformer());
     }
 
     /**
