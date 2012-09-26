@@ -34,7 +34,7 @@ public class BytecodeVerifier extends MethodVisitor {
     }
 
     /**
-     * Currently prints max stack for each frame {@inheritDoc}
+     * Creates a new cyclomatic complexity counter for each method {@inheritDoc}
      */
     @Override
     public void visitEnd() {
@@ -42,23 +42,18 @@ public class BytecodeVerifier extends MethodVisitor {
         MethodNode mn = (MethodNode) mv;
         Analyzer a = new Analyzer(new BasicInterpreter());
         CyclomaticComplexity cc = new CyclomaticComplexity();
+        //Attempt to count and print the cyclomatic complexity of the current method.
         try {
-            System.out.println("Cyclomatic complexity: " + cc.getCyclomaticComplexity(owner, mn));
+            System.out.println(cc.getCyclomaticComplexity(owner, mn));
         } catch (AnalyzerException ex) {
-            System.err.println("Fale");
-        }
-        try {
-            Frame[] f = a.analyze(owner, mn);
-            System.out.println("Iterating Frame Array...");
-            for (Frame v : f) {
-            }
-
-        } catch (AnalyzerException e) {
-            throw new RuntimeException(e.getMessage());
+            System.err.println("Problem counting cyclomatic complexity");
         }
         mn.accept(next);
     }
 
+    /*
+     * A custom made class to represent Frame objects.
+     */
     public class Node extends Frame {
 
         Set<Node> successors = new HashSet<Node>();
@@ -72,43 +67,55 @@ public class BytecodeVerifier extends MethodVisitor {
         }
     }
 
-        public class CyclomaticComplexity {
+    /*
+     * A class for counting the cyclomatic complexity of a method. ASM pdf 8.2.5.
+     */
+    public class CyclomaticComplexity {
 
-            public int getCyclomaticComplexity(String owner, MethodNode mn)
-                    throws AnalyzerException {
-                Analyzer a =
-                        new Analyzer(new BasicInterpreter()) {
-                            protected Frame newFrame(int nLocals, int nStack) {
-                                return new Node(nLocals, nStack);
-                            }
-
-                            protected Frame newFrame(
-                                    Frame src) {
-                                return new Node(src);
-                            }
-
-                            protected void newControlFlowEdge(int src, int dst) {
-                                Node s = (Node) getFrames()[src];
-                                s.successors.add((Node) getFrames()[dst]);
-                                
-                            }
-                        };
-                a.analyze(owner, mn);
-                Frame[] frames = a.getFrames();
-                int edges = 0;
-                int nodes = 0;
-                for (int i = 0; i < frames.length; ++i) {
-                    if (frames[i] != null) {
-                        edges += ((Node) frames[i]).successors.size();                
-                        for (Node n : ((Node) frames[i]).successors){
-                            //COUNTERS!!!!
+        public int getCyclomaticComplexity(String owner, MethodNode mn)
+                throws AnalyzerException {
+            Analyzer a =
+                    new Analyzer(new BasicInterpreter()) {
+                        /*
+                         * Constructs the control flow graph by representing Frames as Nodes.
+                         */
+                        protected Frame newFrame(int nLocals, int nStack) {
+                            return new Node(nLocals, nStack);
                         }
-                        nodes += 1;
+
+                        protected Frame newFrame(
+                                Frame src) {
+                            return new Node(src);
+                        }
+                        /*
+                         * Overrides the method to display edges as successors of a node.
+                         * @Param src source node
+                         * @Param dst destination node
+                         */
+
+                        protected void newControlFlowEdge(int src, int dst) {
+                            Node s = (Node) getFrames()[src];
+                            s.successors.add((Node) getFrames()[dst]);
+
+                        }
+                    };
+            //Analyze the method, initializing the frame array
+            a.analyze(owner, mn);
+            Frame[] frames = a.getFrames();
+            int edges = 0;
+            int nodes = 0;
+            for (int i = 0; i < frames.length; ++i) {
+                if (frames[i] != null) {
+                    edges += ((Node) frames[i]).successors.size();
+                    for (Node n : ((Node) frames[i]).successors) {
+                        //for nodes with two successors or the start node, add a counter.
                     }
+                    nodes += 1;
                 }
-                System.out.println("Edges: " + edges);
-                System.out.println("Nodes: " + nodes);
-                return edges - nodes + 2;
             }
+            System.out.println("Edges: " + edges);
+            System.out.println("Nodes: " + nodes);
+            return edges - nodes + 2;
         }
     }
+}
