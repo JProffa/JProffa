@@ -102,7 +102,9 @@ public class BytecodeVerifier extends MethodVisitor {
             //Analyze the method, initializing the frame array
             a.analyze(owner, mn);
             Frame[] frames = a.getFrames();
+            //The transitions between frames
             int edges = 0;
+            //Amount of frames
             int nodes = 0;
             for (int i = 0; i < frames.length; ++i) {
                 if (frames[i] != null) {
