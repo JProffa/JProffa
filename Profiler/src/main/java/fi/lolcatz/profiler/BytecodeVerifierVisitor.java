@@ -1,16 +1,15 @@
 package fi.lolcatz.profiler;
 
-import static org.objectweb.asm.Opcodes.ASM4;
-
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  * 
  * @author oorissan
  */
-public class BytecodeVerifierVisitor extends ClassVisitor {
+public class BytecodeVerifierVisitor extends ClassVisitor implements Opcodes {
 
     ClassWriter cw;
     String className;
