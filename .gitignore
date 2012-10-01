@@ -4,3 +4,4 @@ target/
 *.iml
 *.class
 hs_err*.log
+.project
