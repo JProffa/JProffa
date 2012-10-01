@@ -1,13 +1,12 @@
 package fi.lolcatz.profiler;
 
 import java.io.DataOutputStream;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
 
 /**
  * Transformer that runs ByteCodeCounterVisitor with classes given for transformation.
@@ -15,8 +14,7 @@ import java.security.ProtectionDomain;
 public class BytecodeCountTransformer implements ClassFileTransformer {
 
     /**
-     * Transform class using BytecodeCounterVisitor.
-     * {@inheritDoc}
+     * Transform class using BytecodeCounterVisitor. {@inheritDoc}
      */
     @Override
     public byte[] transform(

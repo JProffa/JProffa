@@ -1,11 +1,11 @@
 package fi.lolcatz.profiler;
 
+import static org.objectweb.asm.Opcodes.*;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
-
-import static org.objectweb.asm.Opcodes.*;
 
 public class BytecodeCounterVisitor extends ClassVisitor {
 
@@ -19,8 +19,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
     }
 
     /**
-     * Create CounterVisitor object and return it as MethodVisitor.
-     * {@inheritDoc}
+     * Create CounterVisitor object and return it as MethodVisitor. {@inheritDoc}
      */
     @Override
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
@@ -46,6 +45,7 @@ public class BytecodeCounterVisitor extends ClassVisitor {
 
         /**
          * Print opcode if method is in a non-internal class.
+         * 
          * @param opcode opcode to print.
          */
         private void visitOpcode(int opcode) {
@@ -56,9 +56,8 @@ public class BytecodeCounterVisitor extends ClassVisitor {
         }
 
         /**
-         * Adds code to method to prints its name.
-         * Source: <url>http://www.geekyarticles.com/2011/10/manipulating-java-class-files-with-asm.html</url>.
-         * {@inheritDoc}
+         * Adds code to method to prints its name. Source:
+         * <url>http://www.geekyarticles.com/2011/10/manipulating-java-class-files-with-asm.html</url>. {@inheritDoc}
          */
         @Override
         public void visitCode() {

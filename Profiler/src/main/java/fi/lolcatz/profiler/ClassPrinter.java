@@ -1,7 +1,12 @@
 package fi.lolcatz.profiler;
 
-import org.objectweb.asm.*;
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ASM4;
+
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.Attribute;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * Prints signatures of methods and fields from classes that are visited.
@@ -13,8 +18,7 @@ public class ClassPrinter extends ClassVisitor {
     }
 
     /**
-     * Visit class signature and print class name and its superclass.
-     * {@inheritDoc}
+     * Visit class signature and print class name and its superclass. {@inheritDoc}
      */
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
@@ -58,8 +62,7 @@ public class ClassPrinter extends ClassVisitor {
     }
 
     /**
-     * Visit field signature and print name and type.
-     * {@inheritDoc}
+     * Visit field signature and print name and type. {@inheritDoc}
      */
     @Override
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
@@ -68,8 +71,7 @@ public class ClassPrinter extends ClassVisitor {
     }
 
     /**
-     * Visit method and print its arguments types and return type.
-     * {@inheritDoc}
+     * Visit method and print its arguments types and return type. {@inheritDoc}
      */
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
@@ -78,8 +80,7 @@ public class ClassPrinter extends ClassVisitor {
     }
 
     /**
-     * Called at classes end. Prints closing bracket.
-     * {@inheritDoc}
+     * Called at classes end. Prints closing bracket. {@inheritDoc}
      */
     @Override
     public void visitEnd() {

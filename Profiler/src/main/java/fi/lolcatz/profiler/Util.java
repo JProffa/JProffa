@@ -1,20 +1,20 @@
 package fi.lolcatz.profiler;
 
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
+import static org.objectweb.asm.Opcodes.*;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import static org.objectweb.asm.Opcodes.*;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldNode;
 
 public class Util {
 
     /**
      * Prints bytes as byte string with newline every 4 bytes.
-     *
+     * 
      * @param bytes Bytes to print.
      */
     public static void printBytes(byte[] bytes) {
@@ -32,9 +32,9 @@ public class Util {
 
     /**
      * Write byte array to file.
-     *
+     * 
      * @param filename Name of the file to write to.
-     * @param bytes    Byte array to write to file.
+     * @param bytes Byte array to write to file.
      */
     public static void writeByteArrayToFile(String filename, byte[] bytes) {
         try {
@@ -47,7 +47,7 @@ public class Util {
 
     /**
      * Create bytecode from ClassNode object.
-     *
+     * 
      * @param cn ClassNode to generate bytecode from.
      * @return Bytecode.
      */
