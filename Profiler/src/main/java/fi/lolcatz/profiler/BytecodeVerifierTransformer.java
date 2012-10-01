@@ -1,5 +1,6 @@
 package fi.lolcatz.profiler;
 
+import fi.lolcatz.profiler.archive.OurMethodVisitorTransformer;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,7 +50,7 @@ public class BytecodeVerifierTransformer implements ClassFileTransformer {
                     className.substring(className.lastIndexOf("/") + 1) + ".class")));
             dout.write(modifiedClassFileBuffer);
         } catch (Exception ex) {
-            Logger.getLogger(BytecodeCountTransformer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OurMethodVisitorTransformer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return modifiedClassFileBuffer;

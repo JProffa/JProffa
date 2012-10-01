@@ -1,4 +1,4 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -6,12 +6,24 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public class BytecodeCounterVisitor extends ClassVisitor implements Opcodes {
+/**
+ * Class for printing methods names.
+ * Injects bytecode in the beginning of each method for printing the methods
+ * name.
+ * @author Lolzcatz
+ */
 
+public class OurMethodVisitor extends ClassVisitor implements Opcodes {
+    /**
+     * ASM ClassWriter used within the class
+     */
     ClassWriter cw;
+    /**
+     * Name of the class we are injecting the bytecode into.
+     */
     String className;
 
-    public BytecodeCounterVisitor(ClassWriter cw, String className) {
+    public OurMethodVisitor(ClassWriter cw, String className) {
         super(ASM4, cw);
         this.cw = cw;
         this.className = className;

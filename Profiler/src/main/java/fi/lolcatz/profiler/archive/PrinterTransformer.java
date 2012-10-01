@@ -1,4 +1,4 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
