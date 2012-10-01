@@ -5,3 +5,5 @@ target/
 *.class
 hs_err*.log
 .project
+.classpath
+.settings/
