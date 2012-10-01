@@ -4,3 +4,7 @@ target/
 *.iml
 *.class
 hs_err*.log
+/asm-4.0/nbproject/private/
+/asm-4.0/build/
+/asm-4.0/dist/
+/asm-4.0/output/
