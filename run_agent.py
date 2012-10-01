@@ -10,5 +10,6 @@ print ' '.join(command)
 print
 SP.call(command)
 
-print "Push ENTER to close."
-raw_input()
+if os.name == "nt":
+	print "Push ENTER to close."
+	raw_input()
