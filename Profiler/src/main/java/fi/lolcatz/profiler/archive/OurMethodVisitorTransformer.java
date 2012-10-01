@@ -1,5 +1,6 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
+import fi.lolcatz.profiler.Util;
 import java.io.DataOutputStream;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -9,12 +10,12 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
 /**
- * Transformer that runs ByteCodeCounterVisitor with classes given for transformation.
+ * Transformer that runs OurMethodVisitor with classes given for transformation.
  */
-public class BytecodeCountTransformer implements ClassFileTransformer {
+public class OurMethodVisitorTransformer implements ClassFileTransformer {
 
     /**
-     * Transform class using BytecodeCounterVisitor. {@inheritDoc}
+     * Transform class using OurMethodVisitor. {@inheritDoc}
      */
     @Override
     public byte[] transform(
@@ -26,7 +27,7 @@ public class BytecodeCountTransformer implements ClassFileTransformer {
         System.out.println("Class: " + className);
         ClassReader cr = new ClassReader(classfileBuffer);
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        BytecodeCounterVisitor cv = new BytecodeCounterVisitor(cw, className);
+        OurMethodVisitor cv = new OurMethodVisitor(cw, className);
         cr.accept(cv, 0);
         DataOutputStream dout;
         byte[] modifiedClassFileBuffer = cw.toByteArray();

@@ -1,4 +1,4 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
