@@ -40,8 +40,9 @@ public class TreeNodeTransformer implements ClassFileTransformer {
             System.out.println("ClassNode: " + classNode);
 
             // Add a static field to class
-            classNode.fields.add(new FieldNode(ACC_PUBLIC + ACC_STATIC, "counter", "J", null, new Long(0)));
+            // classNode.fields.add(new FieldNode(ACC_PUBLIC + ACC_STATIC, "counter", "J", null, new Long(0)));
 
+            String profileDataClass = "fi/lolcatz/profiler/ProfileData";
             // Add print instruction to beginning of each method
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
                 // Skip constructors
@@ -52,12 +53,15 @@ public class TreeNodeTransformer implements ClassFileTransformer {
                 InsnList printInsn = getPrintInsn("Method: " + methodNode.name);
                 insns.insert(printInsn);
                 
-                methodNode.maxStack += 4;
+                methodNode.maxStack += 6;
                 InsnList counterIncreaseInsn = new InsnList();
-                counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, className, "counter", "J"));
+                counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, profileDataClass, "callsToBasicBlock", "[J"));
+                counterIncreaseInsn.add(new InsnNode(ICONST_0));
+                counterIncreaseInsn.add(new InsnNode(DUP2));
+                counterIncreaseInsn.add(new InsnNode(LALOAD));
                 counterIncreaseInsn.add(new InsnNode(LCONST_1));
                 counterIncreaseInsn.add(new InsnNode(LADD));
-                counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, className, "counter", "J"));
+                counterIncreaseInsn.add(new InsnNode(LASTORE));
                 insns.insert(counterIncreaseInsn);
 
                 System.out.println(className + "." + methodNode.name);
