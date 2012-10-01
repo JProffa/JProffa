@@ -6,17 +6,16 @@ package fi.lolcatz.profiler;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.tree.MethodNode;
 import static org.objectweb.asm.Opcodes.*;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
-import org.objectweb.asm.tree.analysis.BasicValue;
 import org.objectweb.asm.tree.analysis.Frame;
-import org.objectweb.asm.tree.analysis.Value;
 
 /**
  *
@@ -44,10 +43,15 @@ public class BytecodeVerifier extends MethodVisitor {
         CyclomaticComplexity cc = new CyclomaticComplexity();
         //Attempt to count and print the cyclomatic complexity of the current method.
         try {
-            System.out.println(cc.getCyclomaticComplexity(owner, mn));
+            System.out.println("CyclomaticComplexity: " + cc.getCyclomaticComplexity(owner, mn));
         } catch (AnalyzerException ex) {
             System.err.println("Problem counting cyclomatic complexity");
         }
+        
+        
+        
+        
+        
         mn.accept(next);
     }
 
@@ -101,22 +105,42 @@ public class BytecodeVerifier extends MethodVisitor {
                     };
             //Analyze the method, initializing the frame array
             a.analyze(owner, mn);
+            mn.maxStack += 4;
+            
+            // Add counter increment in the beginning of the method
+            InsnList counterIncreaseInsn = new InsnList();
+            counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, "com/mycompany/example/Example", "counter", "J"));
+            counterIncreaseInsn.add(new InsnNode(LCONST_1));
+            counterIncreaseInsn.add(new InsnNode(LADD));
+            counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, "com/mycompany/example/Example", "counter", "J"));
+            mn.instructions.insert(counterIncreaseInsn);
+            
             Frame[] frames = a.getFrames();
+            
             //The transitions between frames
             int edges = 0;
             //Amount of frames
             int nodes = 0;
             for (int i = 0; i < frames.length; ++i) {
                 if (frames[i] != null) {
-                    edges += ((Node) frames[i]).successors.size();
-                    for (Node n : ((Node) frames[i]).successors) {
-                        //for nodes with two successors or the start node, add a counter.
+                    Node node = ((Node) frames[i]);
+                    edges += node.successors.size();
+                    if (node.successors.size() > 1) {
+                        System.out.println("New basic block found with " + node.successors.size() + " successors.");
+                        for (Node successor : node.successors) {
+                            counterIncreaseInsn = new InsnList();
+                            counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, "com/mycompany/example/Example", "counter", "J"));
+                            counterIncreaseInsn.add(new InsnNode(LCONST_1));
+                            counterIncreaseInsn.add(new InsnNode(LADD));
+                            counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, "com/mycompany/example/Example", "counter", "J"));
+                            mn.instructions.insertBefore(successor.getIns(), counterIncreaseInsn);
+                        }
                     }
                     nodes += 1;
                 }
             }
-            System.out.println("Edges: " + edges);
-            System.out.println("Nodes: " + nodes);
+            //System.out.println("Edges: " + edges);
+            //System.out.println("Nodes: " + nodes);
             return edges - nodes + 2;
         }
     }

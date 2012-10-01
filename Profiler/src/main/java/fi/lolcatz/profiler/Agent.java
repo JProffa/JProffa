@@ -1,12 +1,7 @@
 package fi.lolcatz.profiler;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.instrument.Instrumentation;
-import org.objectweb.asm.ClassWriter;
 
 public class Agent {
 
@@ -24,8 +19,8 @@ public class Agent {
         Agent.inst = inst;
         printInstrumentationInfo(inst);
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
-        inst.addTransformer(new TreeNodeTransformer());
-        //inst.addTransformer(new BytecodeVerifierTransformer());
+        //inst.addTransformer(new TreeNodeTransformer());
+        inst.addTransformer(new BytecodeVerifierTransformer());
     }
 
     /**
