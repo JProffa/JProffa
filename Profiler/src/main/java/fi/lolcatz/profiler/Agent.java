@@ -23,6 +23,8 @@ public class Agent {
         System.out.println("agentArgs: " + agentArgs);
         Agent.inst = inst;
         printInstrumentationInfo(inst);
+        ProfileData.addBasicBlock();
+        ProfileData.initialize();
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
         inst.addTransformer(new TreeNodeTransformer());
         //inst.addTransformer(new BytecodeVerifierTransformer());
@@ -35,7 +37,9 @@ public class Agent {
      * @throws Exception
      */
     public static void agentmain(String args, Instrumentation inst) throws Exception {
-        inst.addTransformer(new PrinterTransformer());
+    	ProfileData.addBasicBlock();
+        ProfileData.initialize();
+        inst.addTransformer(new TreeNodeTransformer());
     }
 
     /**
