@@ -10,6 +10,7 @@ public class Agent {
     /**
      * Method that is called when agent is ran from command line using -javaagent option when launching .jar that you
      * want to profile.
+     * 
      * @param agentArgs Command line arguments given to agent when called.
      * @param inst Instrumentation object that can be used to instrument classses that are given to this agent.
      * @throws IOException
@@ -21,12 +22,13 @@ public class Agent {
         ProfileData.addBasicBlock();
         ProfileData.initialize();
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
-        //inst.addTransformer(new TreeNodeTransformer());
+        // inst.addTransformer(new TreeNodeTransformer());
         inst.addTransformer(new BytecodeVerifierTransformer());
     }
 
     /**
      * Method that is called when agent is loaded on runtime using virtualMachine.loadAgent().
+     * 
      * @param args String given to loadAgent() when loading this agent.
      * @param inst Instrumentation object that can be used to instrument classses that are given to this agent.
      * @throws Exception
@@ -39,6 +41,7 @@ public class Agent {
 
     /**
      * Prints information about instrumentation object.
+     * 
      * @param inst Object to print information from.
      */
     private static void printInstrumentationInfo(Instrumentation inst) {
@@ -47,9 +50,9 @@ public class Agent {
         System.out.println("isRedefineClassesSupported: " + inst.isRedefineClassesSupported());
         System.out.println("isRetransformClassesSupported: " + inst.isRetransformClassesSupported());
         // This print quite a lot of information. Use only when needed.
-//        System.out.println("AllLoadedClasses: " + Arrays.toString(inst.getAllLoadedClasses()));
-//        System.out.println("InitiatedClasses: " +
-//                Arrays.toString(inst.getInitiatedClasses(ClassLoader.getSystemClassLoader())));
+        // System.out.println("AllLoadedClasses: " + Arrays.toString(inst.getAllLoadedClasses()));
+        // System.out.println("InitiatedClasses: " +
+        // Arrays.toString(inst.getInitiatedClasses(ClassLoader.getSystemClassLoader())));
 
     }
 }

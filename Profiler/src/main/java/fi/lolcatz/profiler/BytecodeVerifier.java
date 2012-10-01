@@ -1,14 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.lolcatz.profiler;
+
+import static org.objectweb.asm.Opcodes.*;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.objectweb.asm.MethodVisitor;
-import static org.objectweb.asm.Opcodes.*;
-import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
@@ -19,7 +16,7 @@ import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.analysis.Frame;
 
 /**
- *
+ * 
  * @author oorissan
  */
 public class BytecodeVerifier extends MethodVisitor {
@@ -42,17 +39,13 @@ public class BytecodeVerifier extends MethodVisitor {
         MethodNode mn = (MethodNode) mv;
         Analyzer a = new Analyzer(new BasicInterpreter());
         CyclomaticComplexity cc = new CyclomaticComplexity();
-        //Attempt to count and print the cyclomatic complexity of the current method.
+        // Attempt to count and print the cyclomatic complexity of the current method.
         try {
             System.out.println("CyclomaticComplexity: " + cc.getCyclomaticComplexity(owner, mn));
         } catch (AnalyzerException ex) {
             System.err.println("Problem counting cyclomatic complexity");
         }
-        
-        
-        
-        
-        
+
         mn.accept(next);
     }
 
@@ -62,10 +55,10 @@ public class BytecodeVerifier extends MethodVisitor {
     public class Node extends Frame {
 
         Set<Node> successors = new HashSet<Node>();
-        
+
         /**
-        * The index of the instruction node.
-        */
+         * The index of the instruction node.
+         */
         int insnIndex;
 
         public Node(int nLocals, int nStack) {
@@ -85,9 +78,9 @@ public class BytecodeVerifier extends MethodVisitor {
         public int getCyclomaticComplexity(String owner, MethodNode mn)
                 throws AnalyzerException {
             Analyzer a = new Analyzer(new BasicInterpreter()) {
+
                 /**
-                 * Constructs the control flow graph by representing Frames as
-                 * Nodes.
+                 * Constructs the control flow graph by representing Frames as Nodes.
                  */
                 @Override
                 protected Frame newFrame(int nLocals, int nStack) {
@@ -98,7 +91,7 @@ public class BytecodeVerifier extends MethodVisitor {
                 protected Frame newFrame(Frame src) {
                     return new Node(src);
                 }
-                
+
                 /*
                  * Overrides the method to display edges as successors of a node and store instruction index.
                  * @Param src source node
@@ -113,10 +106,10 @@ public class BytecodeVerifier extends MethodVisitor {
 
                 }
             };
-            //Analyze the method, initializing the frame array
+            // Analyze the method, initializing the frame array
             a.analyze(owner, mn);
             mn.maxStack += 4;
-            
+
             // Add counter increment in the beginning of the method
             InsnList counterIncreaseInsn = new InsnList();
             counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, "com/mycompany/example/Example", "counter", "J"));
@@ -125,12 +118,12 @@ public class BytecodeVerifier extends MethodVisitor {
             counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, "com/mycompany/example/Example", "counter", "J"));
             mn.instructions.insert(counterIncreaseInsn);
             int numOfInsertedIncrementors = 1;
-            
+
             Frame[] frames = a.getFrames();
-            
-            //The transitions between frames
+
+            // The transitions between frames
             int edges = 0;
-            //Amount of frames
+            // Amount of frames
             int nodes = 0;
             for (int i = 0; i < frames.length; ++i) {
                 if (frames[i] != null) {
@@ -140,19 +133,23 @@ public class BytecodeVerifier extends MethodVisitor {
                         System.out.println("New basic block found with " + node.successors.size() + " successors.");
                         for (Node successor : node.successors) {
                             counterIncreaseInsn = new InsnList();
-                            counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, "com/mycompany/example/Example", "counter", "J"));
+                            counterIncreaseInsn.add(new FieldInsnNode(GETSTATIC, "com/mycompany/example/Example",
+                                    "counter", "J"));
                             counterIncreaseInsn.add(new InsnNode(LCONST_1));
                             counterIncreaseInsn.add(new InsnNode(LADD));
-                            counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, "com/mycompany/example/Example", "counter", "J"));
-                            mn.instructions.insertBefore(mn.instructions.get(successor.insnIndex + numOfInsertedIncrementors * 8), counterIncreaseInsn);
+                            counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, "com/mycompany/example/Example",
+                                    "counter", "J"));
+                            mn.instructions.insertBefore(
+                                    mn.instructions.get(successor.insnIndex + numOfInsertedIncrementors * 8),
+                                    counterIncreaseInsn);
                             numOfInsertedIncrementors++;
                         }
                     }
                     nodes += 1;
                 }
             }
-            //System.out.println("Edges: " + edges);
-            //System.out.println("Nodes: " + nodes);
+            // System.out.println("Edges: " + edges);
+            // System.out.println("Nodes: " + nodes);
             return edges - nodes + 2;
         }
     }
