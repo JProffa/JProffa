@@ -1,11 +1,10 @@
 package fi.lolcatz.profiler;
 
-import static org.objectweb.asm.Opcodes.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
@@ -19,7 +18,7 @@ import org.objectweb.asm.tree.analysis.Frame;
  * 
  * @author oorissan
  */
-public class BytecodeVerifier extends MethodVisitor {
+public class BytecodeVerifier extends MethodVisitor implements Opcodes {
 
     String owner;
     MethodVisitor next;

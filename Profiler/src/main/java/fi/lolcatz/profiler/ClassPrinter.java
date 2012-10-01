@@ -1,17 +1,16 @@
 package fi.lolcatz.profiler;
 
-import static org.objectweb.asm.Opcodes.ASM4;
-
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 /**
  * Prints signatures of methods and fields from classes that are visited.
  */
-public class ClassPrinter extends ClassVisitor {
+public class ClassPrinter extends ClassVisitor implements Opcodes {
 
     public ClassPrinter() {
         super(ASM4);

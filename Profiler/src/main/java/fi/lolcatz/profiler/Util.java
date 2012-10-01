@@ -1,16 +1,15 @@
 package fi.lolcatz.profiler;
 
-import static org.objectweb.asm.Opcodes.*;
-
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 
-public class Util {
+public class Util implements Opcodes {
 
     /**
      * Prints bytes as byte string with newline every 4 bytes.
