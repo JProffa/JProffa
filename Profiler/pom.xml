@@ -10,6 +10,18 @@
     <name>Profiler</name>
     <url>http://maven.apache.org</url>
     
+    <repositories>
+        <repository>
+            <id>ow2</id>
+            <name>OW2</name>
+            <layout>default</layout>
+            <url>http://repository.ow2.org/nexus/content/repositories/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+        
     <build>
         <plugins>
             
@@ -72,9 +84,7 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-all</artifactId>
-            <version>4.0-profiler</version>
-            <scope>system</scope>
-            <systemPath>${java.home}/lib/ext/asm-all-4.0-profiler.jar</systemPath>
+            <version>4.0</version>
         </dependency>
         
         <dependency>
