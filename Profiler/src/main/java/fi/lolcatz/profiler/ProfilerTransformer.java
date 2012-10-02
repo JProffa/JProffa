@@ -15,12 +15,12 @@ import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.analysis.Frame;
 
 /**
- * Transformer that runs BytecodeVerifierVisitor with classes given for transformation.
+ * Transformer that inserts counter increment code in the beginning of basic blocks.
  */
 public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
-     * Transform class using BytecodeVerifier. {@inheritDoc}
+     * Transform class using tree API. asm4-guide.pdf pg. 96 {@inheritDoc}
      */
     @Override
     public byte[] transform(
@@ -40,7 +40,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
             ClassNode classNode = Util.initClassNode(classfileBuffer);
 
-            // Add print instruction to beginning of each method
+            // Add counter increment codes in the beginning of basic blocks
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
                 System.out.println(" Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
