@@ -10,6 +10,8 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.IntInsnNode;
+import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.analysis.Frame;
@@ -52,7 +54,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 6;
                 // Add counter increment in the beginning of the method
-                insns.insert(createCounterIncrementInsnList());
+                insns.insert(createCounterIncrementInsnList(0));
                 int numOfInsertedIncrementors = 1;
                 
                 for (Frame frame : analyzer.getFrames()) {
@@ -64,7 +66,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                             AbstractInsnNode insnNode = methodNode.instructions.get(successor.insnIndex + numOfInsertedIncrementors * 9);
                             
                             // Insert counter increment codes before succerssor
-                            methodNode.instructions.insertBefore(insnNode, createCounterIncrementInsnList());
+                            methodNode.instructions.insertBefore(insnNode, createCounterIncrementInsnList(0));
                             numOfInsertedIncrementors++;
                         }
                     }
@@ -85,16 +87,32 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
      * Creates new InsnList containing bytecode instructions to increment counter.
      * @return Counter increment InsnList
      */
-    private InsnList createCounterIncrementInsnList() {
+    private InsnList createCounterIncrementInsnList(int basicBlockIndex) {
         InsnList counterIncrementInsnList = new InsnList();
         counterIncrementInsnList.add(new FieldInsnNode(GETSTATIC, "fi/lolcatz/profiler/ProfileData", "callsToBasicBlock", "[J"));
-        counterIncrementInsnList.add(new InsnNode(ICONST_0));
+        counterIncrementInsnList.add(intPushInsn(basicBlockIndex));
         counterIncrementInsnList.add(new InsnNode(DUP2));
         counterIncrementInsnList.add(new InsnNode(LALOAD));
         counterIncrementInsnList.add(new InsnNode(LCONST_1));
         counterIncrementInsnList.add(new InsnNode(LADD));
         counterIncrementInsnList.add(new InsnNode(LASTORE));
         return counterIncrementInsnList;
+    }
+
+    /**
+     * Creates an instruction that can be used to push any Int value to stack.
+     * 
+     * @param i Int to push to stack.
+     * @return Instruction to push <code>i</code> to stack.
+     */
+    private AbstractInsnNode intPushInsn(int i) {
+        if (i < 128) {
+            return new IntInsnNode(BIPUSH, i);
+        } else if (i < 32768) {
+            return new IntInsnNode(SIPUSH, i);
+        } else {
+            return new LdcInsnNode(i);
+        }
     }
 
 }
