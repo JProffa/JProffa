@@ -28,15 +28,15 @@ public class NodeAnalyzer extends Analyzer {
     }
 
     /*
-     * Overrides the method to display edges as successors of a node and store instruction index.
+     * Overrides the method to display edges as successors of a node and store instruction.
      * @Param src source node
      * @Param dst destination node
      */
     @Override
     protected void newControlFlowEdge(int src, int dst) {
         Node s = (Node) getFrames()[src];
+        s.instruction = methodNode.instructions.get(src);
         Node successor = (Node) getFrames()[dst];
-        successor.insnIndex = dst;
         successor.instruction = methodNode.instructions.get(dst);
         s.successors.add(successor);
     }

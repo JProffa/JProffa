@@ -34,7 +34,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
         try {
             // Don't touch internal classes for now.
-            if (className.startsWith("java/") || className.startsWith("sun/")) {
+            if (className.startsWith("java/") || className.startsWith("sun/") || className.startsWith("fi/lolcatz/profiler/")) {
                 return null;
             }
 
@@ -53,29 +53,57 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 6;
-                // Add counter increment in the beginning of the method
-                insns.insert(createCounterIncrementInsnList(0));
-                int numOfInsertedIncrementors = 1;
                 
+                boolean firstNodeFound = false;
                 for (Frame frame : analyzer.getFrames()) {
                     Node node = (Node) frame;
                     if (node == null) continue;
+                    if (!firstNodeFound) {
+                        node.startsNewBasicBlock = true;
+                        firstNodeFound = true;
+                    }
                     if (node.successors.size() > 1) {
                         for (Node successor : node.successors) {
-                            // Counter increment code offsets the index by 9 per block
-                            AbstractInsnNode insnNode = methodNode.instructions.get(successor.insnIndex + numOfInsertedIncrementors * 9);
-                            
-                            // Insert counter increment codes before succerssor
-                            methodNode.instructions.insertBefore(insnNode, createCounterIncrementInsnList(0));
-                            numOfInsertedIncrementors++;
+                            successor.startsNewBasicBlock = true;
                         }
                     }
                 }
+                
+                int sizeOfBasicBlock = 0;
+                Node beginningOfBasicBlock = null;
+                for (Frame frame : analyzer.getFrames()) {
+                    Node node = (Node) frame;
+                    if (node == null) continue;
+                    if (!node.startsNewBasicBlock) {
+                        sizeOfBasicBlock++;
+                        continue;
+                    }
+                    if (beginningOfBasicBlock == null) {
+                        beginningOfBasicBlock = node;
+                        sizeOfBasicBlock++;
+                        continue;
+                    }
+                    
+                    // Create new basic block counter and get its index
+                    int basicBlockIndex = ProfileData.addBasicBlock(sizeOfBasicBlock);
+                    
+                    // Insert counter increment codes before beginning of the basic block
+                    methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction, createCounterIncrementInsnList(basicBlockIndex));
+                    beginningOfBasicBlock = node;
+                }
+                
+                // Last basic block of the method
+                int basicBlockIndex = ProfileData.addBasicBlock(sizeOfBasicBlock);
+                methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction, createCounterIncrementInsnList(basicBlockIndex));
             }
 
             byte[] bytecode = Util.generateBytecode(classNode);
             String filename = className.substring(className.lastIndexOf('/') + 1);
             Util.writeByteArrayToFile(filename + ".class", bytecode);
+            
+            // Initialize counter arrays
+            ProfileData.initialize();
+            
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
             e.printStackTrace();

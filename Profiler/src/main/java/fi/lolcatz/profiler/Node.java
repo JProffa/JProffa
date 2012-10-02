@@ -17,10 +17,14 @@ public class Node extends Frame {
     public Set<Node> successors = new HashSet<Node>();
  
     /**
-     * The index of the instruction node.
+     * The instruction node.
      */
-    public int insnIndex;
     public AbstractInsnNode instruction;
+    
+    /**
+     * Does this node start a new basic block.
+     */
+    public boolean startsNewBasicBlock = false;
 
     public Node(int nLocals, int nStack) {
         super(nLocals, nStack);

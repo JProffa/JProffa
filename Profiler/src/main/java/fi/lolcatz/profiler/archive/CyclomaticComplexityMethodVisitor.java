@@ -69,7 +69,6 @@ public class CyclomaticComplexityMethodVisitor extends MethodVisitor implements 
             counterIncreaseInsn.add(new InsnNode(LADD));
             counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, "com/mycompany/example/Example", "counter", "J"));
             mn.instructions.insert(counterIncreaseInsn);
-            int numOfInsertedIncrementors = 1;
 
             Frame[] frames = a.getFrames();
 
@@ -92,9 +91,8 @@ public class CyclomaticComplexityMethodVisitor extends MethodVisitor implements 
                             counterIncreaseInsn.add(new FieldInsnNode(PUTSTATIC, "com/mycompany/example/Example",
                                     "counter", "J"));
                             mn.instructions.insertBefore(
-                                    mn.instructions.get(successor.insnIndex + numOfInsertedIncrementors * 8),
+                                    successor.instruction,
                                     counterIncreaseInsn);
-                            numOfInsertedIncrementors++;
                         }
                     }
                     nodes += 1;
