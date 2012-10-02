@@ -14,7 +14,7 @@ public class ProfileData {
      */
     public static long[] callsToBasicBlock;
 
-    private static ArrayList<Long> callsToBasicBlockList = new ArrayList<Long>();
+    private static int basicBlockAmount = 0;
 
     /**
      * How costly a basic block is. Naive way to count it is by assuming every bytecodes cost is 1 and multiply by
@@ -40,9 +40,9 @@ public class ProfileData {
      * @return Index of the basic block in the arrays.
      */
     public static int addBasicBlock(long cost) {
-        callsToBasicBlockList.add(0L);
+        basicBlockAmount++;
         basicBlockCostList.add(cost);
-        return callsToBasicBlockList.size() - 1;
+        return basicBlockAmount - 1;
     }
 
     /**
@@ -56,7 +56,7 @@ public class ProfileData {
      * Initialize arrays from added basic blocks. Needs to be called before using the arrays.
      */
     public static void initialize() {
-        callsToBasicBlock = new long[callsToBasicBlockList.size()];
+        callsToBasicBlock = new long[basicBlockAmount];
         basicBlockCost = new long[basicBlockCostList.size()];
         for (int i = 0; i < basicBlockCostList.size(); i++) {
             basicBlockCost[i] = basicBlockCostList.get(i);
@@ -69,7 +69,7 @@ public class ProfileData {
     public static void resetBasicBlocks() {
         callsToBasicBlock = null;
         basicBlockCost = null;
-        callsToBasicBlockList = new ArrayList<Long>();
+        basicBlockAmount = 0;
         basicBlockCostList = new ArrayList<Long>();
     }
 
