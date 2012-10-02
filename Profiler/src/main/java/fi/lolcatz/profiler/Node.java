@@ -2,6 +2,8 @@ package fi.lolcatz.profiler;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.Frame;
 
 /**
@@ -18,6 +20,7 @@ public class Node extends Frame {
      * The index of the instruction node.
      */
     public int insnIndex;
+    public AbstractInsnNode instruction;
 
     public Node(int nLocals, int nStack) {
         super(nLocals, nStack);

@@ -1,10 +1,14 @@
 package fi.lolcatz.profiler;
 
+import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.Analyzer;
+import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.Frame;
 import org.objectweb.asm.tree.analysis.Interpreter;
 
 public class NodeAnalyzer extends Analyzer {
+    
+    private MethodNode methodNode;
 
     public NodeAnalyzer(final Interpreter interpreter) {
         super(interpreter);
@@ -32,7 +36,19 @@ public class NodeAnalyzer extends Analyzer {
     protected void newControlFlowEdge(int src, int dst) {
         Node s = (Node) getFrames()[src];
         Node successor = (Node) getFrames()[dst];
-        successor.insnIndex = src;
+        successor.insnIndex = dst;
+        successor.instruction = methodNode.instructions.get(dst);
         s.successors.add(successor);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Frame[] analyze(String owner, MethodNode methodNode) throws AnalyzerException {
+        this.methodNode = methodNode;
+        return super.analyze(owner, methodNode);
+    }
+    
+    
 }
