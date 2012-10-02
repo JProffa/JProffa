@@ -1,5 +1,6 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
+import fi.lolcatz.profiler.archive.CyclomaticComplexityMethodVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -9,12 +10,12 @@ import org.objectweb.asm.Opcodes;
  * 
  * @author oorissan
  */
-public class BytecodeVerifierVisitor extends ClassVisitor implements Opcodes {
+public class CyclomaticComplexityClassVisitor extends ClassVisitor implements Opcodes {
 
     ClassWriter cw;
     String className;
 
-    public BytecodeVerifierVisitor(ClassWriter cw, String className) {
+    public CyclomaticComplexityClassVisitor(ClassWriter cw, String className) {
         super(ASM4, cw);
         this.cw = cw;
         this.className = className;
@@ -27,7 +28,7 @@ public class BytecodeVerifierVisitor extends ClassVisitor implements Opcodes {
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
         System.out.println(" Method: " + methodName + desc);
         MethodVisitor mv = super.visitMethod(access, methodName, desc, signature, exceptions);
-        BytecodeVerifier verifier = new BytecodeVerifier(className, access, methodName, desc, mv);
+        CyclomaticComplexityMethodVisitor verifier = new CyclomaticComplexityMethodVisitor(className, access, methodName, desc, mv);
         return verifier;
 
     }

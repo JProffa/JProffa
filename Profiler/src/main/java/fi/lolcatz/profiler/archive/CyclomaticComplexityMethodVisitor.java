@@ -1,5 +1,7 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
+import fi.lolcatz.profiler.Node;
+import fi.lolcatz.profiler.NodeAnalyzer;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,17 +15,18 @@ import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.analysis.Frame;
+import org.objectweb.asm.tree.analysis.Interpreter;
 
 /**
  * 
  * @author oorissan
  */
-public class BytecodeVerifier extends MethodVisitor implements Opcodes {
+public class CyclomaticComplexityMethodVisitor extends MethodVisitor implements Opcodes {
 
     String owner;
     MethodVisitor next;
 
-    public BytecodeVerifier(String owner, int access, String name, String desc, MethodVisitor mv) {
+    public CyclomaticComplexityMethodVisitor(String owner, int access, String name, String desc, MethodVisitor mv) {
         super(ASM4, new MethodNode(access, name, desc, null, null));
         this.owner = owner;
         next = mv;
@@ -48,26 +51,7 @@ public class BytecodeVerifier extends MethodVisitor implements Opcodes {
         mn.accept(next);
     }
 
-    /**
-     * A custom made class to represent Frame objects.
-     */
-    public class Node extends Frame {
-
-        Set<Node> successors = new HashSet<Node>();
-
-        /**
-         * The index of the instruction node.
-         */
-        int insnIndex;
-
-        public Node(int nLocals, int nStack) {
-            super(nLocals, nStack);
-        }
-
-        public Node(Frame src) {
-            super(src);
-        }
-    }
+    
 
     /**
      * A class for counting the cyclomatic complexity of a method. ASM pdf 8.2.5.
@@ -76,35 +60,7 @@ public class BytecodeVerifier extends MethodVisitor implements Opcodes {
 
         public int getCyclomaticComplexity(String owner, MethodNode mn)
                 throws AnalyzerException {
-            Analyzer a = new Analyzer(new BasicInterpreter()) {
-
-                /**
-                 * Constructs the control flow graph by representing Frames as Nodes.
-                 */
-                @Override
-                protected Frame newFrame(int nLocals, int nStack) {
-                    return new Node(nLocals, nStack);
-                }
-
-                @Override
-                protected Frame newFrame(Frame src) {
-                    return new Node(src);
-                }
-
-                /*
-                 * Overrides the method to display edges as successors of a node and store instruction index.
-                 * @Param src source node
-                 * @Param dst destination node
-                 */
-                @Override
-                protected void newControlFlowEdge(int src, int dst) {
-                    Node s = (Node) getFrames()[src];
-                    Node successor = (Node) getFrames()[dst];
-                    successor.insnIndex = src;
-                    s.successors.add(successor);
-
-                }
-            };
+            NodeAnalyzer a = new NodeAnalyzer(new BasicInterpreter());
             // Analyze the method, initializing the frame array
             a.analyze(owner, mn);
             mn.maxStack += 4;

@@ -1,5 +1,6 @@
 package fi.lolcatz.profiler;
 
+import fi.lolcatz.profiler.archive.TreeNodeTransformer;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 
@@ -23,7 +24,7 @@ public class Agent {
         ProfileData.initialize();
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
         // inst.addTransformer(new TreeNodeTransformer());
-        inst.addTransformer(new BytecodeVerifierTransformer());
+        inst.addTransformer(new ProfilerTransformer());
     }
 
     /**
@@ -36,7 +37,7 @@ public class Agent {
     public static void agentmain(String args, Instrumentation inst) throws Exception {
         ProfileData.addBasicBlock();
         ProfileData.initialize();
-        inst.addTransformer(new TreeNodeTransformer());
+        inst.addTransformer(new ProfilerTransformer());
     }
 
     /**
