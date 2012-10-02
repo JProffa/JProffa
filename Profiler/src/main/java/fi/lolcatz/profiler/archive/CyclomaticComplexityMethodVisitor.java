@@ -2,8 +2,6 @@ package fi.lolcatz.profiler.archive;
 
 import fi.lolcatz.profiler.Node;
 import fi.lolcatz.profiler.NodeAnalyzer;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -15,7 +13,6 @@ import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
 import org.objectweb.asm.tree.analysis.Frame;
-import org.objectweb.asm.tree.analysis.Interpreter;
 
 /**
  * 
