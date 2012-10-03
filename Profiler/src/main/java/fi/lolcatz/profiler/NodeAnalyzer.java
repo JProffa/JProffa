@@ -8,8 +8,15 @@ import org.objectweb.asm.tree.analysis.Interpreter;
 
 public class NodeAnalyzer extends Analyzer {
     
+    /**
+     * Methodnode that the class analyzes
+     */
     private MethodNode methodNode;
-
+    
+    /**
+     * Creates a new NodeAnalyzer
+     * @param interpreter 
+     */
     public NodeAnalyzer(final Interpreter interpreter) {
         super(interpreter);
     }
@@ -21,7 +28,12 @@ public class NodeAnalyzer extends Analyzer {
     protected Frame newFrame(int nLocals, int nStack) {
         return new Node(nLocals, nStack);
     }
-
+    
+    /**
+     * Returns a new node representing the frame
+     * @param src Frame needing representing
+     * @return new node
+     */
     @Override
     protected Frame newFrame(Frame src) {
         return new Node(src);
