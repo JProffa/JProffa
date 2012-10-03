@@ -1,6 +1,5 @@
 package fi.lolcatz.profiler;
 
-import fi.lolcatz.profiler.archive.TreeNodeTransformer;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 
@@ -22,6 +21,14 @@ public class Agent {
         printInstrumentationInfo(inst);
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
         inst.addTransformer(new ProfilerTransformer());
+        
+        // Add shutdown hook to print total cost
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                System.out.println("Total cost: " + ProfileData.getTotalCost());
+            }
+        });
     }
 
     /**
