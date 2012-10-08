@@ -75,6 +75,12 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
         return null;
     }
 
+    /**
+     * Calculate total cost of bytecode instructions in given list.
+     * 
+     * @param basicBlockInsns List of AbstractInsnNode to calculate cost from.
+     * @return Total cost of instructions.
+     */
     public long calculateCost(LinkedList<AbstractInsnNode> basicBlockInsns) {
         long cost = 0;
         for (AbstractInsnNode node : basicBlockInsns) {
@@ -91,6 +97,12 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
         return cost;
     }
 
+    /**
+     * Add instruction nodes in a basic block to the list that corresponds to that basic block.
+     * 
+     * @param basicBlocks List of basic block instruction lists that have been initializes with the instruction node
+     *        that starts a new basic block.
+     */
     public void findBasicBlockInsns(ArrayList<LinkedList<AbstractInsnNode>> basicBlocks) {
         for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
             AbstractInsnNode start = basicBlockInsns.getFirst();
@@ -102,6 +114,13 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
         }
     }
 
+    /**
+     * Find instruction nodes that start a new basic block. Every LabelNode is assumed to start a new basic block.
+     * 
+     * @param insns List of every instruction node in a method.
+     * @return List of basic block instruction lists. Each list corresponds to one basic block. These lists have the
+     *         starting LabelNode as the first and only element.
+     */
     public ArrayList<LinkedList<AbstractInsnNode>> findBasicBlockBeginnings(InsnList insns) {
         ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = new ArrayList<LinkedList<AbstractInsnNode>>();
 
