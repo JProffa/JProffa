@@ -10,12 +10,16 @@ package com.mycompany.example;
  */
 public class ObjectExample {
     
-    public Person[] createPersons(int amount) {
-        Person[] returnable = new Person[amount];
+    /**
+     * Simplifying things.
+     * 
+     * @param amount
+     * @return 
+     */
+    public void createPersons(int amount) {
         for (int i = 0; i < amount; i++) {
-            returnable[i] = new Person("test", i);
+            Person p = new Person("tester", i);
         }
-        return returnable;
     }
     
 }
