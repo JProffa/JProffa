@@ -4,6 +4,7 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.List;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -34,7 +35,8 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
         try {
             // Don't touch internal classes for now.
-            if (className.startsWith("java/") || className.startsWith("sun/") || className.startsWith("fi/lolcatz/profiler/")) {
+            if (className.startsWith("java/") || className.startsWith("sun/")
+                    || className.startsWith("fi/lolcatz/profiler/")) {
                 return null;
             }
 
@@ -44,16 +46,17 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
             // Add counter increment codes in the beginning of basic blocks
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
-                System.out.println(" Method: " + methodNode.name + methodNode.desc);
+                System.out.println("  Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
+                Util.printInsnList(insns);
 
                 NodeAnalyzer analyzer = new NodeAnalyzer(new BasicInterpreter());
                 // Analyze the method, initializing the frame array
                 analyzer.analyze(className, methodNode);
-                
+
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 6;
-                
+
                 boolean firstNodeFound = false;
                 for (Frame frame : analyzer.getFrames()) {
                     Node node = (Node) frame;
@@ -68,7 +71,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                         }
                     }
                 }
-                
+
                 int sizeOfBasicBlock = 0;
                 Node beginningOfBasicBlock = null;
                 for (Frame frame : analyzer.getFrames()) {
@@ -83,41 +86,45 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                         sizeOfBasicBlock++;
                         continue;
                     }
-                    
+
                     // Create new basic block counter and get its index
                     int basicBlockIndex = ProfileData.addBasicBlock(sizeOfBasicBlock);
-                    
+
                     // Insert counter increment codes before beginning of the basic block
-                    methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction, createCounterIncrementInsnList(basicBlockIndex));
+                    methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction,
+                            createCounterIncrementInsnList(basicBlockIndex));
                     beginningOfBasicBlock = node;
                 }
-                
+
                 // Last basic block of the method
                 int basicBlockIndex = ProfileData.addBasicBlock(sizeOfBasicBlock);
-                methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction, createCounterIncrementInsnList(basicBlockIndex));
+                methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction,
+                        createCounterIncrementInsnList(basicBlockIndex));
             }
 
             byte[] bytecode = Util.generateBytecode(classNode);
             String filename = className.substring(className.lastIndexOf('/') + 1);
             Util.writeByteArrayToFile(filename + ".class", bytecode);
-            
+
             // Initialize counter arrays
             ProfileData.initialize();
-            
+
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
             e.printStackTrace();
         }
         return null;
     }
-    
+
     /**
      * Creates new InsnList containing bytecode instructions to increment counter.
+     * 
      * @return Counter increment InsnList
      */
     private InsnList createCounterIncrementInsnList(int basicBlockIndex) {
         InsnList counterIncrementInsnList = new InsnList();
-        counterIncrementInsnList.add(new FieldInsnNode(GETSTATIC, "fi/lolcatz/profiler/ProfileData", "callsToBasicBlock", "[J"));
+        counterIncrementInsnList.add(new FieldInsnNode(GETSTATIC, "fi/lolcatz/profiler/ProfileData",
+                "callsToBasicBlock", "[J"));
         counterIncrementInsnList.add(intPushInsn(basicBlockIndex));
         counterIncrementInsnList.add(new InsnNode(DUP2));
         counterIncrementInsnList.add(new InsnNode(LALOAD));
