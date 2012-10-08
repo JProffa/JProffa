@@ -6,9 +6,6 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println("Use this .jar by running it with: java -javaagent:Profiler.jar -jar ProjectToProfile.jar");
-        ClassNode cn = Util.createProfilerClass();
-        byte[] bytes = Util.generateBytecode(cn);
-        Util.writeByteArrayToFile("Profiler.class", bytes);
 
         // String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
         // int p = nameOfRunningVM.indexOf('@');
