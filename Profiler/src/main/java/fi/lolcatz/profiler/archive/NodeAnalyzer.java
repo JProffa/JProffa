@@ -1,10 +1,11 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.analysis.Analyzer;
 import org.objectweb.asm.tree.analysis.AnalyzerException;
 import org.objectweb.asm.tree.analysis.Frame;
 import org.objectweb.asm.tree.analysis.Interpreter;
+
 
 public class NodeAnalyzer extends Analyzer {
     

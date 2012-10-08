@@ -1,4 +1,4 @@
-package fi.lolcatz.profiler;
+package fi.lolcatz.profiler.archive;
 
 import java.util.HashSet;
 import java.util.Set;
