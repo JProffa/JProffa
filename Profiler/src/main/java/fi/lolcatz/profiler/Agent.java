@@ -42,6 +42,13 @@ public class Agent {
      */
     public static void agentmain(String args, Instrumentation inst) throws Exception {
         inst.addTransformer(new ProfilerTransformer());
+        Class[] initiatedClasses = inst.getInitiatedClasses(ClassLoader.getSystemClassLoader());
+        int i = 0;
+        for (Class clazz : initiatedClasses) {
+            if (inst.isModifiableClass(clazz)) i++;
+            else System.out.println("Unmodifiable class: " + clazz.getName());
+        }
+        System.out.println("Modifiable classes: " + i + "/" + initiatedClasses.length);
     }
 
     /**
