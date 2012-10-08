@@ -95,7 +95,6 @@ public class ProfileData {
         for (int i = 0; i < callsToBasicBlock.length; i++) {
             System.out.println(i + ": Calls: " + callsToBasicBlock[i] + " Cost: " + basicBlockCost[i] + " Total: " +
                     callsToBasicBlock[i] * basicBlockCost[i]);
-            System.out.printf("%d: %d %d", args)
         }
     }
 }
