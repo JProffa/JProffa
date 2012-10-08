@@ -26,7 +26,9 @@ public class Agent {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
+                ProfileData.printBasicBlocksCost();
                 System.out.println("Total cost: " + ProfileData.getTotalCost());
+                
             }
         });
     }
