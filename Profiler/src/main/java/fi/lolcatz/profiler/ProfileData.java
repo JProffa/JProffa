@@ -44,6 +44,10 @@ public class ProfileData {
         basicBlockCostList.add(cost);
         return basicBlockAmount - 1;
     }
+    
+    public static void incrementCallsToBasicBlock(int index) {
+        callsToBasicBlock[index] += 1;
+    }
 
     /**
      * Reset callsToBasicBlock arrays elements to 0.
