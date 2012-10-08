@@ -1,21 +1,18 @@
 package fi.lolcatz.profiler;
 
+import static org.objectweb.asm.tree.AbstractInsnNode.*;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.IntInsnNode;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 import org.objectweb.asm.tree.analysis.BasicInterpreter;
-import org.objectweb.asm.tree.analysis.Frame;
 
 /**
  * Transformer that inserts counter increment code in the beginning of basic blocks.
@@ -50,56 +47,18 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 InsnList insns = methodNode.instructions;
                 Util.printInsnList(insns);
 
-                NodeAnalyzer analyzer = new NodeAnalyzer(new BasicInterpreter());
-                // Analyze the method, initializing the frame array
-                analyzer.analyze(className, methodNode);
-
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 6;
 
-                boolean firstNodeFound = false;
-                for (Frame frame : analyzer.getFrames()) {
-                    Node node = (Node) frame;
-                    if (node == null) continue;
-                    if (!firstNodeFound) {
-                        node.startsNewBasicBlock = true;
-                        firstNodeFound = true;
-                    }
-                    if (node.successors.size() > 1) {
-                        for (Node successor : node.successors) {
-                            successor.startsNewBasicBlock = true;
-                        }
-                    }
+                ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = findBasicBlockBeginnings(insns);
+
+                findBasicBlockInsns(basicBlocks);
+
+                for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
+                    long cost = calculateCost(basicBlockInsns);
+                    int index = ProfileData.addBasicBlock(cost);
+                    insns.insert(basicBlockInsns.getFirst(), createCounterIncrementInsnList(index));
                 }
-
-                int sizeOfBasicBlock = 0;
-                Node beginningOfBasicBlock = null;
-                for (Frame frame : analyzer.getFrames()) {
-                    Node node = (Node) frame;
-                    if (node == null) continue;
-                    if (!node.startsNewBasicBlock) {
-                        sizeOfBasicBlock++;
-                        continue;
-                    }
-                    if (beginningOfBasicBlock == null) {
-                        beginningOfBasicBlock = node;
-                        sizeOfBasicBlock++;
-                        continue;
-                    }
-
-                    // Create new basic block counter and get its index
-                    int basicBlockIndex = ProfileData.addBasicBlock(sizeOfBasicBlock);
-
-                    // Insert counter increment codes before beginning of the basic block
-                    methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction,
-                            createCounterIncrementInsnList(basicBlockIndex));
-                    beginningOfBasicBlock = node;
-                }
-
-                // Last basic block of the method
-                int basicBlockIndex = ProfileData.addBasicBlock(sizeOfBasicBlock);
-                methodNode.instructions.insertBefore(beginningOfBasicBlock.instruction,
-                        createCounterIncrementInsnList(basicBlockIndex));
             }
 
             byte[] bytecode = Util.generateBytecode(classNode);
@@ -114,6 +73,47 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public long calculateCost(LinkedList<AbstractInsnNode> basicBlockInsns) {
+        long cost = 0;
+        for (AbstractInsnNode node : basicBlockInsns) {
+            int type = node.getType();
+            switch (type) {
+            case LABEL:
+            case LINE:
+            case FRAME:
+                break;
+            default:
+                cost += 1;
+            }
+        }
+        return cost;
+    }
+
+    public void findBasicBlockInsns(ArrayList<LinkedList<AbstractInsnNode>> basicBlocks) {
+        for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
+            AbstractInsnNode start = basicBlockInsns.getFirst();
+            while (start.getNext() != null && start.getNext().getType() != LABEL) {
+                AbstractInsnNode next = start.getNext();
+                basicBlockInsns.add(next);
+                start = next;
+            }
+        }
+    }
+
+    public ArrayList<LinkedList<AbstractInsnNode>> findBasicBlockBeginnings(InsnList insns) {
+        ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = new ArrayList<LinkedList<AbstractInsnNode>>();
+
+        for (Iterator<AbstractInsnNode> iter = insns.iterator(); iter.hasNext();) {
+            AbstractInsnNode insn = iter.next();
+            if (insn.getType() == LABEL && insn.getNext() != null) {
+                LinkedList<AbstractInsnNode> blockInsns = new LinkedList<AbstractInsnNode>();
+                basicBlocks.add(blockInsns);
+                blockInsns.add(insn);
+            }
+        }
+        return basicBlocks;
     }
 
     /**
