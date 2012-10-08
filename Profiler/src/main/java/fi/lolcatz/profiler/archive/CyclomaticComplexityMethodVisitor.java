@@ -1,7 +1,5 @@
 package fi.lolcatz.profiler.archive;
 
-import fi.lolcatz.profiler.Node;
-import fi.lolcatz.profiler.NodeAnalyzer;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
