@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-import org.objectweb.asm.tree.analysis.BasicInterpreter;
 
 /**
  * Transformer that inserts counter increment code in the beginning of basic blocks.
