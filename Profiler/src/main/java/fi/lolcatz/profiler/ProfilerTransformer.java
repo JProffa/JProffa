@@ -142,14 +142,9 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
      */
     private InsnList createCounterIncrementInsnList(int basicBlockIndex) {
         InsnList counterIncrementInsnList = new InsnList();
-        counterIncrementInsnList.add(new FieldInsnNode(GETSTATIC, "fi/lolcatz/profiler/ProfileData",
-                "callsToBasicBlock", "[J"));
         counterIncrementInsnList.add(intPushInsn(basicBlockIndex));
-        counterIncrementInsnList.add(new InsnNode(DUP2));
-        counterIncrementInsnList.add(new InsnNode(LALOAD));
-        counterIncrementInsnList.add(new InsnNode(LCONST_1));
-        counterIncrementInsnList.add(new InsnNode(LADD));
-        counterIncrementInsnList.add(new InsnNode(LASTORE));
+        counterIncrementInsnList.add(new MethodInsnNode(INVOKESTATIC, "fi/lolcatz/profiler/ProfileData",
+                "incrementCallsToBasicBlock", "(I)V"));
         return counterIncrementInsnList;
     }
 
