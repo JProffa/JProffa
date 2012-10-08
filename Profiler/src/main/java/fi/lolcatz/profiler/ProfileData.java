@@ -84,6 +84,9 @@ public class ProfileData {
      * @return Total cost of execution.
      */
     public static long getTotalCost() {
+        if (callsToBasicBlock == null) {
+            return 0;
+        }
         long totalCost = 0;
 
         for (int i = 0; i < callsToBasicBlock.length; i++) {
@@ -96,9 +99,13 @@ public class ProfileData {
     }
 
     public static void printBasicBlocksCost() {
+        if (callsToBasicBlock == null) {
+            System.out.println("ProfileData hasn't been initialized (no classes loaded).");
+            return;
+        }
         for (int i = 0; i < callsToBasicBlock.length; i++) {
-            System.out.println(i + ": Calls: " + callsToBasicBlock[i] + " Cost: " + basicBlockCost[i] + " Total: " +
-                    callsToBasicBlock[i] * basicBlockCost[i]);
+            System.out.println(i + ": Calls: " + callsToBasicBlock[i] + " Cost: " + basicBlockCost[i] + " Total: "
+                    + callsToBasicBlock[i] * basicBlockCost[i]);
         }
     }
 }
