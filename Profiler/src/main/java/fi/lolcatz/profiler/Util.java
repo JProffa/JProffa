@@ -203,35 +203,8 @@ public class Util implements Opcodes {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        ClassLoader appLoader = ClassLoader.getSystemClassLoader();
-        ClassLoader currentLoader = Util.class.getClassLoader();
-        ClassLoader[] loaders = new ClassLoader[]{appLoader, currentLoader};
-        try {
-            final Class<?>[] classes = Util.class.getClasses();
-            System.out.println("TROLL");
-        } catch (Exception ex) {
-            Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        
+        
 
-    }
-}
-
-class ClassScope {
-
-    private static java.lang.reflect.Field LIBRARIES;
-
-    static {
-        try {
-            //LIBRARIES = ClassLoader.class.getDeclaredClasses();
-            LIBRARIES.setAccessible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(ClassScope.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-
-    }
-
-    public static String[] getLoadedClasses(final ClassLoader loader) throws IllegalArgumentException, IllegalAccessException {
-        final Vector<String> libraries = (Vector<String>) LIBRARIES.get(loader);
-        return libraries.toArray(new String[]{});
     }
 }
