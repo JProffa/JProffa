@@ -20,11 +20,6 @@ public class AppTest {
     public void testSetup() {
         ProfileData.resetCounters();
     }
-    @AfterClass
-    public static void testExit(){
-        ProfileData.printBasicBlocksCost();
-        System.out.println();
-    }
 
     @Test
     public void testExample() {
@@ -35,15 +30,13 @@ public class AppTest {
     public void testRecursionCostSix() {
         FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
-        System.out.println("testRecursionCostSix: " + totalCost);
-        assertTrue(110 > totalCost && totalCost > 100 );
+        assertTrue(200 > totalCost && totalCost > 100 );
     }
 
     @Test
     public void testRecursionCostThree() {
         FunctionExample.recursiveFunction(3);
         long totalCost = ProfileData.getTotalCost();
-        System.out.println("testRecursionCostThree: " + totalCost);
-        assertTrue(95 > totalCost && totalCost > 85);
+        assertTrue(170 > totalCost && totalCost > 85);
     }
 }
