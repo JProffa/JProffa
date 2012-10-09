@@ -8,9 +8,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.management.ManagementFactory;
 import java.util.Iterator;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -191,20 +188,20 @@ public class Util implements Opcodes {
         return s;
     }
 
+    /**
+     * Load profiler agent to the running Java VM.
+     */
     public static void loadAgent() {
         String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
-        int p = nameOfRunningVM.indexOf('@');
-        String pid = nameOfRunningVM.substring(0, p);
-        System.out.println("VM pid: " + pid);
+        String pid = nameOfRunningVM.substring(0, nameOfRunningVM.indexOf('@'));
+        // System.out.println("VM pid: " + pid);
         try {
             VirtualMachine vm = VirtualMachine.attach(pid);
-            vm.loadAgent("../Profiler/target/Profiler-1.0-SNAPSHOT.jar", "");
+            String profilerJarPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            vm.loadAgent(profilerJarPath);
             vm.detach();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-            
-        
-
     }
 }
