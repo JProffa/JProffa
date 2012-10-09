@@ -9,10 +9,6 @@ public class Example {
     
     
     public static int sum(int a, int b) {
-        int x = 0;
-        for (int i = 0; i < 10; i++) {
-            x++;
-        }
         return a + b;
     }
 }
