@@ -55,7 +55,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
                 for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
                     long cost = calculateCost(basicBlockInsns);
-                    int index = ProfileData.addBasicBlock(cost);
+                    int index = ProfileData.addBasicBlock(cost, className + "." + methodNode.name + methodNode.desc);
                     insns.insert(basicBlockInsns.getFirst(), createCounterIncrementInsnList(index));
                 }
             }
