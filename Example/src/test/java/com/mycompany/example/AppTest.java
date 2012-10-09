@@ -31,12 +31,14 @@ public class AppTest {
     @Test
     public void testRecursionCost() {
         Example.main(null);
-        assertTrue(107 > ProfileData.getTotalCost());
+        long totalCost = ProfileData.getTotalCost();
+        assertTrue(107 > totalCost && totalCost > 100 );
     }
 
     @Test
     public void testRecursionCostThree() {
         FunctionExample.recursiveFunction(3);
-        assertTrue(95 > ProfileData.getTotalCost());
+        long totalCost = ProfileData.getTotalCost();
+        assertTrue(95 > totalCost && totalCost > 85);
     }
 }
