@@ -13,14 +13,17 @@ public class AppTest {
     public static void classSetup() {
         Example.main(null);
         Util.loadAgent();
-        
-        
-        
+        ProfileData.initialize();
     }
 
     @Before
     public void testSetup() {
-        ProfileData.initialize();
+        ProfileData.resetCounters();
+    }
+    @AfterClass
+    public static void testExit(){
+        ProfileData.printBasicBlocksCost();
+        System.out.println();
     }
 
     @Test
@@ -29,16 +32,18 @@ public class AppTest {
     }
 
     @Test
-    public void testRecursionCost() {
-        Example.main(null);
+    public void testRecursionCostSix() {
+        FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue(107 > totalCost && totalCost > 100 );
+        System.out.println("testRecursionCostSix: " + totalCost);
+        assertTrue(110 > totalCost && totalCost > 100 );
     }
 
     @Test
     public void testRecursionCostThree() {
         FunctionExample.recursiveFunction(3);
         long totalCost = ProfileData.getTotalCost();
+        System.out.println("testRecursionCostThree: " + totalCost);
         assertTrue(95 > totalCost && totalCost > 85);
     }
 }

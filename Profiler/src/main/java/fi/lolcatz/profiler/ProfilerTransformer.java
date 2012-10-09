@@ -31,7 +31,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
         try {
             // Don't touch internal classes for now.
-            if (className.startsWith("java/") || className.startsWith("sun/")
+            if (className.startsWith("java/") || className.startsWith("sun/") || className.startsWith("com/sun/")
                     || className.startsWith("fi/lolcatz/profiler/")) {
                 return null;
             }
@@ -42,9 +42,9 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
             // Add counter increment codes in the beginning of basic blocks
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
-                System.out.println("  Method: " + methodNode.name + methodNode.desc);
+                //System.out.println("  Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
-                Util.printInsnList(insns);
+                //Util.printInsnList(insns);
 
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 6;
@@ -76,7 +76,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Calculate total cost of bytecode instructions in given list.
-     * 
+     *
      * @param basicBlockInsns List of AbstractInsnNode to calculate cost from.
      * @return Total cost of instructions.
      */
@@ -85,12 +85,12 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
         for (AbstractInsnNode node : basicBlockInsns) {
             int type = node.getType();
             switch (type) {
-            case LABEL:
-            case LINE:
-            case FRAME:
-                break;
-            default:
-                cost += 1;
+                case LABEL:
+                case LINE:
+                case FRAME:
+                    break;
+                default:
+                    cost += 1;
             }
         }
         return cost;
@@ -98,9 +98,9 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Add instruction nodes in a basic block to the list that corresponds to that basic block.
-     * 
+     *
      * @param basicBlocks List of basic block instruction lists that have been initializes with the instruction node
-     *        that starts a new basic block.
+     * that starts a new basic block.
      */
     public void findBasicBlockInsns(ArrayList<LinkedList<AbstractInsnNode>> basicBlocks) {
         for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
@@ -115,10 +115,10 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Find instruction nodes that start a new basic block. Every LabelNode is assumed to start a new basic block.
-     * 
+     *
      * @param insns List of every instruction node in a method.
      * @return List of basic block instruction lists. Each list corresponds to one basic block. These lists have the
-     *         starting LabelNode as the first and only element.
+     * starting LabelNode as the first and only element.
      */
     public ArrayList<LinkedList<AbstractInsnNode>> findBasicBlockBeginnings(InsnList insns) {
         ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = new ArrayList<LinkedList<AbstractInsnNode>>();
@@ -136,7 +136,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Creates new InsnList containing bytecode instructions to increment counter.
-     * 
+     *
      * @return Counter increment InsnList
      */
     private InsnList createCounterIncrementInsnList(int basicBlockIndex) {
@@ -149,7 +149,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Creates an instruction that can be used to push any Int value to stack.
-     * 
+     *
      * @param i Int to push to stack.
      * @return Instruction to push <code>i</code> to stack.
      */
@@ -162,5 +162,4 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             return new LdcInsnNode(i);
         }
     }
-
 }

@@ -1,7 +1,10 @@
 package fi.lolcatz.profiler;
 
 import java.io.IOException;
+import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Agent {
 
@@ -41,13 +44,23 @@ public class Agent {
      * @throws Exception
      */
     public static void agentmain(String args, Instrumentation inst) throws Exception {
-        inst.addTransformer(new ProfilerTransformer());
-        Class[] initiatedClasses = inst.getInitiatedClasses(ClassLoader.getSystemClassLoader());
+        inst.addTransformer(new ProfilerTransformer(), true);
+        Class[] initiatedClasses = inst.getAllLoadedClasses();
+        
         int i = 0;
+        Class[] modifiableClasses = new Class[initiatedClasses.length];
         for (Class clazz : initiatedClasses) {
-            if (inst.isModifiableClass(clazz)) i++;
+            if(clazz.getName().contains("mycompany")) System.out.println(clazz.getName() + " MyCompany Name");
+            if (inst.isModifiableClass(clazz)){
+                modifiableClasses[i] = clazz;
+                i++;
+            }
             else System.out.println("Unmodifiable class: " + clazz.getName());
         }
+        
+        modifiableClasses = Arrays.copyOf(modifiableClasses, i);
+        if(inst.isRetransformClassesSupported())
+            inst.retransformClasses(modifiableClasses);
         System.out.println("Modifiable classes: " + i + "/" + initiatedClasses.length);
     }
 
