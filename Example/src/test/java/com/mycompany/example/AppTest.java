@@ -55,9 +55,31 @@ public class AppTest {
     }
     
     @Test
+    public void testIterativeThreeThousandOne(){
+        FunctionExample.iterativeFunction(3001);
+        long totalCost = ProfileData.getTotalCost();
+        assertTrue("The total cost was: " + totalCost, 600 > totalCost && totalCost > 300);
+    }
+    
+    @Test
+    public void testRecursionCostThreeThousandTwo() {
+        FunctionExample.recursiveFunction(3002);
+        long totalCost = ProfileData.getTotalCost();
+        assertTrue("The total cost was: " + totalCost, 700 > totalCost && totalCost > 500);
+    }
+    
+    @Test
     public void testSumOnePlusTwo() {
         Example.sum(1, 2);
         long totalCost = ProfileData.getTotalCost();
         assertTrue("The total cost was: " + totalCost, 70 > totalCost && totalCost > 60);
     }
+    
+    @Test
+    public void testFactorialTwoThousand(){
+        FactorialExample.factorialInt(2000);
+        long totalCost = ProfileData.getTotalCost();
+        assertTrue("The total cost was: " + totalCost, 16100 > totalCost && totalCost > 15000);
+    }
+    
 }
