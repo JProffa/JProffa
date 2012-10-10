@@ -32,14 +32,14 @@ public class AppTest {
     public void testRecursionCostSix() {
         FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 165);
+        assertTrue("The total cost was: " + totalCost, totalCost == 111);
     }
     
     @Test
     public void testRecursionCostIsDeterministic() {
         FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 165);
+        assertTrue("The total cost was: " + totalCost, totalCost == 111);
     }
 
     @Test
@@ -53,14 +53,14 @@ public class AppTest {
     public void testIterativeCostFive() {
         FunctionExample.iterativeFunction(5);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 126);
+        assertTrue("The total cost was: " + totalCost, totalCost == 72);
     }
     
     @Test
     public void testIterativeCostIsDeterministic() {
         FunctionExample.iterativeFunction(5);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 126);
+        assertTrue("The total cost was: " + totalCost, totalCost == 72);
     }
     
     @Test
@@ -88,7 +88,7 @@ public class AppTest {
     public void testSumOnePlusTwo() {
         Example.sum(1, 2);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, 70 > totalCost && totalCost > 60);
+        assertTrue("The total cost was: " + totalCost, 20 > totalCost && totalCost > 10);
     }
 
     @Test
@@ -102,15 +102,16 @@ public class AppTest {
     public void testObjectsTen() {
         ObjectExample.createPersons(10);
         long totalCost = ProfileData.getTotalCost();
-//        ProfileData.printBasicBlocksCost(false);
+        ProfileData.printBasicBlocksCost(false);
         assertTrue("The total cost was: " + totalCost, totalCost == 197);
     }
 
     @Test
     public void testObjectsBehaveDeterministic() {
+        ProfileData.resetCounters();
         ObjectExample.createPersons(10);
         long totalCost = ProfileData.getTotalCost();
-//        ProfileData.printBasicBlocksCost(false);
+        ProfileData.printBasicBlocksCost(false);
         assertTrue("The total cost was: " + totalCost + ", expected 197", totalCost == 197);
     }
     
