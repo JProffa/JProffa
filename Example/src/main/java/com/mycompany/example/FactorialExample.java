@@ -1,13 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.example;
 
-/**
- *
- * @author oorissan
- */
+
 public class FactorialExample {
     
     public static int factorialInt(int number){
