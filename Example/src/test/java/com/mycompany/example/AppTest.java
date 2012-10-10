@@ -12,6 +12,7 @@ public class AppTest {
     @BeforeClass
     public static void classSetup() {
         Example.main(null);
+//        ObjectExample.createPersons(5);
         Util.loadAgent();
         ProfileData.initialize();
     }

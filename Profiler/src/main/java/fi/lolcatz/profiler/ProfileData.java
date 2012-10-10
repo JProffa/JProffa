@@ -123,4 +123,25 @@ public class ProfileData {
             System.out.println();
         }
     }
+    
+    public static void printBasicBlocksCost(boolean zeroCallsVisible) {
+        if (callsToBasicBlock == null) {
+            System.out.println("ProfileData hasn't been initialized (no classes loaded).");
+            return;
+        }
+        for (int i = 0; i < callsToBasicBlock.length; i++) {
+            if (zeroCallsVisible) {
+                System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
+                        i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
+                        basicBlockDesc.get(i));
+            } else {
+                if (callsToBasicBlock[i] > 0) {
+                    System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
+                        i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
+                        basicBlockDesc.get(i));
+                }
+            }
+            System.out.println();
+        }
+    }
 }
