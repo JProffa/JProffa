@@ -31,7 +31,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
         try {
             // Don't touch internal classes for now.
-            if (className.startsWith("java/") || className.startsWith("sun/") || className.startsWith("com/sun/")
+            if (className.startsWith("java/") || className.startsWith("sun/")  || className.startsWith("com/sun/") || className.startsWith("org/junit/")
                     || className.startsWith("fi/lolcatz/profiler/")) {
                 return null;
             }
