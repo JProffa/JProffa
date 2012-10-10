@@ -16,7 +16,7 @@ public class ObjectExample {
      * @param amount
      * @return 
      */
-    public void createPersons(int amount) {
+    public static void createPersons(int amount) {
         for (int i = 0; i < amount; i++) {
             Person p = new Person("tester", i);
         }
