@@ -87,6 +87,7 @@ public class AppTest {
     public void testObjectsTen() {
         ObjectExample.createPersons(10);
         long totalCost = ProfileData.getTotalCost();
+        ProfileData.printBasicBlocksCost(false);
         assertTrue("The total cost was: " + totalCost, totalCost == 197);
     }
 
@@ -94,6 +95,7 @@ public class AppTest {
     public void testObjectsBehaveDeterministic() {
         ObjectExample.createPersons(10);
         long totalCost = ProfileData.getTotalCost();
+        ProfileData.printBasicBlocksCost(false);
         assertTrue("The total cost was: " + totalCost + ", expected 197", totalCost == 197);
     }
     

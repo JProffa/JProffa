@@ -3,30 +3,30 @@ package fi.lolcatz.profiler;
 import java.util.ArrayList;
 
 /**
- * Class that holds counter information from profiling. Use this class by first calling addBasicBlock command for each
- * basic block that is profiled. After that call initialize() and the public arrays become usable.
+ * Class that holds counter information from profiling. Use this class by first
+ * calling addBasicBlock command for each basic block that is profiled. After
+ * that call initialize() and the public arrays become usable.
  */
 public class ProfileData {
 
     /**
-     * Holds information how many times basic block has been called. Indexes are the ones returned by addBasicBlock().
+     * Holds information how many times basic block has been called. Indexes are
+     * the ones returned by addBasicBlock().
      */
     public static long[] callsToBasicBlock;
-
     private static int basicBlockAmount = 0;
-
     /**
-     * How costly a basic block is. Naive way to count it is by assuming every bytecodes cost is 1 and multiply by
-     * amount of bytecodes in the basic block.
+     * How costly a basic block is. Naive way to count it is by assuming every
+     * bytecodes cost is 1 and multiply by amount of bytecodes in the basic
+     * block.
      */
     public static long[] basicBlockCost;
-
     private static ArrayList<Long> basicBlockCostList = new ArrayList<Long>();
     private static ArrayList<String> basicBlockDesc = new ArrayList<String>();
 
     /**
      * Adds basic block with default cost (1).
-     * 
+     *
      * @return Index of basic block in arrays.
      */
     public static int addBasicBlock() {
@@ -35,7 +35,7 @@ public class ProfileData {
 
     /**
      * Adds a new basic block.
-     * 
+     *
      * @param cost Cost of the basic block.
      * @return Index of the basic block in the arrays.
      */
@@ -45,7 +45,7 @@ public class ProfileData {
 
     /**
      * Adds a new basic block with a description.
-     * 
+     *
      * @param cost Cost of the basic block.
      * @param desc Description of the basic block.
      * @return Index of the basic block in the arrays.
@@ -69,7 +69,8 @@ public class ProfileData {
     }
 
     /**
-     * Initialize arrays from added basic blocks. Needs to be called before using the arrays.
+     * Initialize arrays from added basic blocks. Needs to be called before
+     * using the arrays.
      */
     public static void initialize() {
         callsToBasicBlock = new long[basicBlockAmount];
@@ -91,9 +92,9 @@ public class ProfileData {
     }
 
     /**
-     * Gets total cost. This is counted by multiplying the amount of calls to a basic block by its cost and adding them
-     * together.
-     * 
+     * Gets total cost. This is counted by multiplying the amount of calls to a
+     * basic block by its cost and adding them together.
+     *
      * @return Total cost of execution.
      */
     public static long getTotalCost() {
@@ -123,7 +124,7 @@ public class ProfileData {
             System.out.println();
         }
     }
-    
+
     public static void printBasicBlocksCost(boolean zeroCallsVisible) {
         if (callsToBasicBlock == null) {
             System.out.println("ProfileData hasn't been initialized (no classes loaded).");
@@ -134,14 +135,16 @@ public class ProfileData {
                 System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
                         i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
                         basicBlockDesc.get(i));
+                System.out.println();
             } else {
                 if (callsToBasicBlock[i] > 0) {
                     System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
-                        i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
-                        basicBlockDesc.get(i));
+                            i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
+                            basicBlockDesc.get(i));
+                    System.out.println();
                 }
             }
-            System.out.println();
+
         }
     }
 }
