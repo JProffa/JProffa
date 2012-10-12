@@ -3,30 +3,27 @@ package fi.lolcatz.profiler;
 import java.util.ArrayList;
 
 /**
- * Class that holds counter information from profiling. Use this class by first
- * calling addBasicBlock command for each basic block that is profiled. After
- * that call initialize() and the public arrays become usable.
+ * Class that holds counter information from profiling. Use this class by first calling addBasicBlock command for each
+ * basic block that is profiled. After that call initialize() and the public arrays become usable.
  */
 public class ProfileData {
 
     /**
-     * Holds information how many times basic block has been called. Indexes are
-     * the ones returned by addBasicBlock().
+     * Holds information how many times basic block has been called. Indexes are the ones returned by addBasicBlock().
      */
     public static long[] callsToBasicBlock;
     private static int basicBlockAmount = 0;
     /**
-     * How costly a basic block is. Naive way to count it is by assuming every
-     * bytecodes cost is 1 and multiply by amount of bytecodes in the basic
-     * block.
+     * How costly a basic block is. Naive way to count it is by assuming every bytecodes cost is 1 and multiply by
+     * amount of bytecodes in the basic block.
      */
     public static long[] basicBlockCost;
-    private static ArrayList<Long> basicBlockCostList = new ArrayList<Long>();
+    private static ArrayList<Long> basicBlockCostAccumulator = new ArrayList<Long>();
     private static ArrayList<String> basicBlockDesc = new ArrayList<String>();
 
     /**
      * Adds basic block with default cost (1).
-     *
+     * 
      * @return Index of basic block in arrays.
      */
     public static int addBasicBlock() {
@@ -35,8 +32,9 @@ public class ProfileData {
 
     /**
      * Adds a new basic block.
-     *
-     * @param cost Cost of the basic block.
+     * 
+     * @param cost
+     *            Cost of the basic block.
      * @return Index of the basic block in the arrays.
      */
     public static int addBasicBlock(long cost) {
@@ -45,14 +43,16 @@ public class ProfileData {
 
     /**
      * Adds a new basic block with a description.
-     *
-     * @param cost Cost of the basic block.
-     * @param desc Description of the basic block.
+     * 
+     * @param cost
+     *            Cost of the basic block.
+     * @param desc
+     *            Description of the basic block.
      * @return Index of the basic block in the arrays.
      */
     public static int addBasicBlock(long cost, String desc) {
         basicBlockAmount++;
-        basicBlockCostList.add(cost);
+        basicBlockCostAccumulator.add(cost);
         basicBlockDesc.add(desc);
         return basicBlockAmount - 1;
     }
@@ -65,19 +65,20 @@ public class ProfileData {
      * Reset callsToBasicBlock arrays elements to 0.
      */
     public static void resetCounters() {
-        callsToBasicBlock = new long[callsToBasicBlock.length];
+        for (int i = 0; i < callsToBasicBlock.length; i++) {
+            callsToBasicBlock[i] = 0L;
+        }
     }
 
     /**
-     * Initialize arrays from added basic blocks. Needs to be called before
-     * using the arrays.
+     * Initialize arrays from added basic blocks. Needs to be called before using the arrays.
      */
     public static void initialize() {
         callsToBasicBlock = new long[basicBlockAmount];
 
-        basicBlockCost = new long[basicBlockCostList.size()];
-        for (int i = 0; i < basicBlockCostList.size(); i++) {
-            basicBlockCost[i] = basicBlockCostList.get(i);
+        basicBlockCost = new long[basicBlockCostAccumulator.size()];
+        for (int i = 0; i < basicBlockCostAccumulator.size(); i++) {
+            basicBlockCost[i] = basicBlockCostAccumulator.get(i);
         }
     }
 
@@ -88,13 +89,13 @@ public class ProfileData {
         callsToBasicBlock = null;
         basicBlockCost = null;
         basicBlockAmount = 0;
-        basicBlockCostList = new ArrayList<Long>();
+        basicBlockCostAccumulator = new ArrayList<Long>();
     }
 
     /**
-     * Gets total cost. This is counted by multiplying the amount of calls to a
-     * basic block by its cost and adding them together.
-     *
+     * Gets total cost. This is counted by multiplying the amount of calls to a basic block by its cost and adding them
+     * together.
+     * 
      * @return Total cost of execution.
      */
     public static long getTotalCost() {
@@ -112,38 +113,31 @@ public class ProfileData {
         return totalCost;
     }
 
+    /**
+     * Print information about every basic block. Prints calls, cost, total cost of basic block and the saved
+     * description.
+     */
     public static void printBasicBlocksCost() {
+        printBasicBlocksCost(true);
+    }
+
+    /**
+     * Print information about basic blocks. Prints calls, cost, total cost of basic block and the saved description.
+     * 
+     * @param showBlocksWithNoCalls
+     *            If false, omit printing info about basic blocks that have no calls.
+     */
+    public static void printBasicBlocksCost(boolean showBlocksWithNoCalls) {
         if (callsToBasicBlock == null) {
             System.out.println("ProfileData hasn't been initialized (no classes loaded).");
             return;
         }
         for (int i = 0; i < callsToBasicBlock.length; i++) {
+            if (!showBlocksWithNoCalls && callsToBasicBlock[i] == 0) continue;
             System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
                     i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
                     basicBlockDesc.get(i));
             System.out.println();
-        }
-    }
-
-    public static void printBasicBlocksCost(boolean zeroCallsVisible) {
-        if (callsToBasicBlock == null) {
-            System.out.println("ProfileData hasn't been initialized (no classes loaded).");
-            return;
-        }
-        for (int i = 0; i < callsToBasicBlock.length; i++) {
-            if (zeroCallsVisible) {
-                System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
-                        i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
-                        basicBlockDesc.get(i));
-                System.out.println();
-            } else {
-                if (callsToBasicBlock[i] > 0) {
-                    System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
-                            i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
-                            basicBlockDesc.get(i));
-                    System.out.println();
-                }
-            }
 
         }
     }
