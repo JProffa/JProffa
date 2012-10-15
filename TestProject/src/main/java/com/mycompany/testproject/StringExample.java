@@ -1,4 +1,4 @@
-package com.mycompany.example;
+package com.mycompany.testproject;
 
 public class StringExample {
 

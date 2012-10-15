@@ -1,5 +1,9 @@
-package com.mycompany.example;
+package com.mycompany.testproject;
 
+import com.mycompany.testproject.Example;
+import com.mycompany.testproject.ObjectExample;
+import com.mycompany.testproject.FactorialExample;
+import com.mycompany.testproject.FunctionExample;
 import fi.lolcatz.profiler.*;
 import org.junit.*;
 import static org.junit.Assert.*;
