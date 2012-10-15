@@ -5,10 +5,7 @@ import static org.objectweb.asm.tree.AbstractInsnNode.*;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
@@ -17,6 +14,8 @@ import org.objectweb.asm.tree.*;
  * Transformer that inserts counter increment code in the beginning of basic blocks.
  */
 public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
+
+    public String className;
 
     /**
      * Transform class using tree API. asm4-guide.pdf pg. 96 {@inheritDoc}
@@ -28,7 +27,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer) throws IllegalClassFormatException {
-
+        this.className = className;
         try {
             // Don't touch internal classes for now.
             if (className.startsWith("java/") || className.startsWith("sun/") || className.startsWith("com/sun/")
@@ -49,18 +48,15 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 1;
 
-                ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = findBasicBlockBeginnings(insns);
+                Set<AbstractInsnNode> basicBlockBeginnings = findBasicBlockBeginnings(insns);
 
-                findBasicBlockInsns(basicBlocks);
+                ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = findBasicBlockInsns(basicBlockBeginnings);
 
-                for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
-                    long cost = calculateCost(basicBlockInsns);
-                    int index = ProfileData.addBasicBlock(cost, className + "." + methodNode.name + methodNode.desc);
-                    insns.insert(basicBlockInsns.getFirst(), createCounterIncrementInsnList(index));
-                }
+                insertCountersToBasicBlocks(methodNode, basicBlocks);
             }
 
             byte[] bytecode = Util.generateBytecode(classNode);
+
             // String filename = className.substring(className.lastIndexOf('/') + 1);
             // Util.writeByteArrayToFile(filename + ".class", bytecode);
 
@@ -75,10 +71,28 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
     }
 
     /**
+     * Insert counter addition bytecode to the beginning of all given basic blocks in basicBlocks.
+     * 
+     * @param methodNode MethodNode where counter bytecode is added.
+     * @param basicBlocks List of basic blocks instructions where to add the counter bytecode.
+     */
+    public void insertCountersToBasicBlocks(MethodNode methodNode, ArrayList<LinkedList<AbstractInsnNode>> basicBlocks) {
+        InsnList insns = methodNode.instructions;
+        for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
+            long cost = calculateCost(basicBlockInsns);
+            int index = ProfileData.addBasicBlock(cost, className + "." + methodNode.name + methodNode.desc);
+            AbstractInsnNode basicBlockBeginning = basicBlockInsns.getFirst();
+            if (basicBlockBeginning.getType() == LABEL)
+                insns.insert(basicBlockBeginning, createCounterIncrementInsnList(index));
+            else
+                insns.insertBefore(basicBlockBeginning, createCounterIncrementInsnList(index));
+        }
+    }
+
+    /**
      * Calculate total cost of bytecode instructions in given list.
      * 
-     * @param basicBlockInsns
-     *            List of AbstractInsnNode to calculate cost from.
+     * @param basicBlockInsns List of AbstractInsnNode to calculate cost from.
      * @return Total cost of instructions.
      */
     public long calculateCost(LinkedList<AbstractInsnNode> basicBlockInsns) {
@@ -86,55 +100,71 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
         for (AbstractInsnNode node : basicBlockInsns) {
             int type = node.getType();
             switch (type) {
-            case LABEL:
-            case LINE:
-            case FRAME:
-                break;
-            default:
-                cost += 1;
+                case LABEL:
+                case LINE:
+                case FRAME:
+                    break;
+                default:
+                    cost += 1;
             }
         }
         return cost;
     }
 
     /**
-     * Add instruction nodes in a basic block to the list that corresponds to that basic block.
+     * Find instructions that belong to the basic blocks that are started by instructions in basicBlockBeginnings and
+     * add create the returned list.
      * 
-     * @param basicBlocks
-     *            List of basic block instruction lists that have been initializes with the instruction node that starts
-     *            a new basic block.
+     * @param basicBlockBeginnings Set of AbstractInsnNode objects that start a new basic block.
+     * @return List where every ArrayList represents a basic block and contains the instruction of the basic block as a
+     *         linked list.
      */
-    public void findBasicBlockInsns(ArrayList<LinkedList<AbstractInsnNode>> basicBlocks) {
-        for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
-            AbstractInsnNode start = basicBlockInsns.getFirst();
-            while (start.getNext() != null && start.getNext().getType() != LABEL) {
-                AbstractInsnNode next = start.getNext();
-                basicBlockInsns.add(next);
-                start = next;
+    public ArrayList<LinkedList<AbstractInsnNode>> findBasicBlockInsns(Set<AbstractInsnNode> basicBlockBeginnings) {
+        ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = new ArrayList<LinkedList<AbstractInsnNode>>();
+        for (AbstractInsnNode basicBlockBeginning : basicBlockBeginnings) {
+            LinkedList<AbstractInsnNode> basicBlock = new LinkedList<AbstractInsnNode>();
+            basicBlock.add(basicBlockBeginning);
+            AbstractInsnNode nextInsn = basicBlockBeginning.getNext();
+            while (nextInsn != null && !basicBlockBeginnings.contains(nextInsn)) {
+                basicBlock.add(nextInsn);
+                nextInsn = nextInsn.getNext();
             }
+            basicBlocks.add(basicBlock);
         }
+        return basicBlocks;
     }
 
     /**
-     * Find instruction nodes that start a new basic block. Every LabelNode is assumed to start a new basic block.
+     * Find AbstractInsnNode objects that represent an instruction that starts a new basic block.
      * 
-     * @param insns
-     *            List of every instruction node in a method.
-     * @return List of basic block instruction lists. Each list corresponds to one basic block. These lists have the
-     *         starting LabelNode as the first and only element.
+     * @param insns List of instructions where basic blocks are searched from.
+     * @return Set of AbstractInsnNode objects that represent first instruction in basic blocks.
      */
-    public ArrayList<LinkedList<AbstractInsnNode>> findBasicBlockBeginnings(InsnList insns) {
-        ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = new ArrayList<LinkedList<AbstractInsnNode>>();
-
+    public Set<AbstractInsnNode> findBasicBlockBeginnings(InsnList insns) {
+        Set<AbstractInsnNode> basicBlocksBeginnings = new HashSet<AbstractInsnNode>();
+        basicBlocksBeginnings.add(insns.getFirst());
         for (Iterator<AbstractInsnNode> iter = insns.iterator(); iter.hasNext();) {
             AbstractInsnNode insn = iter.next();
-            if (insn.getType() == LABEL && insn.getNext() != null) {
-                LinkedList<AbstractInsnNode> blockInsns = new LinkedList<AbstractInsnNode>();
-                basicBlocks.add(blockInsns);
-                blockInsns.add(insn);
+            int type = insn.getType();
+            switch (type) {
+                case JUMP_INSN:
+                    JumpInsnNode jumpInsnNode = (JumpInsnNode) insn;
+                    basicBlocksBeginnings.add(jumpInsnNode.label);
+                    if (jumpInsnNode.getNext() != null) basicBlocksBeginnings.add(jumpInsnNode.getNext());
+                    break;
+                case METHOD_INSN:
+                    basicBlocksBeginnings.add(insn.getNext());
+                    break;
+                case TABLESWITCH_INSN:
+                    TableSwitchInsnNode switchInsnNode = (TableSwitchInsnNode) insn;
+                    for (LabelNode label : (List<LabelNode>) switchInsnNode.labels) {
+                        basicBlocksBeginnings.add(label);
+                    }
+                    basicBlocksBeginnings.add(switchInsnNode.dflt);
+                    break;
             }
         }
-        return basicBlocks;
+        return basicBlocksBeginnings;
     }
 
     /**
@@ -153,8 +183,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
     /**
      * Creates an instruction that can be used to push any Int value to stack.
      * 
-     * @param i
-     *            Int to push to stack.
+     * @param i Int to push to stack.
      * @return Instruction to push <code>i</code> to stack.
      */
     private AbstractInsnNode intPushInsn(int i) {
