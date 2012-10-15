@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>Example</artifactId>
+    <artifactId>TestProject</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Example</name>
+    <name>TestProject</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -24,7 +24,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.mycompany.example.Example</mainClass>
+                            <mainClass>com.mycompany.testproject.Example</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
