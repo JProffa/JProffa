@@ -197,8 +197,21 @@ public class Util implements Opcodes {
         // System.out.println("VM pid: " + pid);
         try {
             VirtualMachine vm = VirtualMachine.attach(pid);
-            String profilerJarPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String profilerJarPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();       
             vm.loadAgent(profilerJarPath);
+            vm.detach();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public static void loadAgent(String path) {
+        String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
+        String pid = nameOfRunningVM.substring(0, nameOfRunningVM.indexOf('@'));
+        // System.out.println("VM pid: " + pid);
+        try {
+            VirtualMachine vm = VirtualMachine.attach(pid); 
+            vm.loadAgent(path);
             vm.detach();
         } catch (Exception e) {
             throw new RuntimeException(e);
