@@ -13,7 +13,7 @@ public class AppTest {
     public static void classSetup() {
         Example.main(null);
         // Used to initialize the method, creating objects for the first time causes problems with profiler
-//        ObjectExample.createPersons(5);
+        ObjectExample.createPersons(1);
         Util.loadAgent();
         ProfileData.initialize();
     }
@@ -103,16 +103,15 @@ public class AppTest {
         ObjectExample.createPersons(10);
         long totalCost = ProfileData.getTotalCost();
         ProfileData.printBasicBlocksCost(false);
-        assertTrue("The total cost was: " + totalCost, totalCost == 197);
+        assertTrue("The total cost was: " + totalCost, totalCost == 211);
     }
 
     @Test
     public void testObjectsBehaveDeterministic() {
-        ProfileData.resetCounters();
         ObjectExample.createPersons(10);
         long totalCost = ProfileData.getTotalCost();
         ProfileData.printBasicBlocksCost(false);
-        assertTrue("The total cost was: " + totalCost + ", expected 197", totalCost == 197);
+        assertTrue("The total cost was: " + totalCost + ", expected 197", totalCost == 211);
     }
     
     
