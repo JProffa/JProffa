@@ -72,7 +72,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Insert counter addition bytecode to the beginning of all given basic blocks in basicBlocks.
-     * 
+     *
      * @param methodNode MethodNode where counter bytecode is added.
      * @param basicBlocks List of basic blocks instructions where to add the counter bytecode.
      */
@@ -91,7 +91,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Calculate total cost of bytecode instructions in given list.
-     * 
+     *
      * @param basicBlockInsns List of AbstractInsnNode to calculate cost from.
      * @return Total cost of instructions.
      */
@@ -114,7 +114,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
     /**
      * Find instructions that belong to the basic blocks that are started by instructions in basicBlockBeginnings and
      * add create the returned list.
-     * 
+     *
      * @param basicBlockBeginnings Set of AbstractInsnNode objects that start a new basic block.
      * @return List where every ArrayList represents a basic block and contains the instruction of the basic block as a
      *         linked list.
@@ -136,7 +136,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Find AbstractInsnNode objects that represent an instruction that starts a new basic block.
-     * 
+     *
      * @param insns List of instructions where basic blocks are searched from.
      * @return Set of AbstractInsnNode objects that represent first instruction in basic blocks.
      */
@@ -169,7 +169,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Creates new InsnList containing bytecode instructions to increment counter.
-     * 
+     *
      * @return Counter increment InsnList
      */
     private InsnList createCounterIncrementInsnList(int basicBlockIndex) {
@@ -182,7 +182,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     /**
      * Creates an instruction that can be used to push any Int value to stack.
-     * 
+     *
      * @param i Int to push to stack.
      * @return Instruction to push <code>i</code> to stack.
      */
