@@ -618,7 +618,8 @@ public class Util implements Opcodes {
         // System.out.println("VM pid: " + pid);
         try {
             VirtualMachine vm = VirtualMachine.attach(pid);
-            String profilerJarPath = Util.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            File jarFile = new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            String profilerJarPath = jarFile.getPath();
             vm.loadAgent(profilerJarPath);
             vm.detach();
         } catch (Exception e) {
