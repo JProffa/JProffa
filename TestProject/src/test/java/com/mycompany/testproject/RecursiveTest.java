@@ -22,8 +22,6 @@ public class RecursiveTest {
     @BeforeClass
     public static void classSetup() {
         Example.main(null);
-        // Used to initialize the method, creating objects for the first time causes problems with profiler
-        ObjectExample.createPersons(1);
         Util.loadAgent();      
         ProfileData.initialize(); 
     }
