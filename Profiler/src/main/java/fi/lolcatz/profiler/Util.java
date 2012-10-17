@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.management.ManagementFactory;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -19,6 +20,7 @@ import com.sun.tools.attach.VirtualMachine;
 public class Util implements Opcodes {
 
     private static boolean agentLoaded = false;
+    private static Logger logger = Logger.getLogger("fi.lolcatz.profiler.Util");
 
     /**
      * Prints bytes as byte string with newline every 4 bytes.
@@ -79,11 +81,14 @@ public class Util implements Opcodes {
         return cn;
     }
 
-    public static void printInsnList(InsnList insns) {
+    public static String getInsnListString(InsnList insns) {
+        StringBuilder sb = new StringBuilder();
+        String newline = System.getProperty("line.separator");
         for (Iterator<AbstractInsnNode> iterator = insns.iterator(); iterator.hasNext();) {
             AbstractInsnNode node = iterator.next();
-            System.out.println("    " + getNodeString(node));
+            sb.append("    ").append(getNodeString(node)).append(newline);
         }
+        return sb.toString();
     }
 
     public static String getNodeString(AbstractInsnNode node) {

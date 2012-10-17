@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 
+import fi.lolcatz.profiler.archive.RootLogger;
 import org.junit.*;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
@@ -24,6 +26,7 @@ public class ProfilerTransformerTest implements Opcodes {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        RootLogger.setLoggingLevel(Level.ALL);
         oneInsnList = new LinkedList<AbstractInsnNode>();
         oneInsnList.add(new InsnNode(ICONST_0));
         fiveInsnList = new LinkedList<AbstractInsnNode>();

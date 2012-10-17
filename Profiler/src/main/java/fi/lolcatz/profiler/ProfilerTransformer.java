@@ -6,6 +6,7 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.*;
+import java.util.logging.Logger;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
@@ -16,6 +17,7 @@ import org.objectweb.asm.tree.*;
 public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     public String className;
+    private static Logger logger = Logger.getLogger("fi.lolcatz.profiler.ProfilerTransformer");
 
     /**
      * Transform class using tree API. asm4-guide.pdf pg. 96 {@inheritDoc}
@@ -34,27 +36,21 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                     || className.startsWith("org/junit/") || className.startsWith("fi/lolcatz/profiler/")) {
                 return null;
             }
-
-            System.out.println("Class: " + className);
-
+            logger.info("Class: " + className);
             ClassNode classNode = Util.initClassNode(classfileBuffer);
 
             // Add counter increment codes in the beginning of basic blocks
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
-                // System.out.println("  Method: " + methodNode.name + methodNode.desc);
+                logger.info("  Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
-                // Util.printInsnList(insns);
+                logger.fine(Util.getInsnListString(insns));
 
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 1;
-
                 Set<AbstractInsnNode> basicBlockBeginnings = findBasicBlockBeginnings(insns);
-
                 ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = findBasicBlockInsns(basicBlockBeginnings);
-
                 insertCountersToBasicBlocks(methodNode, basicBlocks);
             }
-
             byte[] bytecode = Util.generateBytecode(classNode);
 
             // String filename = className.substring(className.lastIndexOf('/') + 1);
@@ -65,7 +61,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
         return null;
     }
