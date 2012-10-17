@@ -47,5 +47,10 @@ public class ObjectTest {
         long totalCost = ProfileData.getTotalCost();
         ProfileData.printBasicBlocksCost(false);
         assertTrue("The total cost was: " + totalCost + ", expected 211", totalCost == 210);
+        ProfileData.resetCounters();
+        ObjectExample.createPersons(10);
+        totalCost = ProfileData.getTotalCost();
+        ProfileData.printBasicBlocksCost(false);
+        assertTrue("The total cost was: " + totalCost + ", expected 211", totalCost == 210);
     }
 }

@@ -43,6 +43,10 @@ public class RecursiveTest {
         FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
         assertTrue("The total cost was: " + totalCost, totalCost == 110);
+        ProfileData.resetCounters();
+        FunctionExample.recursiveFunction(6);
+        totalCost = ProfileData.getTotalCost();
+        assertTrue("The total cost was: " + totalCost, totalCost == 110);
     }
 
     @Test

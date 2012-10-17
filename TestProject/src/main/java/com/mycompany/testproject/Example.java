@@ -7,7 +7,6 @@ public class Example {
         FunctionExample.recursiveFunction(6);
     }
     
-    
     public static int sum(int a, int b) {
         return a + b;
     }
