@@ -3,21 +3,23 @@ package fi.lolcatz.profiler;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class Agent {
 
     private static Instrumentation inst;
+    private static Logger logger = Logger.getLogger("fi.lolcatz.profiler.Agent");
 
     /**
      * Method that is called when agent is ran from command line using -javaagent option when launching .jar that you
      * want to profile.
      *
      * @param agentArgs Command line arguments given to agent when called.
-     * @param inst Instrumentation object that can be used to instrument classses that are given to this agent.
+     * @param inst      Instrumentation object that can be used to instrument classses that are given to this agent.
      * @throws IOException
      */
     public static void premain(String agentArgs, Instrumentation inst) throws IOException {
-        System.out.println("agentArgs: " + agentArgs);
+        logger.config("AgentArgs: " + agentArgs);
         Agent.inst = inst;
         printInstrumentationInfo(inst);
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
@@ -29,7 +31,6 @@ public class Agent {
             public void run() {
                 ProfileData.printBasicBlocksCost();
                 System.out.println("Total cost: " + ProfileData.getTotalCost());
-
             }
         });
     }
@@ -55,7 +56,7 @@ public class Agent {
             if (inst.isModifiableClass(clazz)) {
                 modifiableClasses.add(clazz);
             }
-            // else System.out.println("Unmodifiable class: " + clazz.getName());
+            else logger.info("Unmodifiable class: " + clazz.getName());
         }
 
         inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
@@ -67,10 +68,9 @@ public class Agent {
      * @param inst Object to print information from.
      */
     private static void printInstrumentationInfo(Instrumentation inst) {
-        System.out.println(inst);
-        System.out.println("isNativeMethodPrefixSupported: " + inst.isNativeMethodPrefixSupported());
-        System.out.println("isRedefineClassesSupported: " + inst.isRedefineClassesSupported());
-        System.out.println("isRetransformClassesSupported: " + inst.isRetransformClassesSupported());
+        logger.config("isNativeMethodPrefixSupported: " + inst.isNativeMethodPrefixSupported());
+        logger.config("isRedefineClassesSupported: " + inst.isRedefineClassesSupported());
+        logger.config("isRetransformClassesSupported: " + inst.isRetransformClassesSupported());
         // This print quite a lot of information. Use only when needed.
         // System.out.println("AllLoadedClasses: " + Arrays.toString(inst.getAllLoadedClasses()));
         // System.out.println("InitiatedClasses: " +
