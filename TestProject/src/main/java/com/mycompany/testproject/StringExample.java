@@ -2,10 +2,8 @@ package com.mycompany.testproject;
 
 public class StringExample {
 
-    public static String stringReplace() {
-        String s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas";
-        String c = "s";
-        s = s.replaceAll(c, "a");
-        return s;
+    public static String stringReplace(String input, String replace, String newString) {
+        input = input.replaceAll(replace, newString);
+        return input;
     }
 }
