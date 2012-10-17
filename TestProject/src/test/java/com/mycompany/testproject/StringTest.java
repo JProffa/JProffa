@@ -57,6 +57,6 @@ public class StringTest {
     public void testStringReplaceCostHundred() {
         StringExample.stringReplace("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas", "s", "a");
         long totalCost = ProfileData.getTotalCost();
-        assertFalse("The total cost was: " + totalCost, totalCost == 14);
+        assertTrue("The total cost was: " + totalCost, totalCost == 14);
     }
 }
