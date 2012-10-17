@@ -48,6 +48,10 @@ public class StringTest {
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
         long totalCost = ProfileData.getTotalCost();
         assertTrue("The total cost was: " + totalCost, totalCost == 14);
+        ProfileData.resetCounters();
+        StringExample.stringReplace("aaaaaaaaas", "s", "a");
+        totalCost = ProfileData.getTotalCost();
+        assertTrue("The total cost was: " + totalCost, totalCost == 14);
     }
     
     @Test

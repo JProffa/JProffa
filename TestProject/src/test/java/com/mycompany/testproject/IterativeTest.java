@@ -46,6 +46,10 @@ public class IterativeTest {
         FunctionExample.iterativeFunction(5);
         long totalCost = ProfileData.getTotalCost();
         assertTrue("The total cost was: " + totalCost, totalCost == 71);
+        ProfileData.resetCounters();
+        FunctionExample.iterativeFunction(5);
+        totalCost = ProfileData.getTotalCost();
+        assertTrue("The total cost was: " + totalCost, totalCost == 71);
     }
     
     @Test
