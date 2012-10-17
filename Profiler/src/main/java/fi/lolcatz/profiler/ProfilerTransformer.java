@@ -31,9 +31,8 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             byte[] classfileBuffer) throws IllegalClassFormatException {
         this.className = className;
         try {
-            // Don't touch internal classes for now.
-            if (className.startsWith("java/") || className.startsWith("sun/") || className.startsWith("com/sun/")
-                    || className.startsWith("org/junit/") || className.startsWith("fi/lolcatz/profiler/")) {
+            // Don't touch the class if it's blacklisted
+            if (ClassBlacklist.isBlacklisted(className)) {
                 return null;
             }
             logger.info("Class: " + className);
