@@ -122,6 +122,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
     public ArrayList<LinkedList<AbstractInsnNode>> findBasicBlockInsns(Set<AbstractInsnNode> basicBlockBeginnings) {
         ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = new ArrayList<LinkedList<AbstractInsnNode>>();
         for (AbstractInsnNode basicBlockBeginning : basicBlockBeginnings) {
+            if (basicBlockBeginning == null) continue;
             LinkedList<AbstractInsnNode> basicBlock = new LinkedList<AbstractInsnNode>();
             basicBlock.add(basicBlockBeginning);
             AbstractInsnNode nextInsn = basicBlockBeginning.getNext();
