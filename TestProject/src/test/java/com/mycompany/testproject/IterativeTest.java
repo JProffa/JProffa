@@ -34,7 +34,7 @@ public class IterativeTest {
         ProfileData.resetCounters();
     }
     
-      @Test
+    @Test
     public void testIterativeCostFive() {
         FunctionExample.iterativeFunction(5);
         long totalCost = ProfileData.getTotalCost();

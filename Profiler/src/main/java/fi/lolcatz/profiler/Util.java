@@ -18,7 +18,7 @@ import com.sun.tools.attach.VirtualMachine;
 
 public class Util implements Opcodes {
 
-    private static boolean loaded = false;
+    private static boolean agentLoaded = false;
 
     /**
      * Prints bytes as byte string with newline every 4 bytes.
@@ -616,20 +616,21 @@ public class Util implements Opcodes {
      * Load profiler agent to the running Java VM.
      */
     public static void loadAgent() {
-        if (!loaded) {
-            loaded = true;
-            String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
-            String pid = nameOfRunningVM.substring(0, nameOfRunningVM.indexOf('@'));
-            // System.out.println("VM pid: " + pid);
-            try {
-                VirtualMachine vm = VirtualMachine.attach(pid);
-                File jarFile = new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-                String profilerJarPath = jarFile.getPath();
-                vm.loadAgent(profilerJarPath);
-                vm.detach();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (agentLoaded) {
+            return;
+        }
+        agentLoaded = true;
+        String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
+        String pid = nameOfRunningVM.substring(0, nameOfRunningVM.indexOf('@'));
+        // System.out.println("VM pid: " + pid);
+        try {
+            VirtualMachine vm = VirtualMachine.attach(pid);
+            File jarFile = new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            String profilerJarPath = jarFile.getPath();
+            vm.loadAgent(profilerJarPath);
+            vm.detach();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
