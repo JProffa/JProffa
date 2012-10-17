@@ -18,7 +18,7 @@ import com.sun.tools.attach.VirtualMachine;
 
 public class Util implements Opcodes {
 
-    private static boolean loaded = false;
+    private static boolean agentLoaded = false;
 
     /**
      * Prints bytes as byte string with newline every 4 bytes.
@@ -80,8 +80,8 @@ public class Util implements Opcodes {
     }
 
     public static void printInsnList(InsnList insns) {
-        for (Iterator<AbstractInsnNode> iter = insns.iterator(); iter.hasNext();) {
-            AbstractInsnNode node = iter.next();
+        for (Iterator<AbstractInsnNode> iterator = insns.iterator(); iterator.hasNext();) {
+            AbstractInsnNode node = iterator.next();
             System.out.println("    " + getNodeString(node));
         }
     }
@@ -92,13 +92,16 @@ public class Util implements Opcodes {
             case LABEL:
                 LabelNode labelNode = (LabelNode) node;
                 Label label = labelNode.getLabel();
-                msg.append("Label " + label.toString());
+                msg.append("Label ").append(label.toString());
                 break;
             case INSN:
                 break;
             case LINE:
                 LineNumberNode lineNumberNode = (LineNumberNode) node;
-                msg.append("Line: " + lineNumberNode.line + ", Start: " + lineNumberNode.start.getLabel());
+                msg.append("Line: ")
+                        .append(lineNumberNode.line)
+                        .append(", Start: ")
+                        .append(lineNumberNode.start.getLabel());
                 break;
             case VAR_INSN:
                 VarInsnNode varInsnNode = (VarInsnNode) node;
@@ -106,7 +109,11 @@ public class Util implements Opcodes {
                 break;
             case METHOD_INSN:
                 MethodInsnNode methodInsnNode = (MethodInsnNode) node;
-                msg.append(methodInsnNode.owner + "." + methodInsnNode.name + ":" + methodInsnNode.desc);
+                msg.append(methodInsnNode.owner)
+                        .append(".")
+                        .append(methodInsnNode.name)
+                        .append(":")
+                        .append(methodInsnNode.desc);
                 break;
             case INT_INSN:
                 IntInsnNode intInsnNode = (IntInsnNode) node;
@@ -118,7 +125,9 @@ public class Util implements Opcodes {
                 break;
             case IINC_INSN:
                 IincInsnNode iincInsnNode = (IincInsnNode) node;
-                msg.append(iincInsnNode.var + ", " + iincInsnNode.incr);
+                msg.append(iincInsnNode.var)
+                        .append(", ")
+                        .append(iincInsnNode.incr);
                 break;
             default:
                 msg.append(node.toString());
@@ -616,20 +625,19 @@ public class Util implements Opcodes {
      * Load profiler agent to the running Java VM.
      */
     public static void loadAgent() {
-        if (!loaded) {
-            loaded = true;
-            String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
-            String pid = nameOfRunningVM.substring(0, nameOfRunningVM.indexOf('@'));
-            // System.out.println("VM pid: " + pid);
-            try {
-                VirtualMachine vm = VirtualMachine.attach(pid);
-                File jarFile = new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-                String profilerJarPath = jarFile.getPath();
-                vm.loadAgent(profilerJarPath);
-                vm.detach();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (agentLoaded) return;
+        agentLoaded = true;
+        String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
+        String pid = nameOfRunningVM.substring(0, nameOfRunningVM.indexOf('@'));
+        // System.out.println("VM pid: " + pid);
+        try {
+            VirtualMachine vm = VirtualMachine.attach(pid);
+            File jarFile = new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            String profilerJarPath = jarFile.getPath();
+            vm.loadAgent(profilerJarPath);
+            vm.detach();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
