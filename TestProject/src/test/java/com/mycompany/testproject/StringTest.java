@@ -27,6 +27,7 @@ public class StringTest {
         Example.main(null);
         Util.loadAgent();      
         ProfileData.initialize(); 
+        // Method needs to be initialized before using, the object call problem.
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
     }
     
