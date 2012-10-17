@@ -75,6 +75,5 @@ public class Agent {
         // System.out.println("AllLoadedClasses: " + Arrays.toString(inst.getAllLoadedClasses()));
         // System.out.println("InitiatedClasses: " +
         // Arrays.toString(inst.getInitiatedClasses(ClassLoader.getSystemClassLoader())));
-
     }
 }
