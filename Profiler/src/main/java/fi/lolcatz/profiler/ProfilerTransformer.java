@@ -40,10 +40,14 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
             // Add counter increment codes in the beginning of basic blocks
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
+                boolean isNative = (methodNode.access & ACC_NATIVE) != 0;
+                if (isNative){
+                    logger.info("Native method found: " + methodNode.name);
+                }
                 logger.info("  Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
                 logger.fine(Util.getInsnListString(insns));
-
+                
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 1;
                 Set<AbstractInsnNode> basicBlockBeginnings = findBasicBlockBeginnings(insns);
