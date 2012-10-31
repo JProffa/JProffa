@@ -4,6 +4,7 @@
  */
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.After;
@@ -21,6 +22,7 @@ public class RecursiveTest {
     
     @BeforeClass
     public static void classSetup() {
+        ClassBlacklist.add(RecursiveTest.class);
         Example.main(null);
         Util.loadAgent();      
         ProfileData.initialize(); 
@@ -35,18 +37,18 @@ public class RecursiveTest {
     public void testRecursionCostSix() {
         FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 110);
+        assertEquals(105, totalCost);
     }
     
     @Test
     public void testRecursionCostIsDeterministic() {
         FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 110);
+        assertEquals(105, totalCost);
         ProfileData.resetCounters();
         FunctionExample.recursiveFunction(6);
         totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 110);
+        assertEquals(105, totalCost);
     }
 
     @Test
