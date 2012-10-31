@@ -23,8 +23,18 @@ public class ClassBlacklist {
         
         // JUnit
         classBlacklist.add("org/junit/");
+        classBlacklist.add("org/hamcrest/");
         classBlacklist.add("junit/");
         classBlacklist.add("org/apache/maven/");
+        
+        // Mockito
+        classBlacklist.add("org/mockito/");
+        
+        // EasyMock
+        classBlacklist.add("org/easymock/");
+        
+        // JMock
+        classBlacklist.add("org/jmock/");
         
         
         classBlacklist.add("java/");
