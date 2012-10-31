@@ -4,6 +4,7 @@
  */
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.After;
@@ -24,6 +25,7 @@ public class IterativeTest {
     
     @BeforeClass
     public static void classSetup() {
+        ClassBlacklist.add(IterativeTest.class);
         Example.main(null);
         Util.loadAgent();      
         ProfileData.initialize(); 
@@ -38,18 +40,18 @@ public class IterativeTest {
     public void testIterativeCostFive() {
         FunctionExample.iterativeFunction(5);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 71);
+        assertEquals(66, totalCost);
     }
     
     @Test
     public void testIterativeCostIsDeterministic() {
         FunctionExample.iterativeFunction(5);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 71);
+        assertEquals(66, totalCost);
         ProfileData.resetCounters();
         FunctionExample.iterativeFunction(5);
         totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 71);
+        assertEquals(66, totalCost);
     }
     
     @Test
@@ -70,7 +72,7 @@ public class IterativeTest {
     public void testSumOnePlusTwo() {
         Example.sum(1, 2);
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, 20 > totalCost && totalCost > 9);
+        assertTrue("The total cost was: " + totalCost, 20 > totalCost && totalCost > 3);
     }
 
     @Test

@@ -4,6 +4,7 @@
  */
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.After;
@@ -24,6 +25,7 @@ public class StringTest {
     
     @BeforeClass
     public static void classSetup() {
+        ClassBlacklist.add(StringTest.class);
         Example.main(null);
         Util.loadAgent();      
         ProfileData.initialize(); 
@@ -40,18 +42,18 @@ public class StringTest {
     public void testStringReplaceCostTen() {
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 14);
+        assertEquals(7, totalCost);
     }
     
     @Test
     public void testStringReplaceIsDeterministic() {
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 14);
+        assertEquals(7, totalCost);
         ProfileData.resetCounters();
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
         totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 14);
+        assertEquals(7, totalCost);
     }
     
     @Test
@@ -61,6 +63,6 @@ public class StringTest {
     public void testStringReplaceCostHundred() {
         StringExample.stringReplace("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas", "s", "a");
         long totalCost = ProfileData.getTotalCost();
-        assertTrue("The total cost was: " + totalCost, totalCost == 14);
+        assertEquals(7, totalCost);
     }
 }
