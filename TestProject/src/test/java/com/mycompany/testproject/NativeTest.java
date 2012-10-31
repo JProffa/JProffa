@@ -4,6 +4,7 @@
  */
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class NativeTest {
     
     @BeforeClass
     public static void classSetup() {
+        ClassBlacklist.add(NativeTest.class);
         Example.main(null);
         Util.loadAgent();      
         ProfileData.initialize(); 
