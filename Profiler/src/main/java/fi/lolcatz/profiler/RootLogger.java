@@ -1,4 +1,4 @@
-package fi.lolcatz.profiler.archive;
+package fi.lolcatz.profiler;
 
 import java.io.IOException;
 import java.util.logging.*;
@@ -7,11 +7,12 @@ public class RootLogger {
     private static Logger rootLogger;
     private static Handler loggerHandler;
 
-    static {
-        rootLogger = Logger.getLogger("");
+    public static void initLogger() {
+        rootLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
         loggerHandler = new ConsoleHandler();
+        loggerHandler.setLevel(Level.ALL);
         rootLogger.addHandler(loggerHandler);
-        rootLogger.setLevel(Level.WARNING);
+        rootLogger.setLevel(Level.ALL);
     }
 
     public static void setLoggingLevel(Level level) {

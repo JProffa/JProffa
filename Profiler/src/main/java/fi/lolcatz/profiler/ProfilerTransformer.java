@@ -17,7 +17,7 @@ import org.objectweb.asm.tree.*;
 public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
     public String className;
-    private static Logger logger = Logger.getLogger("fi.lolcatz.profiler.ProfilerTransformer");
+    private static Logger logger = Logger.getLogger(ProfilerTransformer.class.getName());
 
     /**
      * Transform class using tree API. asm4-guide.pdf pg. 96 {@inheritDoc}

@@ -2,19 +2,13 @@ package fi.lolcatz.profiler;
 
 import static org.junit.Assert.*;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 
-import fi.lolcatz.profiler.archive.RootLogger;
 import org.junit.*;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.LabelNode;
 
 public class ProfilerTransformerTest implements Opcodes {
 
