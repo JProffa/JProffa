@@ -3,12 +3,19 @@ package fi.lolcatz.profiler;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Agent {
 
     private static Instrumentation inst;
-    private static Logger logger = Logger.getLogger("fi.lolcatz.profiler.Agent");
+    private static Logger logger;
+
+    static {
+        RootLogger.initLogger();
+        logger = Logger.getLogger(Agent.class.getName());
+    }
 
     /**
      * Method that is called when agent is ran from command line using -javaagent option when launching .jar that you
@@ -19,7 +26,9 @@ public class Agent {
      * @throws IOException
      */
     public static void premain(String agentArgs, Instrumentation inst) throws IOException {
+        setVerbosityLevel(agentArgs);
         logger.config("AgentArgs: " + agentArgs);
+
         Agent.inst = inst;
         printInstrumentationInfo(inst);
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
@@ -44,6 +53,9 @@ public class Agent {
      * @throws Exception
      */
     public static void agentmain(String args, Instrumentation inst) throws Exception {
+        setVerbosityLevel(args);
+        logger.config("AgentArgs: " + args);
+
         if (!inst.isRetransformClassesSupported()) {
             throw new Exception("Retransforming classes not allowed.");
         }
@@ -60,6 +72,39 @@ public class Agent {
         }
 
         inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
+    }
+
+    private static void setVerbosityLevel(String agentArgs) {
+        if (agentArgs == null) return;
+        int verbosity = 0;
+        for (char c : agentArgs.toCharArray()) {
+            if (c == 'v') verbosity++;
+        }
+        Level loggingLevel;
+        switch (verbosity) {
+            case 0:
+                loggingLevel = Level.WARNING;
+                break;
+            case 1:
+                loggingLevel = Level.INFO;
+                break;
+            case 2:
+                loggingLevel = Level.CONFIG;
+                break;
+            case 3:
+                loggingLevel = Level.FINE;
+                break;
+            case 4:
+                loggingLevel = Level.FINER;
+                break;
+            case 5:
+                loggingLevel = Level.FINEST;
+                break;
+            default:
+                loggingLevel = Level.ALL;
+                break;
+        }
+        RootLogger.setLoggingLevel(loggingLevel);
     }
 
     /**

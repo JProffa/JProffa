@@ -20,7 +20,7 @@ import com.sun.tools.attach.VirtualMachine;
 public class Util implements Opcodes {
 
     private static boolean agentLoaded = false;
-    private static Logger logger = Logger.getLogger("fi.lolcatz.profiler.Util");
+    private static Logger logger = Logger.getLogger(Util.class.getName());
 
     /**
      * Prints bytes as byte string with newline every 4 bytes.
@@ -51,7 +51,7 @@ public class Util implements Opcodes {
             DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(filename)));
             dout.write(bytes);
         } catch (Exception ex) {
-            System.out.println(ex);
+            logger.warning(ex.toString());
         }
     }
 

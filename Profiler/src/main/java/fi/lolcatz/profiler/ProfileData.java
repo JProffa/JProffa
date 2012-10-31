@@ -1,6 +1,7 @@
 package fi.lolcatz.profiler;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Class that holds counter information from profiling. Use this class by first calling addBasicBlock command for each
@@ -20,6 +21,8 @@ public class ProfileData {
     public static long[] basicBlockCost;
     private static ArrayList<Long> basicBlockCostAccumulator = new ArrayList<Long>();
     private static ArrayList<String> basicBlockDesc = new ArrayList<String>();
+
+    private static Logger logger = Logger.getLogger(ProfileData.class.getName());
 
     /**
      * Adds basic block with default cost (1).
@@ -124,21 +127,26 @@ public class ProfileData {
     /**
      * Print information about basic blocks. Prints calls, cost, total cost of basic block and the saved description.
      * 
-     * @param showBlocksWithNoCalls
+     * @param showUncalledBlocks
      *            If false, omit printing info about basic blocks that have no calls.
      */
-    public static void printBasicBlocksCost(boolean showBlocksWithNoCalls) {
+    public static void printBasicBlocksCost(boolean showUncalledBlocks) {
+        System.out.println(getBasicBlockCostsString(showUncalledBlocks));
+    }
+    
+    public static String getBasicBlockCostsString(boolean showUncalledBlocks) {
         if (callsToBasicBlock == null) {
-            System.out.println("ProfileData hasn't been initialized (no classes loaded).");
-            return;
+            logger.warning("ProfileData hasn't been initialized (no classes loaded).");
+            return "";
         }
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < callsToBasicBlock.length; i++) {
-            if (!showBlocksWithNoCalls && callsToBasicBlock[i] == 0) continue;
-            System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
+            if (!showUncalledBlocks && callsToBasicBlock[i] == 0) continue;
+            sb.append(String.format("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
                     i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
-                    basicBlockDesc.get(i));
-            System.out.println();
-
+                    basicBlockDesc.get(i)));
+            sb.append(System.getProperty("line.separator"));
         }
+        return sb.toString();
     }
 }
