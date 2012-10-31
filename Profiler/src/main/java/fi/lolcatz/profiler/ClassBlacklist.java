@@ -1,6 +1,7 @@
 package fi.lolcatz.profiler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,10 +15,17 @@ public class ClassBlacklist {
         classBlacklist = new ArrayList<String>();
         
         // Add classes blacklisted by default
+        
         classBlacklist.add("fi/lolcatz/profiler/");
         
+        // ASM
+        classBlacklist.add("org/objectweb/asm/");
+        
+        // JUnit
         classBlacklist.add("org/junit/");
+        classBlacklist.add("junit/");
         classBlacklist.add("org/apache/maven/");
+        
         
         classBlacklist.add("java/");
         classBlacklist.add("sun/");
@@ -51,5 +59,25 @@ public class ClassBlacklist {
             if (className.startsWith(blacklistedClass)) return true;
         }
         return false;
+    }
+
+    /**
+     * Add given classes to the blacklist.
+     * @param classToBlacklist List of classes to blacklist.
+     */
+    public static void add(Class<?>... classToBlacklist) {
+        for (Class aClass : classToBlacklist) {
+            String className = aClass.getName();
+            className = className.replace('.', '/');
+            classBlacklist.add(className);
+        }
+    }
+    
+    /**
+     * Add given classnames to the blacklist.
+     * @param classNamesToBlacklist List of classnames to blacklist.
+     */
+    public static void add(String... classNamesToBlacklist) {
+        classBlacklist.addAll(Arrays.asList(classNamesToBlacklist));
     }
 }
