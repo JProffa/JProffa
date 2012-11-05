@@ -3,8 +3,8 @@ package com.mycompany.testproject;
 public class Example {
 
     public static void main(String[] args) {
-        sum(1, 2);
-        FunctionExample.recursiveFunction(6);
+//        sum(1, 2);
+        ObjectExample.createPersons(2);
     }
     
     public static int sum(int a, int b) {
