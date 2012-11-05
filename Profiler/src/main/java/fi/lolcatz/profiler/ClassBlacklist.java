@@ -32,6 +32,7 @@ public class ClassBlacklist {
         
         // EasyMock
         classBlacklist.add("org/easymock/");
+        classBlacklist.add("org/unitils/");
         
         // JMock
         classBlacklist.add("org/jmock/");
