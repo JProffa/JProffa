@@ -7,6 +7,10 @@ public class RootLogger {
     private static Logger rootLogger;
     private static Handler loggerHandler;
 
+    static {
+        if (rootLogger == null) initLogger();
+    }
+
     public static void initLogger() {
         rootLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
         loggerHandler = new ConsoleHandler();
@@ -35,6 +39,7 @@ public class RootLogger {
     private static void switchLoggerHandlerTo(Handler newHandler) {
         rootLogger.removeHandler(loggerHandler);
         loggerHandler = newHandler;
+        loggerHandler.setLevel(Level.ALL);
         rootLogger.addHandler(newHandler);
     }
 }

@@ -20,7 +20,6 @@ public class ProfilerTransformerTest implements Opcodes {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        RootLogger.initLogger();
         RootLogger.setLoggingLevel(Level.ALL);
         oneInsnList = new LinkedList<AbstractInsnNode>();
         oneInsnList.add(new InsnNode(ICONST_0));
