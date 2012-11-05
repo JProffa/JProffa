@@ -37,12 +37,13 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             }
             logger.info("Class: " + className);
             ClassNode classNode = Util.initClassNode(classfileBuffer);
-
+            
             // Add counter increment codes in the beginning of basic blocks
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
                 boolean isNative = (methodNode.access & ACC_NATIVE) != 0;
                 if (isNative){
                     logger.info("Native method found: " + methodNode.name);
+                    continue;
                 }
                 logger.info("  Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
@@ -64,6 +65,10 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
+            e.printStackTrace();
+            logger.severe(e.getMessage());
+        } catch (Error e) {
+            e.printStackTrace();
             logger.severe(e.getMessage());
         }
         return null;

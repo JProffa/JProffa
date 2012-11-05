@@ -27,6 +27,9 @@ public class ClassBlacklist {
         classBlacklist.add("junit/");
         classBlacklist.add("org/apache/maven/");
         
+        // TestNG
+        classBlacklist.add("org/testng/");
+        
         // Mockito
         classBlacklist.add("org/mockito/");
         
