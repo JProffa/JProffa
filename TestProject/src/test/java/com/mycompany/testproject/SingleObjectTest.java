@@ -20,11 +20,11 @@ import static org.junit.Assert.*;
  *
  * @author oorissan
  */
-public class ObjectTest {
+public class SingleObjectTest {
     
     @BeforeClass
     public static void classSetup() {
-        ClassBlacklist.add(ObjectTest.class);
+        ClassBlacklist.add(SingleObjectTest.class);
 //        Example.main(null);
 //        // Used to initialize the method, creating objects for the first time causes problems with profiler
 //        ObjectExample.createPersons(1);
@@ -38,27 +38,18 @@ public class ObjectTest {
         ProfileData.resetCounters();
     }
     
-     @Test
-    public void testObjectsTen() {
-        ObjectExample.createPersons(10);
-        long totalCost = ProfileData.getTotalCost();
-        ProfileData.printBasicBlocksCost(false);
-        System.out.println("Total cost was " + totalCost);
-        assertEquals(206, totalCost);
-    }
 
     @Test
-    public void testObjectsBehaveDeterministic() {
-        ObjectExample.createPersons(10);
+    public void testSingleObjectBehavesDeterministic() {
+        SingleObjectExample.createPerson();
         long totalCost = ProfileData.getTotalCost();
         ProfileData.printBasicBlocksCost(false);
         System.out.println("Total cost was " + totalCost);
-        assertEquals(206, totalCost);
         ProfileData.resetCounters();
-        ObjectExample.createPersons(10);
-        totalCost = ProfileData.getTotalCost();
+        SingleObjectExample.createPerson();
+        long totalCost2 = ProfileData.getTotalCost();
         ProfileData.printBasicBlocksCost(false);
-        System.out.println("Total cost was " + totalCost);
-        assertEquals(206, totalCost);
+        System.out.println("Total cost was " + totalCost2);
+        assertEquals(totalCost2, totalCost);
     }
 }
