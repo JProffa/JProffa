@@ -53,21 +53,35 @@ public class Agent {
         loadLoggingConf();
         logger.info("AgentArgs: " + args);
 
-        if (!inst.isRetransformClassesSupported()) {
-            throw new Exception("Retransforming classes not allowed.");
+        try {
+            logger.debug("AgentArgs: " + args);
+
+            if (!inst.isRetransformClassesSupported()) {
+                throw new Exception("Retransforming classes not allowed.");
+            }
+
+            Class[] loadedClasses = inst.getAllLoadedClasses();
+
+            ArrayList<Class> modifiableClasses = new ArrayList<Class>(loadedClasses.length);
+            Package profilerPackage = Agent.class.getPackage();
+            for (Class clazz : loadedClasses) {
+                if (clazz == null) {
+                    logger.info("Null class found in inst.getAllLoadedClasses()");
+                    continue;
+                }
+                if (inst.isModifiableClass(clazz) && !profilerPackage.equals(clazz.getPackage())) {
+                    modifiableClasses.add(clazz);
+                } else logger.info("Unmodifiable class: " + clazz.getName());
+            }
+            inst.addTransformer(new ProfilerTransformer(), true);
+            logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
+            inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
+
+        } catch (Exception e) {
+            logger.fatal(e.getMessage(), e);
+        } catch (Error e) {
+            logger.fatal(e.getMessage(), e);
         }
-
-        inst.addTransformer(new ProfilerTransformer(), true);
-        Class[] loadedClasses = inst.getAllLoadedClasses();
-
-        ArrayList<Class> modifiableClasses = new ArrayList<Class>(loadedClasses.length);
-        for (Class clazz : loadedClasses) {
-            if (inst.isModifiableClass(clazz)) {
-                modifiableClasses.add(clazz);
-            } else logger.info("Unmodifiable class: " + clazz.getName());
-        }
-
-        inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
     }
 
     private static void loadLoggingConf() {
