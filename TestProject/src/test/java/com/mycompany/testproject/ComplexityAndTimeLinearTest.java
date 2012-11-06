@@ -31,7 +31,7 @@ public class ComplexityAndTimeLinearTest {
     public static void classSetup() {
         System.out.println("Testing");
         long startTime = System.currentTimeMillis();
-        ComplexityExample.linearLoop(200000000);
+        IterativeComplexityExample.linearLoop(200000000);
         long endTime   = System.currentTimeMillis();
         freshTime = endTime - startTime;
         
@@ -52,21 +52,21 @@ public class ComplexityAndTimeLinearTest {
     public void testLinear() {
         long[] totalCost = new long[5];
         
-        ComplexityExample.linearLoop(100);
+        IterativeComplexityExample.linearLoop(100);
         totalCost[0] = ProfileData.getTotalCost();
         System.out.println("cost 100 " + ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(200);
+        IterativeComplexityExample.linearLoop(200);
         totalCost[1] = ProfileData.getTotalCost();
         System.out.println("cost 200 " +  ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(300);
+        IterativeComplexityExample.linearLoop(300);
         totalCost[2] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(400);
+        IterativeComplexityExample.linearLoop(400);
         totalCost[3] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(500);
+        IterativeComplexityExample.linearLoop(500);
         totalCost[4] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
         assertTrue(totalCost[0]+1100 == totalCost[1]);
@@ -79,19 +79,19 @@ public class ComplexityAndTimeLinearTest {
     public void testLinearLarge() {
         long[] totalCost = new long[5];
         
-        ComplexityExample.linearLoop(10000);
+        IterativeComplexityExample.linearLoop(10000);
         totalCost[0] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(20000);
+        IterativeComplexityExample.linearLoop(20000);
         totalCost[1] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(30000);
+        IterativeComplexityExample.linearLoop(30000);
         totalCost[2] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(40000);
+        IterativeComplexityExample.linearLoop(40000);
         totalCost[3] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(50000);
+        IterativeComplexityExample.linearLoop(50000);
         totalCost[4] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
         assertTrue(totalCost[0]+110000 == totalCost[1]);
@@ -104,19 +104,19 @@ public class ComplexityAndTimeLinearTest {
     public void testLinearHUUGE() {
         long[] totalCost = new long[5];
         
-        ComplexityExample.linearLoop(10000000);
+        IterativeComplexityExample.linearLoop(10000000);
         totalCost[0] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(20000000);
+        IterativeComplexityExample.linearLoop(20000000);
         totalCost[1] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(30000000);
+        IterativeComplexityExample.linearLoop(30000000);
         totalCost[2] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(40000000);
+        IterativeComplexityExample.linearLoop(40000000);
         totalCost[3] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
-        ComplexityExample.linearLoop(50000000);
+        IterativeComplexityExample.linearLoop(50000000);
         totalCost[4] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
         assertTrue(totalCost[0]+110000000 == totalCost[1]);
@@ -134,7 +134,7 @@ public class ComplexityAndTimeLinearTest {
     @Test
     public void testProfilingIsFastEnough() {
         long startTime = System.currentTimeMillis();
-        ComplexityExample.linearLoop(200000000);
+        IterativeComplexityExample.linearLoop(200000000);
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
         
