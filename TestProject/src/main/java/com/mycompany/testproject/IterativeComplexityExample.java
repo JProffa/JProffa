@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author ajmajand
  */
-public class ComplexityExample {
+public class IterativeComplexityExample {
     
     public static void linearLoop(int i) {
         int r = 0;
@@ -26,6 +26,12 @@ public class ComplexityExample {
             for (int k = 0; k < i; k++) {
                 r ++;
             }
+        }
+    }
+    public static void squaredLoop(int i) {
+        int r = 0;
+        for (int j = 0; j < i*i; j++) {
+            r ++;
         }
     }
     

@@ -39,80 +39,124 @@ public class ComplexityExponentialsTest {
     }
     
     @Test
+    public void squaredTest() {
+        long[] totalCost = new long[6];
+        
+        IterativeComplexityExample.squaredLoop(5);
+        System.out.println("cost 5 " + ProfileData.getTotalCost());
+        totalCost[0] = ProfileData.getTotalCost();
+        ProfileData.resetCounters();
+        
+        IterativeComplexityExample.squaredLoop(10);
+        System.out.println("cost 10 " + ProfileData.getTotalCost());
+        totalCost[1] = ProfileData.getTotalCost();
+        ProfileData.resetCounters();
+        
+        IterativeComplexityExample.squaredLoop(20);
+        System.out.println("cost 20 " + ProfileData.getTotalCost());
+        totalCost[2] = ProfileData.getTotalCost();
+        ProfileData.resetCounters();
+        
+        IterativeComplexityExample.squaredLoop(40);
+        System.out.println("cost 40 " + ProfileData.getTotalCost());
+        totalCost[3] = ProfileData.getTotalCost();
+        ProfileData.resetCounters();
+        
+        IterativeComplexityExample.squaredLoop(80);
+        System.out.println("cost 80 " + ProfileData.getTotalCost());
+        totalCost[4] = ProfileData.getTotalCost();
+        ProfileData.resetCounters();
+        
+        IterativeComplexityExample.squaredLoop(160);
+        System.out.println("cost 160 " + ProfileData.getTotalCost());
+        totalCost[5] = ProfileData.getTotalCost();
+        ProfileData.resetCounters();
+        
+        assertTrue(totalCost[0]*4 >= totalCost[1]);
+        assertTrue(totalCost[1]*4 >= totalCost[2]);
+        assertTrue(totalCost[2]*4 >= totalCost[3]);
+        assertTrue(totalCost[3]*4 >= totalCost[4]);
+        assertTrue(totalCost[4]*4 >= totalCost[5]);
+        System.out.println("- - - - -");
+        
+    }
+    
+    @Test
     public void testExponential() {
         long[] totalCost = new long[5];
         
-        ComplexityExample.exponentialLoop(5);
-        ProfileData.getTotalCost();
+        IterativeComplexityExample.exponentialLoop(5);
         System.out.println("cost 5 " + ProfileData.getTotalCost());
         long total5 = ProfileData.getTotalCost();
         ProfileData.resetCounters();
         
         
-        ComplexityExample.exponentialLoop(10);
+        IterativeComplexityExample.exponentialLoop(10);
         totalCost[0] = ProfileData.getTotalCost();
         System.out.println("cost 10 " + ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialLoop(20);
+        IterativeComplexityExample.exponentialLoop(20);
         totalCost[1] = ProfileData.getTotalCost();
         System.out.println("cost 20 " +  ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialLoop(40);
+        IterativeComplexityExample.exponentialLoop(40);
         totalCost[2] = ProfileData.getTotalCost();
         System.out.println("cost 40 " +  ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialLoop(80);
+        IterativeComplexityExample.exponentialLoop(80);
         totalCost[3] = ProfileData.getTotalCost();
         System.out.println("cost 80 " +  ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialLoop(160);
+        IterativeComplexityExample.exponentialLoop(160);
         System.out.println("cost 160 " +  ProfileData.getTotalCost());
         totalCost[4] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
         System.out.println((total5 - 8 - 25)*4);
-        assertTrue((total5 -8 - 25)*4  == (totalCost[0] - 8));
-        assertTrue((totalCost[0] - 8 - 50)*4 == totalCost[1] - 8);
-        assertTrue((totalCost[1] - 8 - 100)*4 == totalCost[2] - 8);
-        assertTrue((totalCost[2] - 8 - 200)*4 == totalCost[3] - 8);
-        assertTrue((totalCost[3] - 8 - 400)*4 == totalCost[4] - 8);
+        assertTrue(totalCost[0]*4 >= totalCost[1]);
+        assertTrue(totalCost[1]*4 >= totalCost[2]);
+        assertTrue(totalCost[2]*4 >= totalCost[3]);
+        assertTrue(totalCost[3]*4 >= totalCost[4]);
+        
+        System.out.println("- - - - -");
     }
     
     @Test
     public void testCoinFlipExponential() {
         long[] totalCost = new long[5];
         
-        ComplexityExample.exponentialCoinFlipLoop(5);
+        IterativeComplexityExample.exponentialCoinFlipLoop(5);
         ProfileData.getTotalCost();
         System.out.println("coin flip cost 5 " + ProfileData.getTotalCost());
         long total5 = ProfileData.getTotalCost();
         ProfileData.resetCounters();
         
-        ComplexityExample.exponentialCoinFlipLoop(10);
+        IterativeComplexityExample.exponentialCoinFlipLoop(10);
         totalCost[0] = ProfileData.getTotalCost();
         System.out.println("coin flip cost 10 " + ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialCoinFlipLoop(20);
+        IterativeComplexityExample.exponentialCoinFlipLoop(20);
         totalCost[1] = ProfileData.getTotalCost();
         System.out.println("coin flip cost 20 " +  ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialCoinFlipLoop(40);
+        IterativeComplexityExample.exponentialCoinFlipLoop(40);
         totalCost[2] = ProfileData.getTotalCost();
         System.out.println("coin flip cost 40 " +  ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialCoinFlipLoop(80);
+        IterativeComplexityExample.exponentialCoinFlipLoop(80);
         totalCost[3] = ProfileData.getTotalCost();
         System.out.println("coin flip cost 80 " +  ProfileData.getTotalCost());
         ProfileData.resetCounters();
-        ComplexityExample.exponentialCoinFlipLoop(160);
+        IterativeComplexityExample.exponentialCoinFlipLoop(160);
         System.out.println("coin flip cost 160 " +  ProfileData.getTotalCost());
         totalCost[4] = ProfileData.getTotalCost();
         ProfileData.resetCounters();
         
         
-        assertTrue((total5 -12 - 25)*4  == (totalCost[0] - 12));
-        assertTrue((totalCost[0] - 12 - 50)*4 == totalCost[1] - 12);
-        assertTrue((totalCost[1] - 12 - 100)*4 == totalCost[2] - 12);
-        assertTrue((totalCost[2] - 12 - 200)*4 == totalCost[3] - 12);
-        assertTrue((totalCost[3] - 12 - 400)*4 == totalCost[4] - 12);
+        assertTrue(totalCost[0]*4 >= totalCost[1]);
+        assertTrue(totalCost[1]*4 >= totalCost[2]);
+        assertTrue(totalCost[2]*4 >= totalCost[3]);
+        assertTrue(totalCost[3]*4 >= totalCost[4]);
+        
+        System.out.println("- - - - -");
     }
 }
