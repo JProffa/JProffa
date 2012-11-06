@@ -9,7 +9,7 @@
 
     <name>Profiler</name>
     <url>http://maven.apache.org</url>
-    
+
     <repositories>
         <repository>
             <id>ow2</id>
@@ -21,10 +21,10 @@
             </snapshots>
         </repository>
     </repositories>
-        
+
     <build>
         <plugins>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -43,7 +43,7 @@
                         </transformer>
                     </transformers>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    
+
                 </configuration>
                 <executions>
                     <execution>
@@ -54,7 +54,7 @@
                     </execution>
                 </executions>
             </plugin>
-      
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -64,29 +64,29 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            
+
         </plugins>
     </build>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-all</artifactId>
             <version>4.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
@@ -94,6 +94,12 @@
             <scope>system</scope>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
-        
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
     </dependencies>
 </project>

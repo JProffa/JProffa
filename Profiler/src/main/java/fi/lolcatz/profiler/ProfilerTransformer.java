@@ -1,15 +1,15 @@
 package fi.lolcatz.profiler;
 
-import static org.objectweb.asm.tree.AbstractInsnNode.*;
+import org.apache.log4j.Logger;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.*;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.*;
-import java.util.logging.Logger;
 
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
+import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
 /**
  * Transformer that inserts counter increment code in the beginning of basic blocks.
@@ -46,7 +46,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 }
                 logger.info("  Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
-                logger.fine(Util.getInsnListString(insns));
+                logger.trace(Util.getInsnListString(insns));
                 
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 1;
@@ -64,7 +64,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
 
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
-            logger.severe(e.getMessage());
+            logger.fatal(e.getMessage(), e);
         }
         return null;
     }
