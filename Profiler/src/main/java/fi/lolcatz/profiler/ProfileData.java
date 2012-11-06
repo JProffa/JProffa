@@ -1,8 +1,9 @@
 package fi.lolcatz.profiler;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Class that holds counter information from profiling. Use this class by first calling addBasicBlock command for each
@@ -180,7 +181,7 @@ public class ProfileData {
 
     public static String getBasicBlockCostsString(boolean showUncalledBlocks) {
         if (callsToBasicBlock == null) {
-            logger.warning("ProfileData hasn't been initialized (no classes loaded).");
+            logger.warn("ProfileData hasn't been initialized (no classes loaded).");
             return "";
         }
         StringBuilder sb = new StringBuilder();

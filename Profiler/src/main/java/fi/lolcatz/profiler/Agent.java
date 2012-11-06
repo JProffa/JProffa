@@ -1,33 +1,30 @@
 package fi.lolcatz.profiler;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import java.io.File;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Agent {
 
     private static Instrumentation inst;
-    private static Logger logger;
-
-    static {
-        RootLogger.initLogger();
-        logger = Logger.getLogger(Agent.class.getName());
-    }
+    private static Logger logger = Logger.getLogger(Agent.class);
+    private static final String log4jConfFilename = "log4j.properties";
 
     /**
      * Method that is called when agent is ran from command line using -javaagent option when launching .jar that you
      * want to profile.
      *
      * @param agentArgs Command line arguments given to agent when called.
-     * @param inst      Instrumentation object that can be used to instrument classses that are given to this agent.
+     * @param inst Instrumentation object that can be used to instrument classses that are given to this agent.
      * @throws IOException
      */
     public static void premain(String agentArgs, Instrumentation inst) throws IOException {
-        setVerbosityLevel(agentArgs);
-        logger.config("AgentArgs: " + agentArgs);
+        loadLoggingConf();
+        logger.info("AgentArgs: " + agentArgs);
 
         Agent.inst = inst;
         printInstrumentationInfo(inst);
@@ -53,16 +50,18 @@ public class Agent {
      * @throws Exception
      */
     public static void agentmain(String args, Instrumentation inst) throws Exception {
+        loadLoggingConf();
+        logger.info("AgentArgs: " + args);
+
         try {
-            setVerbosityLevel(args);
-            logger.config("AgentArgs: " + args);
+            logger.debug("AgentArgs: " + args);
 
             if (!inst.isRetransformClassesSupported()) {
                 throw new Exception("Retransforming classes not allowed.");
             }
-            
+
             Class[] loadedClasses = inst.getAllLoadedClasses();
-            
+
             ArrayList<Class> modifiableClasses = new ArrayList<Class>(loadedClasses.length);
             Package profilerPackage = Agent.class.getPackage();
             for (Class clazz : loadedClasses) {
@@ -72,55 +71,25 @@ public class Agent {
                 }
                 if (inst.isModifiableClass(clazz) && !profilerPackage.equals(clazz.getPackage())) {
                     modifiableClasses.add(clazz);
-                }
-                else logger.info("Unmodifiable class: " + clazz.getName());
+                } else logger.info("Unmodifiable class: " + clazz.getName());
             }
             inst.addTransformer(new ProfilerTransformer(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
             inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
-            
+
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.log(Level.SEVERE, e.getMessage(), e);
-            throw e;
+            logger.fatal(e.getMessage(), e);
         } catch (Error e) {
-            e.printStackTrace();
-            logger.log(Level.SEVERE, e.getMessage(), e);
-            throw e;
+            logger.fatal(e.getMessage(), e);
         }
     }
 
-    private static void setVerbosityLevel(String agentArgs) {
-        if (agentArgs == null) return;
-        int verbosity = 0;
-        for (char c : agentArgs.toCharArray()) {
-            if (c == 'v') verbosity++;
-        }
-        Level loggingLevel;
-        switch (verbosity) {
-            case 0:
-                loggingLevel = Level.WARNING;
-                break;
-            case 1:
-                loggingLevel = Level.INFO;
-                break;
-            case 2:
-                loggingLevel = Level.CONFIG;
-                break;
-            case 3:
-                loggingLevel = Level.FINE;
-                break;
-            case 4:
-                loggingLevel = Level.FINER;
-                break;
-            case 5:
-                loggingLevel = Level.FINEST;
-                break;
-            default:
-                loggingLevel = Level.ALL;
-                break;
-        }
-        RootLogger.setLoggingLevel(loggingLevel);
+    private static void loadLoggingConf() {
+        File f = new File(log4jConfFilename);
+        if (f.exists())
+            PropertyConfigurator.configure(log4jConfFilename);
+        else
+            System.out.println(log4jConfFilename + " not found. Loading default configuration file.");
     }
 
     /**
@@ -129,9 +98,9 @@ public class Agent {
      * @param inst Object to print information from.
      */
     private static void printInstrumentationInfo(Instrumentation inst) {
-        logger.config("isNativeMethodPrefixSupported: " + inst.isNativeMethodPrefixSupported());
-        logger.config("isRedefineClassesSupported: " + inst.isRedefineClassesSupported());
-        logger.config("isRetransformClassesSupported: " + inst.isRetransformClassesSupported());
+        logger.debug("isNativeMethodPrefixSupported: " + inst.isNativeMethodPrefixSupported());
+        logger.debug("isRedefineClassesSupported: " + inst.isRedefineClassesSupported());
+        logger.debug("isRetransformClassesSupported: " + inst.isRetransformClassesSupported());
         // This print quite a lot of information. Use only when needed.
         // System.out.println("AllLoadedClasses: " + Arrays.toString(inst.getAllLoadedClasses()));
         // System.out.println("InitiatedClasses: " +

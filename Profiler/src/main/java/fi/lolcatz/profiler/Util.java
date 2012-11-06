@@ -1,21 +1,20 @@
 package fi.lolcatz.profiler;
 
-import static org.objectweb.asm.tree.AbstractInsnNode.*;
-
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.lang.management.ManagementFactory;
-import java.util.Iterator;
-import java.util.logging.Logger;
-
+import com.sun.tools.attach.VirtualMachine;
+import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
-import com.sun.tools.attach.VirtualMachine;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.lang.management.ManagementFactory;
+import java.util.Iterator;
+
+import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
 public class Util implements Opcodes {
 
@@ -51,7 +50,7 @@ public class Util implements Opcodes {
             DataOutputStream dout = new DataOutputStream(new FileOutputStream(new File(filename)));
             dout.write(bytes);
         } catch (Exception ex) {
-            logger.warning(ex.toString());
+            logger.error("Error writing byte array to file", ex);
         }
     }
 
