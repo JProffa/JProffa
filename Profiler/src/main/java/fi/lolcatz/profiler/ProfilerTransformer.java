@@ -1,15 +1,15 @@
 package fi.lolcatz.profiler;
 
-import static org.objectweb.asm.tree.AbstractInsnNode.*;
+import org.apache.log4j.Logger;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.*;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.*;
-import java.util.logging.Logger;
 
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.*;
+import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
 /**
  * Transformer that inserts counter increment code in the beginning of basic blocks.
@@ -37,18 +37,18 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             }
             logger.info("Class: " + className);
             ClassNode classNode = Util.initClassNode(classfileBuffer);
-            
+
             // Add counter increment codes in the beginning of basic blocks
             for (MethodNode methodNode : (List<MethodNode>) classNode.methods) {
                 boolean isNative = (methodNode.access & ACC_NATIVE) != 0;
-                if (isNative){
+                if (isNative) {
                     logger.info("Native method found: " + methodNode.name);
                     continue;
                 }
                 logger.info("  Method: " + methodNode.name + methodNode.desc);
                 InsnList insns = methodNode.instructions;
-                logger.fine(Util.getInsnListString(insns));
-                
+                logger.trace(Util.getInsnListString(insns));
+
                 // Increase max stack size to allow counter increments
                 methodNode.maxStack += 1;
                 Set<AbstractInsnNode> basicBlockBeginnings = findBasicBlockBeginnings(insns);
@@ -57,19 +57,17 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             }
             byte[] bytecode = Util.generateBytecode(classNode);
 
-             String filename = className.substring(className.lastIndexOf('/') + 1);
-             Util.writeByteArrayToFile(filename + ".class", bytecode);
+            String filename = className.substring(className.lastIndexOf('/') + 1);
+            Util.writeByteArrayToFile(filename + ".class", bytecode);
 
             // Initialize counter arrays
             ProfileData.initialize();
 
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
-            e.printStackTrace();
-            logger.severe(e.getMessage());
+            logger.fatal(e.getMessage(), e);
         } catch (Error e) {
-            e.printStackTrace();
-            logger.severe(e.getMessage());
+            logger.fatal(e.getMessage(), e);
         }
         return null;
     }
@@ -148,7 +146,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
     public Set<AbstractInsnNode> findBasicBlockBeginnings(InsnList insns) {
         Set<AbstractInsnNode> basicBlocksBeginnings = new HashSet<AbstractInsnNode>();
         basicBlocksBeginnings.add(insns.getFirst());
-        for (Iterator<AbstractInsnNode> iter = insns.iterator(); iter.hasNext();) {
+        for (Iterator<AbstractInsnNode> iter = insns.iterator(); iter.hasNext(); ) {
             AbstractInsnNode insn = iter.next();
             int type = insn.getType();
             switch (type) {
