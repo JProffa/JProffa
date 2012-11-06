@@ -13,9 +13,9 @@ public class SingleObjectTest {
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(SingleObjectTest.class);
-//        Example.main(null);
-//        // Used to initialize the method, creating objects for the first time causes problems with profiler
-//        ObjectExample.createPersons(1);
+        Example.main(null);
+        // Used to initialize the method, creating objects for the first time causes problems with profiler
+        ObjectExample.createPersons(1);
         Util.loadAgent();      
         ProfileData.initialize();
     }
