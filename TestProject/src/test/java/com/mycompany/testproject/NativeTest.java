@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.testproject;
 
 import fi.lolcatz.profiler.ClassBlacklist;
@@ -12,14 +8,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- * @author oorissan
- */
 public class NativeTest {
     
     public NativeTest() {
     }
+    
     
     @BeforeClass
     public static void classSetup() {

@@ -25,6 +25,7 @@ public class StringTest {
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
     }
     
+    
     @Before
     public void testSetup() {
         ProfileData.resetCounters();

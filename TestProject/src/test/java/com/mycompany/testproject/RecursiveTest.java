@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.testproject;
 
 import fi.lolcatz.profiler.ClassBlacklist;
@@ -14,32 +10,29 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author oorissan
- */
 public class RecursiveTest {
-    
+
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(RecursiveTest.class);
         Example.main(null);
-        Util.loadAgent();      
-        ProfileData.initialize(); 
+        Util.loadAgent();
+        ProfileData.initialize();
     }
+    
 
     @Before
     public void testSetup() {
         ProfileData.resetCounters();
     }
-    
-     @Test
+
+    @Test
     public void testRecursionCostSix() {
         FunctionExample.recursiveFunction(6);
         long totalCost = ProfileData.getTotalCost();
         assertEquals(105, totalCost);
     }
-    
+
     @Test
     public void testRecursionCostIsDeterministic() {
         FunctionExample.recursiveFunction(6);
@@ -57,8 +50,8 @@ public class RecursiveTest {
         long totalCost = ProfileData.getTotalCost();
         assertTrue("The total cost was: " + totalCost, 170 > totalCost && totalCost > 85);
     }
-    
-     @Test
+
+    @Test
     public void testRecursionCostThreeThousandTwo() {
         FunctionExample.recursiveFunction(3002);
         long totalCost = ProfileData.getTotalCost();

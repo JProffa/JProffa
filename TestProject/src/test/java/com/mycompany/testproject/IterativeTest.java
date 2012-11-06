@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.testproject;
 
 import fi.lolcatz.profiler.ClassBlacklist;
@@ -14,14 +10,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author oorissan
- */
 public class IterativeTest {
     
     public IterativeTest() {
     }
+    
     
     @BeforeClass
     public static void classSetup() {
@@ -29,7 +22,7 @@ public class IterativeTest {
         Example.main(null);
         Util.loadAgent();      
         ProfileData.initialize(); 
-    }
+    } 
     
     @Before
     public void testSetup() {
