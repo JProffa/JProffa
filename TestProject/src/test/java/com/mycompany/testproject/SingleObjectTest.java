@@ -6,11 +6,7 @@ package com.mycompany.testproject;
 
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
-import fi.lolcatz.profiler.RootLogger;
 import fi.lolcatz.profiler.Util;
-import java.util.logging.Level;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,14 +26,12 @@ public class SingleObjectTest {
 //        ObjectExample.createPersons(1);
         Util.loadAgent();      
         ProfileData.initialize();
-        RootLogger.setLoggingLevel(Level.OFF);
     }
 
     @Before
     public void testSetup() {
         ProfileData.resetCounters();
     }
-    
 
     @Test
     public void testSingleObjectBehavesDeterministic() {
