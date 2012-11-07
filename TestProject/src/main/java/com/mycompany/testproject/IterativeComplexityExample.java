@@ -1,15 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.testproject;
 
 import java.util.Random;
 
-/**
- *
- * @author ajmajand
- */
 public class IterativeComplexityExample {
     
     public static void linearLoop(int i) {
@@ -17,6 +9,7 @@ public class IterativeComplexityExample {
         Random ra = new Random();
         for (int j = 0; j < i; j++) {
             r += ra.nextInt(2);
+//          r ++;
         }
     }
     
