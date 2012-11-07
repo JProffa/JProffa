@@ -1,7 +1,5 @@
 package fi.lolcatz.profiler;
 
-import org.objectweb.asm.tree.ClassNode;
-
 public class App {
 
     public static void main(String[] args) {

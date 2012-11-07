@@ -1,20 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package com.mycompany.testproject;
 
-import com.mycompany.testproject.LogarithmicComplexityExample;
-import com.mycompany.testproject.RecursiveComplexitySquaredTest;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
-import fi.lolcatz.profiler.RootLogger;
 import fi.lolcatz.profiler.Util;
-import java.util.logging.Level;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
 import static org.junit.Assert.*;
 
 /**
@@ -31,7 +21,6 @@ public class LogarithmicComplexityTest {
         ClassBlacklist.add(LogarithmicComplexityTest.class);
         Util.loadAgent();      
         ProfileData.initialize();
-        RootLogger.setLoggingLevel(Level.OFF);
     }
 
     @Before

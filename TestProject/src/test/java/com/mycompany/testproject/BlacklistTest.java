@@ -3,11 +3,13 @@ package com.mycompany.testproject;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 

@@ -7,7 +7,7 @@ import org.objectweb.asm.tree.InsnNode;
 
 import java.util.LinkedList;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ProfilerTransformerTest implements Opcodes {
 

@@ -4,8 +4,6 @@
  */
 package com.mycompany.testproject;
 
-import java.util.Random;
-
 /**
  *
  * @author ajmajand

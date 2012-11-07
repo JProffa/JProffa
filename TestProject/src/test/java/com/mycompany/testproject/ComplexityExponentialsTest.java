@@ -2,14 +2,12 @@ package com.mycompany.testproject;
 
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ProfileData;
-import fi.lolcatz.profiler.RootLogger;
 import fi.lolcatz.profiler.Util;
-import java.util.logging.Level;
-import org.junit.After;
-import org.junit.AfterClass;
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class ComplexityExponentialsTest {
@@ -22,7 +20,7 @@ public class ComplexityExponentialsTest {
         ClassBlacklist.add(ComplexityExponentialsTest.class);
         Util.loadAgent();
         ProfileData.initialize();
-        RootLogger.setLoggingLevel(Level.OFF);
+        Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
     }
 
     @Before

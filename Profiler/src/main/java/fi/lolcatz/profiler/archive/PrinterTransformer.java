@@ -1,10 +1,10 @@
 package fi.lolcatz.profiler.archive;
 
+import org.objectweb.asm.ClassReader;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
-
-import org.objectweb.asm.ClassReader;
 
 /**
  * ClassFileTransormer that visits classes using ClassPrinter.
