@@ -1,10 +1,10 @@
 package fi.lolcatz.profiler.archive;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.analysis.Frame;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A custom made class to represent Frame objects.
