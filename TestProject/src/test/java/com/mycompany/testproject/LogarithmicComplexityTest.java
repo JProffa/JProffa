@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package com.mycompany.testproject;
 
 import com.mycompany.testproject.LogarithmicComplexityExample;
 import com.mycompany.testproject.RecursiveComplexitySquaredTest;
@@ -17,10 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author ajmajand
- */
 public class LogarithmicComplexityTest {
     
     public LogarithmicComplexityTest() {
@@ -50,11 +43,6 @@ public class LogarithmicComplexityTest {
     @After
     public void tearDown() {
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
     
     @Test
     public void LogarithmicTest() {

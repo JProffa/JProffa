@@ -29,8 +29,8 @@ public class ComplexityExponentialsTest {
     public void testSetup() {
         ProfileData.resetCounters();
     }
-    
 
+    
     @Test
     public void squaredTest() {
         long[] totalCost = new long[6];
