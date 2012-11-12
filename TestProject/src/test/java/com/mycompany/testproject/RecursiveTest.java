@@ -1,7 +1,7 @@
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -28,32 +28,32 @@ public class RecursiveTest {
     @Test
     public void testRecursionCostSix() {
         FunctionExample.recursiveFunction(6);
-        long totalCost = ProfileData.getTotalCost();
+        long totalCost = Util.getTotalCost();
         assertEquals(105, totalCost);
     }
 
     @Test
     public void testRecursionCostIsDeterministic() {
         FunctionExample.recursiveFunction(6);
-        long totalCost = ProfileData.getTotalCost();
+        long totalCost = Util.getTotalCost();
         assertEquals(105, totalCost);
         ProfileData.resetCounters();
         FunctionExample.recursiveFunction(6);
-        totalCost = ProfileData.getTotalCost();
+        totalCost = Util.getTotalCost();
         assertEquals(105, totalCost);
     }
 
     @Test
     public void testRecursionCostThree() {
         FunctionExample.recursiveFunction(3);
-        long totalCost = ProfileData.getTotalCost();
+        long totalCost = Util.getTotalCost();
         assertTrue("The total cost was: " + totalCost, 170 > totalCost && totalCost > 85);
     }
 
     @Test
     public void testRecursionCostThreeThousandTwo() {
         FunctionExample.recursiveFunction(3002);
-        long totalCost = ProfileData.getTotalCost();
+        long totalCost = Util.getTotalCost();
         assertTrue("The total cost was: " + totalCost, 700 > totalCost && totalCost > 500);
     }
 }
