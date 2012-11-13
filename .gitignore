@@ -13,4 +13,5 @@ hs_err*.log
 .settings/
 /Testing/nbproject/private/
 /Example/*
+.DS_Store
 /ProfileData/nbproject/private/
