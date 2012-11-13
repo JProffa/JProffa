@@ -9,6 +9,7 @@ import org.objectweb.asm.tree.*;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+import java.util.LinkedList;
 import java.util.List;
 
 public class NativeTransformer implements ClassFileTransformer, Opcodes {
@@ -28,32 +29,50 @@ public class NativeTransformer implements ClassFileTransformer, Opcodes {
             Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer) throws IllegalClassFormatException {
-        this.className = className;
-        logger.info("Class " + className);
-        ClassNode cn = Util.initClassNode(classfileBuffer);
+        try {
+            this.className = className;
+            logger.info("Class " + className);
+            ClassNode cn = Util.initClassNode(classfileBuffer);
 
-        for (MethodNode mn : (List<MethodNode>) cn.methods) {
-            logger.info("  Method " + mn.name);
-            if ((mn.access & ACC_NATIVE) != 0) {
-                logger.warn("Method " + mn.name + " is native!");
-                mn.access -= ACC_NATIVE;
-                int index = ProfileData.addBasicBlock(100, className + "." + prefix + mn.name);
+            for (MethodNode mn : (List<MethodNode>) cn.methods) {
+                logger.info("  Method " + mn.name);
+                if ((mn.access & ACC_NATIVE) != 0) {
+                    if (!mn.desc.equals("()V")) {
+                        logger.warn("    Native method with this desc isn't supported yet: " + mn.desc);
+                        continue;
+                    }
+                    logger.info("    Original InsnList: " + Util.getInsnListString(mn.instructions));
+                    logger.info("    Wrappable native method found!");
+                    logger.info("Node: " + mn.toString() + " Desc: " + mn.desc + " sign: " + mn.signature + " exep: " +
+                            mn.exceptions + " acc: " + mn.access + " ins: " + mn.instructions + " attrs: " + mn.attrs +
+                    " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
+                    mn.access -= ACC_NATIVE;
 
-                mn.instructions = createCounterIncrementInsnList(index);
-                mn.instructions.add(callWrappedNative(mn));
-                mn.instructions.add(new InsnNode(RETURN));
-                logger.trace(Util.getInsnListString(mn.instructions));
+                    mn.maxStack = 4;
+                    mn.maxLocals = 4;
+                    int index = ProfileData.addBasicBlock(100, className + "." + prefix + mn.name);
+                    mn.instructions.add(createCounterIncrementInsnList(index));
+                    mn.instructions.add(callWrappedNative(mn));
+                    mn.instructions.add(new InsnNode(RETURN));
+                    logger.trace(Util.getInsnListString(mn.instructions));
+                }
             }
-        }
 
-        ProfileData.initialize();
-        return Util.generateBytecode(cn);
+            byte[] newBytecode = Util.generateBytecode(cn);
+            String filename = className.substring(className.lastIndexOf('/') + 1);
+            Util.writeByteArrayToFile(filename + ".class", newBytecode);
+            return newBytecode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private InsnList callWrappedNative(MethodNode mn) {
         InsnList insns = new InsnList();
         int invokeOpcode;
         if ((mn.access & ACC_STATIC) != 0) invokeOpcode = INVOKESTATIC;
+        else if ((mn.access & ACC_PRIVATE) != 0) invokeOpcode = INVOKESPECIAL;
         else invokeOpcode = INVOKEVIRTUAL;
         insns.add(new MethodInsnNode(invokeOpcode, className, prefix + mn.name, mn.desc));
         return insns;
@@ -67,7 +86,7 @@ public class NativeTransformer implements ClassFileTransformer, Opcodes {
     private InsnList createCounterIncrementInsnList(int basicBlockIndex) {
         InsnList counterIncrementInsnList = new InsnList();
         counterIncrementInsnList.add(intPushInsn(basicBlockIndex));
-        counterIncrementInsnList.add(new MethodInsnNode(INVOKESTATIC, "fi/lolcatz/profiler/ProfileData",
+        counterIncrementInsnList.add(new MethodInsnNode(INVOKESTATIC, "fi/lolcatz/profiledata/ProfileData",
                 "incrementCallsToBasicBlock", "(I)V"));
         return counterIncrementInsnList;
     }
