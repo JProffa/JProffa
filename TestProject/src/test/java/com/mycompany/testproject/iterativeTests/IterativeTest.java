@@ -40,7 +40,7 @@ public class IterativeTest {
     @Test
     public void testIterativeCostIsDeterministic() {
         
-        impl.setClassName("IterativeExample");
+        impl.setClassName("com.mycompany.testproject.iteratives.IterativeExample");
         impl.setMethodName("iterativeFunction");
         impl.run(impl.getInput(5));
         
