@@ -14,10 +14,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
+
 
 public class Util implements Opcodes {
 
@@ -762,5 +767,102 @@ public class Util implements Opcodes {
             sb.append(System.getProperty("line.separator"));
         }
         return sb.toString();
+    }
+    
+    /**
+     * Prints sorted list of classes with most calls.
+     */
+    public static void printSortedClasses() {
+        printSortedClasses(null);
+    }
+    
+    /**
+     * Prints sorted list of classes with most calls.
+     * @param classBlacklist List of classnames to blacklist.
+     */
+    public static void printSortedClasses(List<String> classBlacklist) {
+        printSortedStuff(classBlacklist, true);
+    }
+    
+    /**
+     * Prints sorted list of methods with most calls.
+     */
+    public static void printSortedMethods() {
+        printSortedMethods(null);
+    }
+    
+    /**
+     * Prints sorted list of methods with most calls.
+     * @param classBlacklist List of classnames to blacklist.
+     */
+    public static void printSortedMethods(List<String> classBlacklist) {
+        printSortedStuff(classBlacklist, false);
+    }
+    
+    private static void printSortedStuff(List<String> classBlacklist, boolean stripMethods) {
+        long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
+        
+        if (callsToBasicBlock == null) {
+            System.out.println("ProfileData hasn't been initialized (no classes loaded).");
+            return;
+        }
+        
+        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        long[] basicBlockCost = ProfileData.getBasicBlockCost();
+        
+        if (classBlacklist == null) classBlacklist = new ArrayList<String>();
+        classBlacklist.addAll(ClassBlacklist.getBlacklist());
+        
+        Map<String, Long> classCostMap = new HashMap<String, Long>();
+        outer:
+        for (int i = 0; i < callsToBasicBlock.length; i++) {
+            if (callsToBasicBlock[i] == 0) continue;
+            
+            String desc = basicBlockDesc.get(i);
+            if (stripMethods) {
+                int indexOf = Util.multicharIndexOf(desc, '$', '.');
+                if (indexOf > 0) desc = desc.substring(0, indexOf);
+            }
+            
+            for (String blacklistedClass : classBlacklist) {
+                if (desc.startsWith(blacklistedClass)) continue outer;
+            }
+            long val = classCostMap.containsKey(desc) ? classCostMap.get(desc) : 0;
+            val += callsToBasicBlock[i] * basicBlockCost[i];
+            classCostMap.put(desc, val);
+        }
+        Map<String, Long> sortedMap = new TreeMap<String, Long>(new ValueComparator(classCostMap));
+        sortedMap.putAll(classCostMap);
+        for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
+            System.out.printf("Total: %9d Desc: %s", entry.getValue(), entry.getKey());
+            System.out.println();
+        }
+    }
+
+    private static int multicharIndexOf(String string, char... chars) {
+        for (int i = 0; i < string.length(); i++) {
+            char charAt = string.charAt(i);
+            for (char c : chars) {
+                if (charAt == c) return i;
+            }
+        }
+        return -1;
+        
+    }
+}
+class ValueComparator implements Comparator<String> {
+
+    Map<String, Long> base;
+    public ValueComparator(Map<String, Long> base) {
+        this.base = base;
+    }
+
+    // Note: this comparator imposes orderings that are inconsistent with equals.    
+    public int compare(String a, String b) {
+        if (base.get(a) >= base.get(b)) {
+            return -1;
+        } else {
+            return 1;
+        } // returning 0 would merge keys
     }
 }
