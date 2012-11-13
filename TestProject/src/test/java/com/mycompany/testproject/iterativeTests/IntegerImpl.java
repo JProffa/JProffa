@@ -2,20 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IntegerImpl implements Benchmarkable<Integer>{
+public class IntegerImpl implements Benchmarkable<Integer> {
+
     private String className;
     private String methodName;
-    
+
     @Override
     public Integer getInput(int size) {
         return new Integer(size);
@@ -51,11 +52,14 @@ public class IntegerImpl implements Benchmarkable<Integer>{
             Class<?> c = Class.forName(className);
             Method m = c.getDeclaredMethod(methodName, Integer.TYPE);
             m.setAccessible(true);
-            m.invoke(null, input.intValue());
+            if (Modifier.isStatic(m.getModifiers())) {
+                m.invoke(null, input.intValue());
+            } else {
+                m.invoke(input.intValue(), null);
+            }
         } catch (Exception x) {
-	    Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
-	}  
-        return Util.getTotalCost();       
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+        }
+        return Util.getTotalCost();
     }
-
 }
