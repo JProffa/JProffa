@@ -3,9 +3,11 @@
  * and open the template in the editor.
  */
 
-package fi.lolcatz.profiler;
+package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiledata.ProfileData;
+import fi.lolcatz.profiler.Benchmarkable;
+import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
