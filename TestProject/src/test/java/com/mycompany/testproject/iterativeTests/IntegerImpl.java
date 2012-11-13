@@ -44,6 +44,13 @@ public class IntegerImpl implements Benchmarkable<Integer> {
     public String getMethodName() {
         return methodName;
     }
+    public long getMarginOfError(long cost) {
+        long len = Long.toString(cost).length();
+        len = (len/3)*(len/3) + (len%3);
+        if(len < 2) return 10;
+        
+        return len*50;
+    }
 
     @Override
     public long run(Integer input) {
