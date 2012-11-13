@@ -69,4 +69,36 @@ public class IntegerImpl implements Benchmarkable<Integer> {
         }
         return Util.getTotalCost();
     }
+    
+    public long run(int input, int input2) {
+    ProfileData.resetCounters();
+        try {
+            Class<?> c = Class.forName(className);
+            Method m = c.getMethod(methodName, Integer.TYPE, Integer.TYPE);
+            if (Modifier.isStatic(m.getModifiers())) {
+                m.invoke(null, input, input2);
+            } else {
+                m.invoke(input, null);
+            }
+        } catch (Exception x) {
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+        }
+        return Util.getTotalCost();
+    }
+    
+    public long run(int input, int input2, int input3) {
+    ProfileData.resetCounters();
+        try {
+            Class<?> c = Class.forName(className);
+            Method m = c.getMethod(methodName, Integer.TYPE, Integer.TYPE, Integer.TYPE);
+            if (Modifier.isStatic(m.getModifiers())) {
+                m.invoke(null, input, input2, input3);
+            } else {
+                m.invoke(input, null);
+            }
+        } catch (Exception x) {
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+        }
+        return Util.getTotalCost();
+    }
 }

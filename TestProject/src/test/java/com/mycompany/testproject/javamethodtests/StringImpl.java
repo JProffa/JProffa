@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.mycompany.testproject;
+package com.mycompany.testproject.javamethodtests;
 
 import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import com.mycompany.testproject.iterativeTests.IntegerImpl;

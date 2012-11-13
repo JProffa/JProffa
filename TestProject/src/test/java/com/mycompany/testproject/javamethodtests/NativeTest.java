@@ -1,5 +1,7 @@
-package com.mycompany.testproject;
+package com.mycompany.testproject.javamethodtests;
 
+import com.mycompany.testproject.Example;
+import com.mycompany.testproject.NativeExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;

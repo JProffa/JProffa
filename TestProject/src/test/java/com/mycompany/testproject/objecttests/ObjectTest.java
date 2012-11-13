@@ -1,59 +1,52 @@
-package com.mycompany.testproject.iterativeTests;
+package com.mycompany.testproject.objecttests;
 
-import com.mycompany.testproject.iteratives.IterativeComplexityExample;
+import com.mycompany.testproject.Example;
+import com.mycompany.testproject.iterativeTests.IntegerImpl;
+import com.mycompany.testproject.objects.ObjectExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class LogarithmicComplexityTest {
+public class ObjectTest {
     
-    LongImpl impl;
-    
-    public LogarithmicComplexityTest() {
-    }
+    IntegerImpl impl;
     
     @BeforeClass
     public static void classSetup() {
-        ClassBlacklist.add(LogarithmicComplexityTest.class);
+        ClassBlacklist.add(ObjectTest.class);
+        Example.main(null);
+        // Used to initialize the method, creating objects for the first time causes problems with profiler
+        ObjectExample.createPersons(1);
         Util.loadAgent();      
         ProfileData.initialize();
     }
 
     @Before
     public void testSetup() {
-        impl = new LongImpl();
-        impl.setClassName("com.mycompany.testproject.iteratives.IterativeComplexityExample");
+        impl = new IntegerImpl();
+        impl.setClassName("com.mycompany.testproject.objects.ObjectExample");
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-        
-    }
-    
-    @After
-    public void tearDown() {
-    }
     
     @Test
-    public void testLogarithmic() {
+    public void testObjectsLinear() {
         
-        impl.setMethodName("logarithmicFunction");
-        impl.run(impl.getInput(1000L));
+         impl.setMethodName("createPersons");
+         
+         impl.run(impl.getInput(1000));
         
         long[] totalCost = new long[5];
-        long syote = 1000L;
+        int syote = 1000;
         
         totalCost[0] = impl.run(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
-            syote = (long) (syote * Math.pow(4, i));
+            syote = 2*syote;
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
         
@@ -61,22 +54,23 @@ public class LogarithmicComplexityTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
-        
+         
     }
-    
+     
     @Test
-    public void testLogarithmicLarge() {
+    public void testObjectsLinearLarge() {
         
-        impl.setMethodName("logarithmicFunction");
-        impl.run(impl.getInput(1000L));
+         impl.setMethodName("createPersons");
+         
+         impl.run(impl.getInput(1000));
         
         long[] totalCost = new long[5];
-        long syote = 1000L;
+        int syote = 100000;
         
         totalCost[0] = impl.run(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
-            syote = (long) (syote * Math.pow(4, i));
+            syote = 2*syote;
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
         
@@ -84,22 +78,23 @@ public class LogarithmicComplexityTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
-        
+         
     }
-    
+      
     @Test
-    public void testLogarithmicHuge() {
-            
-        impl.setMethodName("logarithmicFunction");
-        impl.run(impl.getInput(100000000000L));
+    public void testObjectsLinearHuge() {
+        
+         impl.setMethodName("createPersons");
+         
+         impl.run(impl.getInput(1000));
         
         long[] totalCost = new long[5];
-        long syote = 100000000000L;
+        int syote = 10000000;
         
         totalCost[0] = impl.run(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
-            syote = (long) (syote * Math.pow(4, i));
+            syote = 2*syote;
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
         
@@ -107,7 +102,19 @@ public class LogarithmicComplexityTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+         
+    }
+
+    @Test
+    public void testObjectsBehaveDeterministic() {
+        impl.setMethodName("createPersons");
+        
+        impl.run(impl.getInput(500));
+        
+        long first = impl.run(500);
+        long second = impl.run(500);
+        System.out.println("Margin of error: " + impl.getMarginOfError(first));
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-impl.getMarginOfError(first) && first < second+impl.getMarginOfError(first));
         
     }
-    
 }
