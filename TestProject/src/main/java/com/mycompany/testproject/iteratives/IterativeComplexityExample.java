@@ -57,7 +57,10 @@ public class IterativeComplexityExample {
         }
     }
     
-    
+    /**
+     * Cubic function used to test assertCubic functions
+     * @param i 
+     */
     public static void cubicFunction(int i) {
         int r = 0;
         for (int j = 0; j < i*i*i; j++) {
@@ -65,6 +68,10 @@ public class IterativeComplexityExample {
         }
     }
     
+    /**
+     * Logarithmic function used to test assertLogarithmic function.
+     * @param n 
+     */
     public static void logarithmicFunction(long n) {
         while (n >= 1) {
             n = n/2;

@@ -2,25 +2,27 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package fi.lolcatz.profiler;
+package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiledata.ProfileData;
+import fi.lolcatz.profiler.Benchmarkable;
+import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IntegerImpl implements Benchmarkable<Integer>{
-    private String className;
+public class LongImpl implements Benchmarkable<Long> {
+
     private String methodName;
-    
+    private String className;
+
     @Override
-    public Integer getInput(int size) {
-        return new Integer(size);
+    public Long getInput(int size) {
+        return new Long(size);
     }
 
     @Override
-    public int getMaxTime(Integer input, int size) {
+    public int getMaxTime(Long input, int size) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -43,16 +45,15 @@ public class IntegerImpl implements Benchmarkable<Integer>{
     }
 
     @Override
-    public long run(Integer input) {
+    public long run(Long input) {
         ProfileData.resetCounters();
         try {
             Class<?> c = Class.forName(className);
-            Method m = c.getMethod(methodName, Integer.class);
-            m.invoke(input, null);     
+            Method m = c.getMethod(methodName, Long.class);
+            m.invoke(input, null);
         } catch (Exception x) {
-	    Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
-	}  
-        return Util.getTotalCost();       
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+        }
+        return Util.getTotalCost();
     }
-
 }

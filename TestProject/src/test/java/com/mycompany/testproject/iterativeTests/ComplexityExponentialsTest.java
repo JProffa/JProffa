@@ -1,4 +1,4 @@
-package com.mycompany.testproject;
+package com.mycompany.testproject.iterativeTests;
 
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
