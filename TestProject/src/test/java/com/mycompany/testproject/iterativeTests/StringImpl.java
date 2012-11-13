@@ -75,11 +75,4 @@ public class StringImpl implements Benchmarkable<String> {
         }
         return Util.getTotalCost();
     }
-    
-    public static void main(String[] args) {
-        StringImpl impl = new StringImpl();
-        
-        System.out.println(impl.getInput(5));
-    }
-
 }
