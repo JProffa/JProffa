@@ -10,6 +10,7 @@ import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +71,44 @@ public class StringImpl implements Benchmarkable<String> {
         try {
             Class<?> c = Class.forName(className);
             Method m = c.getMethod(methodName, String.class);
-            m.invoke(input, null);
+            if (Modifier.isStatic(m.getModifiers())) {
+                m.invoke(null, input);
+            } else {
+                m.invoke(input, null);
+            }
+        } catch (Exception x) {
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+        }
+        return Util.getTotalCost();
+    }
+    
+    
+    public long run(String input, String input2) {
+    ProfileData.resetCounters();
+        try {
+            Class<?> c = Class.forName(className);
+            Method m = c.getMethod(methodName, String.class, String.class);
+            if (Modifier.isStatic(m.getModifiers())) {
+                m.invoke(null, input, input2);
+            } else {
+                m.invoke(input, null);
+            }
+        } catch (Exception x) {
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+        }
+        return Util.getTotalCost();
+    }
+    
+    public long run(String input, String input2, String input3) {
+    ProfileData.resetCounters();
+        try {
+            Class<?> c = Class.forName(className);
+            Method m = c.getMethod(methodName, String.class, String.class, String.class);
+            if (Modifier.isStatic(m.getModifiers())) {
+                m.invoke(null, input, input2, input3);
+            } else {
+                m.invoke(input, null);
+            }
         } catch (Exception x) {
             Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
         }
