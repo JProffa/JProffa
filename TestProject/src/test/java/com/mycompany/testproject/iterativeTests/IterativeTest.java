@@ -32,13 +32,55 @@ public class IterativeTest {
         impl = new IntegerImpl();
     }
     
+    
+    /**
+     * Test to determine if the function is deterministic. Allows for 25 bytecode
+     * offset.
+     */
     @Test
     public void testIterativeCostIsDeterministic() {
+        
         impl.setClassName("IterativeExample");
         impl.setMethodName("iterativeFunction");
+        impl.run(impl.getInput(5));
+        
         long first = impl.run(impl.getInput(5));
         long second = impl.run(impl.getInput(5));
-        assertEquals(second, first);
+        System.out.println("fist: " + first);
+        System.out.println("sist: " + second);
+        
+        assertTrue("Suorituskerrat eivät olleet 25 sisällä toisistaan", first > second-25 && first < second+25);
+        
     }
+    
+//    @Test
+//    public void testForLoops() {
+//        impl.setClassName("IterativeExample");
+//        impl.setMethodName("factorialForFunction");
+//        long first = impl.run(impl.getInput(5));
+//        long second = impl.run(impl.getInput(5));
+//        assertEquals(second, first);
+//    }
+//    
+//    @Test
+//    public void testWhileLoops() {
+//        impl.setClassName("IterativeExample");
+//        impl.setMethodName("factorialWhileFunction");
+//        long first = impl.run(impl.getInput(5));
+//        long second = impl.run(impl.getInput(5));
+//        assertEquals(second, first);
+//    }
+//    
+//    @Test
+//    public void testForEachLoops() {
+//        impl.setClassName("IterativeExample");
+//        impl.setMethodName("factorialForEachFunction");
+//        long first = impl.run(impl.getInput(5));
+//        long second = impl.run(impl.getInput(5));
+//        assertEquals(second, first);
+//    }
+    
+    
+    
 
 }
