@@ -1,4 +1,4 @@
-package com.mycompany.testproject;
+package com.mycompany.testproject.objects;
 
 public class Person {
     

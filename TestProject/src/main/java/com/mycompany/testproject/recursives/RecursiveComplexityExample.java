@@ -1,4 +1,4 @@
-package com.mycompany.testproject;
+package com.mycompany.testproject.recursives;
 
 public class RecursiveComplexityExample {
     

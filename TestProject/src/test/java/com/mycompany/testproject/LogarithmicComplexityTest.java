@@ -1,7 +1,8 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.iteratives.IterativeComplexityExample;
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.*;
 
@@ -40,24 +41,24 @@ public class LogarithmicComplexityTest {
     public void LogarithmicTest() {
         long[] totalCost = new long[5];
         
-        LogarithmicComplexityExample.logaloga(100);
-        totalCost[0] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100);
+        totalCost[0] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100*4);
-        totalCost[1] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100*4);
+        totalCost[1] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100*4*4);
-        totalCost[2] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100*4*4);
+        totalCost[2] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100*4*4*4);
-        totalCost[3] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100*4*4*4);
+        totalCost[3] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100*4*4*4*4);
-        totalCost[4] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100*4*4*4*4);
+        totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
         
         for (long l : totalCost) {
@@ -75,24 +76,24 @@ public class LogarithmicComplexityTest {
     public void LogarithmicHugeTest() {
         long[] totalCost = new long[5];
         
-        LogarithmicComplexityExample.logaloga(100000000000L);
-        totalCost[0] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100000000000L);
+        totalCost[0] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100000000000L*4);
-        totalCost[1] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100000000000L*4);
+        totalCost[1] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100000000000L*4*4);
-        totalCost[2] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100000000000L*4*4);
+        totalCost[2] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100000000000L*4*4*4);
-        totalCost[3] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100000000000L*4*4*4);
+        totalCost[3] = Util.getTotalCost();
         ProfileData.resetCounters();
         
-        LogarithmicComplexityExample.logaloga(100000000000L*4*4*4*4);
-        totalCost[4] = ProfileData.getTotalCost();
+        IterativeComplexityExample.logarithmicFunction(100000000000L*4*4*4*4);
+        totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
         
         for (long l : totalCost) {

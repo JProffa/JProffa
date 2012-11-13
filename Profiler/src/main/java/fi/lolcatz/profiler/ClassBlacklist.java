@@ -17,6 +17,7 @@ public class ClassBlacklist {
         // Add classes blacklisted by default
         
         classBlacklist.add("fi/lolcatz/profiler/");
+        classBlacklist.add("fi/lolcatz/profiledata/");
         
         // ASM
         classBlacklist.add("org/objectweb/asm/");
@@ -41,7 +42,8 @@ public class ClassBlacklist {
         classBlacklist.add("org/jmock/");
         
         
-        classBlacklist.add("java/");
+        // classBlacklist.add("java/");
+        classBlacklist.add("java/lang/Thread");
         classBlacklist.add("sun/");
         classBlacklist.add("com/sun/");
         
