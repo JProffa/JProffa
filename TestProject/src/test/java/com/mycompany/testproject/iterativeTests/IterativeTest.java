@@ -30,6 +30,7 @@ public class IterativeTest {
     @Before
     public void testSetup() {
         impl = new IntegerImpl();
+        impl.setClassName("com.mycompany.testproject.iteratives.IterativeExample");
     }
     
     
@@ -38,47 +39,57 @@ public class IterativeTest {
      * offset.
      */
     @Test
-    public void testIterativeCostIsDeterministic() {
+    public void testIterativeDeterministic() {
         
-        impl.setClassName("com.mycompany.testproject.iteratives.IterativeExample");
         impl.setMethodName("iterativeFunction");
-        impl.run(impl.getInput(5));
         
-        long first = impl.run(5);
-        long second = impl.run(5);
-        System.out.println("fist: " + first);
-        System.out.println("sist: " + second);
+        impl.run(impl.getInput(500));
         
-        assertTrue("Suorituskerrat eivät olleet 25 sisällä toisistaan", first > second-25 && first < second+25);
+        long first = impl.run(500);
+        long second = impl.run(500);
+        
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
         
     }
     
-//    @Test
-//    public void testForLoops() {
-//        impl.setClassName("IterativeExample");
-//        impl.setMethodName("factorialForFunction");
-//        long first = impl.run(impl.getInput(5));
-//        long second = impl.run(impl.getInput(5));
-//        assertEquals(second, first);
-//    }
-//    
-//    @Test
-//    public void testWhileLoops() {
-//        impl.setClassName("IterativeExample");
-//        impl.setMethodName("factorialWhileFunction");
-//        long first = impl.run(impl.getInput(5));
-//        long second = impl.run(impl.getInput(5));
-//        assertEquals(second, first);
-//    }
-//    
-//    @Test
-//    public void testForEachLoops() {
-//        impl.setClassName("IterativeExample");
-//        impl.setMethodName("factorialForEachFunction");
-//        long first = impl.run(impl.getInput(5));
-//        long second = impl.run(impl.getInput(5));
-//        assertEquals(second, first);
-//    }
+    @Test
+    public void testForLoopsDeterministic() {
+        
+        impl.setMethodName("factorialForFunction");
+        
+        impl.run(impl.getInput(500));
+        
+        long first = impl.run(impl.getInput(500));
+        long second = impl.run(impl.getInput(500));
+        
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
+    }
+    
+    @Test
+    public void testWhileLoopsDeterministic() {
+        
+        impl.setMethodName("factorialWhileFunction");
+        
+        impl.run(impl.getInput(500));
+        
+        long first = impl.run(impl.getInput(500));
+        long second = impl.run(impl.getInput(500));
+        
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
+    }
+    
+    @Test
+    public void testForEachLoopsDeterministic() {
+        
+        impl.setMethodName("factorialForEachFunction");
+        
+        impl.run(impl.getInput(500));
+        
+        long first = impl.run(impl.getInput(500));
+        long second = impl.run(impl.getInput(500));
+        
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
+    }
     
     
     

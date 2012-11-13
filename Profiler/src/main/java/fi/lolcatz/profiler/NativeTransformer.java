@@ -1,5 +1,7 @@
 package fi.lolcatz.profiler;
 
+import fi.lolcatz.profiledata.ProfileData;
+
 import org.apache.log4j.Logger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
