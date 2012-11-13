@@ -1,5 +1,7 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.objects.SingleObjectExample;
+import com.mycompany.testproject.objects.ObjectExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;

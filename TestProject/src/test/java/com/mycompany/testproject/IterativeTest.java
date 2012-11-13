@@ -1,5 +1,6 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.iteratives.IterativeExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
@@ -30,32 +31,32 @@ public class IterativeTest {
     
     @Test
     public void testIterativeCostFive() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         long totalCost = Util.getTotalCost();
         assertEquals(66, totalCost);
     }
     
     @Test
     public void testIterativeCostIsDeterministic() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         long totalCost = Util.getTotalCost();
         assertEquals(66, totalCost);
         ProfileData.resetCounters();
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         totalCost = Util.getTotalCost();
         assertEquals(66, totalCost);
     }
     
     @Test
     public void testIterativeHundred() {
-        FunctionExample.iterativeFunction(100);
+        IterativeExample.iterativeFunction(100);
         long totalCost = Util.getTotalCost();
         assertTrue("The total cost was: " + totalCost, 400 > totalCost && totalCost > 300);
     }
 
     @Test
     public void testIterativeThreeThousandOne() {
-        FunctionExample.iterativeFunction(3001);
+        IterativeExample.iterativeFunction(3001);
         long totalCost = Util.getTotalCost();
         assertTrue("The total cost was: " + totalCost, 600 > totalCost && totalCost > 300);
     }
@@ -69,7 +70,7 @@ public class IterativeTest {
 
     @Test
     public void testFactorialTwoThousand() {
-        FactorialExample.factorialInt(2000);
+        IterativeExample.factorialForFunction(2000);
         long totalCost = Util.getTotalCost();
         assertTrue("The total cost was: " + totalCost, 16100 > totalCost && totalCost > 15000);
     }

@@ -1,5 +1,6 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.iteratives.IterativeExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
@@ -32,7 +33,7 @@ public class BlacklistTest {
     
     @Test
     public void testProfileDataPackageBlacklist() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
         blacklist.add("com/mycompany/testproject/");
         long totalCost = Util.getTotalCost(blacklist);
@@ -41,7 +42,7 @@ public class BlacklistTest {
     
     @Test
     public void testProfileDataClassBlacklist() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
         blacklist.add("com/mycompany/testproject/FunctionExample");
         long totalCost = Util.getTotalCost(blacklist);
@@ -50,7 +51,7 @@ public class BlacklistTest {
     
     @Test
     public void testProfileDataMethodBlacklist() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
         blacklist.add("com/mycompany/testproject/FunctionExample.iterativeFunction");
         long totalCost = Util.getTotalCost(blacklist);

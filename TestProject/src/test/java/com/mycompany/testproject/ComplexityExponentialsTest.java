@@ -1,5 +1,6 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
@@ -33,32 +34,32 @@ public class ComplexityExponentialsTest {
     public void squaredTest() {
         long[] totalCost = new long[6];
 
-        IterativeComplexityExample.squaredLoop(5);
+        IterativeComplexityExample.squaredFunction(5);
         System.out.println("cost 5 " + Util.getTotalCost());
         totalCost[0] = Util.getTotalCost();
         ProfileData.resetCounters();
 
-        IterativeComplexityExample.squaredLoop(10);
+        IterativeComplexityExample.squaredFunction(10);
         System.out.println("cost 10 " + Util.getTotalCost());
         totalCost[1] = Util.getTotalCost();
         ProfileData.resetCounters();
 
-        IterativeComplexityExample.squaredLoop(20);
+        IterativeComplexityExample.squaredFunction(20);
         System.out.println("cost 20 " + Util.getTotalCost());
         totalCost[2] = Util.getTotalCost();
         ProfileData.resetCounters();
 
-        IterativeComplexityExample.squaredLoop(40);
+        IterativeComplexityExample.squaredFunction(40);
         System.out.println("cost 40 " + Util.getTotalCost());
         totalCost[3] = Util.getTotalCost();
         ProfileData.resetCounters();
 
-        IterativeComplexityExample.squaredLoop(80);
+        IterativeComplexityExample.squaredFunction(80);
         System.out.println("cost 80 " + Util.getTotalCost());
         totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
 
-        IterativeComplexityExample.squaredLoop(160);
+        IterativeComplexityExample.squaredFunction(160);
         System.out.println("cost 160 " + Util.getTotalCost());
         totalCost[5] = Util.getTotalCost();
         ProfileData.resetCounters();
@@ -76,29 +77,29 @@ public class ComplexityExponentialsTest {
     public void testExponential() {
         long[] totalCost = new long[5];
 
-        IterativeComplexityExample.exponentialLoop(5);
+        IterativeComplexityExample.approximatedSquaredFunction(5);
         System.out.println("cost 5 " + Util.getTotalCost());
         long total5 = Util.getTotalCost();
         ProfileData.resetCounters();
 
 
-        IterativeComplexityExample.exponentialLoop(10);
+        IterativeComplexityExample.approximatedSquaredFunction(10);
         totalCost[0] = Util.getTotalCost();
         System.out.println("cost 10 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialLoop(20);
+        IterativeComplexityExample.approximatedSquaredFunction(20);
         totalCost[1] = Util.getTotalCost();
         System.out.println("cost 20 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialLoop(40);
+        IterativeComplexityExample.approximatedSquaredFunction(40);
         totalCost[2] = Util.getTotalCost();
         System.out.println("cost 40 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialLoop(80);
+        IterativeComplexityExample.approximatedSquaredFunction(80);
         totalCost[3] = Util.getTotalCost();
         System.out.println("cost 80 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialLoop(160);
+        IterativeComplexityExample.approximatedSquaredFunction(160);
         System.out.println("cost 160 " + Util.getTotalCost());
         totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
@@ -115,29 +116,29 @@ public class ComplexityExponentialsTest {
     public void testCoinFlipExponential() {
         long[] totalCost = new long[5];
 
-        IterativeComplexityExample.exponentialCoinFlipLoop(5);
+        IterativeComplexityExample.squaredCoinFlipFunction(5);
         Util.getTotalCost();
         System.out.println("coin flip cost 5 " + Util.getTotalCost());
         long total5 = Util.getTotalCost();
         ProfileData.resetCounters();
 
-        IterativeComplexityExample.exponentialCoinFlipLoop(10);
+        IterativeComplexityExample.squaredCoinFlipFunction(10);
         totalCost[0] = Util.getTotalCost();
         System.out.println("coin flip cost 10 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialCoinFlipLoop(20);
+        IterativeComplexityExample.squaredCoinFlipFunction(20);
         totalCost[1] = Util.getTotalCost();
         System.out.println("coin flip cost 20 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialCoinFlipLoop(40);
+        IterativeComplexityExample.squaredCoinFlipFunction(40);
         totalCost[2] = Util.getTotalCost();
         System.out.println("coin flip cost 40 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialCoinFlipLoop(80);
+        IterativeComplexityExample.squaredCoinFlipFunction(80);
         totalCost[3] = Util.getTotalCost();
         System.out.println("coin flip cost 80 " + Util.getTotalCost());
         ProfileData.resetCounters();
-        IterativeComplexityExample.exponentialCoinFlipLoop(160);
+        IterativeComplexityExample.squaredCoinFlipFunction(160);
         System.out.println("coin flip cost 160 " + Util.getTotalCost());
         totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
