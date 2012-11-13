@@ -7,12 +7,15 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
+import fi.lolcatz.profiledata.ProfileData;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
@@ -643,5 +646,121 @@ public class Util implements Opcodes {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Gets total cost. This is counted by multiplying the amount of calls to a basic block by its cost and adding them
+     * together.
+     * 
+     * @return Total cost of execution.
+     */
+    public static long getTotalCost() {
+        return getTotalCost(null);
+    }
+    
+    /**
+     * Gets total cost. This is counted by multiplying the amount of calls to a basic block by its cost and adding them
+     * together.
+     * 
+     * @param classBlacklist List of classnames to be ignored.
+     * @return Total cost of execution.
+     */
+    public static long getTotalCost(List<String> classBlacklist) {
+        long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
+        
+        if (callsToBasicBlock == null) {
+            return 0;
+        }
+        if (classBlacklist == null) classBlacklist = new ArrayList<String>();
+        
+        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        long[] basicBlockCost = ProfileData.getBasicBlockCost();
+        
+        classBlacklist.addAll(ClassBlacklist.getBlacklist());
+        long totalCost = 0;
+
+        outer:
+        for (int i = 0; i < callsToBasicBlock.length; i++) {
+            for (String blacklistedClass : classBlacklist) {
+                if (basicBlockDesc.get(i).startsWith(blacklistedClass)) continue outer;
+            }
+            long calls = callsToBasicBlock[i];
+            long cost = basicBlockCost[i];
+            totalCost += calls * cost;
+        }
+
+        return totalCost;
+    }
+
+    /**
+     * Print information about every basic block. Prints calls, cost, total cost of basic block and the saved
+     * description.
+     */
+    public static void printBasicBlocksCost() {
+        printBasicBlocksCost(true, null);
+    }
+
+    /**
+     * Print information about every basic block. Prints calls, cost, total cost of basic block and the saved
+     * description.
+     */
+    public static void printBasicBlocksCost(boolean showBlocksWithNoCalls) {
+        printBasicBlocksCost(showBlocksWithNoCalls, null);
+    }
+
+    /**
+     * Print information about basic blocks. Prints calls, cost, total cost of basic block and the saved description.
+     *
+     * @param showBlocksWithNoCalls
+     *            If false, omit printing info about basic blocks that have no calls.
+     * @param classBlacklist List of classnames to be ignored.
+     */
+    public static void printBasicBlocksCost(boolean showBlocksWithNoCalls, List<String> classBlacklist) {
+        long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
+        
+        if (callsToBasicBlock == null) {
+            System.out.println("ProfileData hasn't been initialized (no classes loaded).");
+            return;
+        }
+        
+        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        long[] basicBlockCost = ProfileData.getBasicBlockCost();
+        
+        if (classBlacklist == null) classBlacklist = new ArrayList<String>();
+        classBlacklist.addAll(ClassBlacklist.getBlacklist());
+        outer:
+        for (int i = 0; i < callsToBasicBlock.length; i++) {
+            if (!showBlocksWithNoCalls && callsToBasicBlock[i] == 0) continue;
+            for (String blacklistedClass : classBlacklist) {
+                if (basicBlockDesc.get(i).startsWith(blacklistedClass)) continue outer;
+            }
+            System.out.printf("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
+                    i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
+                    basicBlockDesc.get(i));
+            System.out.println();
+
+        }
+    }
+
+    public static String getBasicBlockCostsString(boolean showUncalledBlocks) {
+        long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
+        
+        if (callsToBasicBlock == null) {
+            logger.warn("ProfileData hasn't been initialized (no classes loaded).");
+            return "";
+        }
+        
+        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        long[] basicBlockCost = ProfileData.getBasicBlockCost();
+        
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < callsToBasicBlock.length; i++) {
+            if (!showUncalledBlocks && callsToBasicBlock[i] == 0) continue;
+            sb.append(String.format("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
+                    i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
+                    basicBlockDesc.get(i)));
+            sb.append(System.getProperty("line.separator"));
+        }
+        return sb.toString();
     }
 }

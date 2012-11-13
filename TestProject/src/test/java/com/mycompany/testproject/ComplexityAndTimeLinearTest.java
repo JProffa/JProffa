@@ -1,7 +1,7 @@
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -43,21 +43,21 @@ public class ComplexityAndTimeLinearTest {
         long[] totalCost = new long[5];
         
         IterativeComplexityExample.linearLoop(100);
-        totalCost[0] = ProfileData.getTotalCost();
-        System.out.println("cost 100 " + ProfileData.getTotalCost());
+        totalCost[0] = Util.getTotalCost();
+        System.out.println("cost 100 " + Util.getTotalCost());
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(200);
-        totalCost[1] = ProfileData.getTotalCost();
-        System.out.println("cost 200 " +  ProfileData.getTotalCost());
+        totalCost[1] = Util.getTotalCost();
+        System.out.println("cost 200 " +  Util.getTotalCost());
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(300);
-        totalCost[2] = ProfileData.getTotalCost();
+        totalCost[2] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(400);
-        totalCost[3] = ProfileData.getTotalCost();
+        totalCost[3] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(500);
-        totalCost[4] = ProfileData.getTotalCost();
+        totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
         assertTrue(totalCost[0]+1100 == totalCost[1]);
         assertTrue(totalCost[1]+1100 == totalCost[2]);
@@ -70,19 +70,19 @@ public class ComplexityAndTimeLinearTest {
         long[] totalCost = new long[5];
         
         IterativeComplexityExample.linearLoop(10000);
-        totalCost[0] = ProfileData.getTotalCost();
+        totalCost[0] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(20000);
-        totalCost[1] = ProfileData.getTotalCost();
+        totalCost[1] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(30000);
-        totalCost[2] = ProfileData.getTotalCost();
+        totalCost[2] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(40000);
-        totalCost[3] = ProfileData.getTotalCost();
+        totalCost[3] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(50000);
-        totalCost[4] = ProfileData.getTotalCost();
+        totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
         assertTrue(totalCost[0]+110000 == totalCost[1]);
         assertTrue(totalCost[1]+110000 == totalCost[2]);
@@ -95,19 +95,19 @@ public class ComplexityAndTimeLinearTest {
         long[] totalCost = new long[5];
         
         IterativeComplexityExample.linearLoop(10000000);
-        totalCost[0] = ProfileData.getTotalCost();
+        totalCost[0] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(20000000);
-        totalCost[1] = ProfileData.getTotalCost();
+        totalCost[1] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(30000000);
-        totalCost[2] = ProfileData.getTotalCost();
+        totalCost[2] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(40000000);
-        totalCost[3] = ProfileData.getTotalCost();
+        totalCost[3] = Util.getTotalCost();
         ProfileData.resetCounters();
         IterativeComplexityExample.linearLoop(50000000);
-        totalCost[4] = ProfileData.getTotalCost();
+        totalCost[4] = Util.getTotalCost();
         ProfileData.resetCounters();
         assertTrue(totalCost[0]+110000000 == totalCost[1]);
         assertTrue(totalCost[1]+110000000 == totalCost[2]);

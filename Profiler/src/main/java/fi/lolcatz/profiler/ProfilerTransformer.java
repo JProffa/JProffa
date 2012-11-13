@@ -1,5 +1,6 @@
 package fi.lolcatz.profiler;
 
+import fi.lolcatz.profiledata.ProfileData;
 import org.apache.log4j.Logger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
@@ -178,7 +179,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
     private InsnList createCounterIncrementInsnList(int basicBlockIndex) {
         InsnList counterIncrementInsnList = new InsnList();
         counterIncrementInsnList.add(intPushInsn(basicBlockIndex));
-        counterIncrementInsnList.add(new MethodInsnNode(INVOKESTATIC, "fi/lolcatz/profiler/ProfileData",
+        counterIncrementInsnList.add(new MethodInsnNode(INVOKESTATIC, "fi/lolcatz/profiledata/ProfileData",
                 "incrementCallsToBasicBlock", "(I)V"));
         return counterIncrementInsnList;
     }

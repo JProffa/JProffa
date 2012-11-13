@@ -1,7 +1,7 @@
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,13 +29,13 @@ public class SingleObjectTest {
     @Test
     public void testSingleObjectBehavesDeterministic() {
         SingleObjectExample.createPerson();
-        long totalCost = ProfileData.getTotalCost();
-        ProfileData.printBasicBlocksCost(false);
+        long totalCost = Util.getTotalCost();
+        Util.printBasicBlocksCost(false);
         System.out.println("Total cost was " + totalCost);
         ProfileData.resetCounters();
         SingleObjectExample.createPerson();
-        long totalCost2 = ProfileData.getTotalCost();
-        ProfileData.printBasicBlocksCost(false);
+        long totalCost2 = Util.getTotalCost();
+        Util.printBasicBlocksCost(false);
         System.out.println("Total cost was " + totalCost2);
         assertEquals(totalCost2, totalCost);
     }
