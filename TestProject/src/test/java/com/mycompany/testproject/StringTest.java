@@ -1,5 +1,6 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.iterativeTests.StringImpl;
 import com.mycompany.testproject.javamethods.StringExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
@@ -11,6 +12,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class StringTest {
+    
+    StringImpl impl;
     
     public StringTest() {
     }
@@ -28,23 +31,27 @@ public class StringTest {
     
     @Before
     public void testSetup() {
+        impl = new StringImpl();
+        impl.setClassName("com.mycompany.testproject.javamethods.StringExample");
         ProfileData.resetCounters();
     }
     
     @Test
-    public void testStringReplaceCostTen() {
-        StringExample.stringReplace("aaaaaaaaas", "s", "a");
+    public void testStringReplace() {
+        impl.setMethodName("stringReplace");
+        impl.run(impl.getInput(25), "a", "b");
         long totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
     }
     
     @Test
     public void testStringReplaceIsDeterministic() {
-        StringExample.stringReplace("aaaaaaaaas", "s", "a");
+        impl.setMethodName("stringReplace");
+        impl.run("aaaaaaaaas", "s", "a");
         long totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
         ProfileData.resetCounters();
-        StringExample.stringReplace("aaaaaaaaas", "s", "a");
+        impl.run("aaaaaaaaas", "s", "a");
         totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
     }
@@ -54,7 +61,8 @@ public class StringTest {
      * should be about linear compared to to testStringReplaceCostTen()
      */
     public void testStringReplaceCostHundred() {
-        StringExample.stringReplace("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas", "s", "a");
+        impl.setMethodName("stringReplace");
+        impl.run("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas", "s", "a");
         long totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
     }
