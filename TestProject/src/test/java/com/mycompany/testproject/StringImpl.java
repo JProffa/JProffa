@@ -6,6 +6,7 @@
 package com.mycompany.testproject;
 
 import com.mycompany.testproject.iterativeTests.IntegerImpl;
+import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Util;
