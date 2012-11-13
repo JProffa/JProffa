@@ -32,7 +32,7 @@ public class IterativeExample {
         return sum;
     }
     
-    public static int factorialForEachFunctionTen(){
+    public static int factorialForEachFunction(int number){
         int sum = numbers[0];
         for (int i : numbers) {
             sum *= i;
