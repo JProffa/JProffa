@@ -47,8 +47,8 @@ public class IterativeTest {
         
         long first = impl.run(500);
         long second = impl.run(500);
-        
-        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
+        System.out.println("Margin of error: " + impl.getMarginOfError(first));
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-impl.getMarginOfError(first) && first < second+impl.getMarginOfError(first));
         
     }
     
