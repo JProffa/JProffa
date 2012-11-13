@@ -1,7 +1,8 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.javamethods.StringExample;
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -30,21 +31,21 @@ public class StringTest {
         ProfileData.resetCounters();
     }
     
-      @Test
+    @Test
     public void testStringReplaceCostTen() {
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
-        long totalCost = ProfileData.getTotalCost();
+        long totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
     }
     
     @Test
     public void testStringReplaceIsDeterministic() {
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
-        long totalCost = ProfileData.getTotalCost();
+        long totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
         ProfileData.resetCounters();
         StringExample.stringReplace("aaaaaaaaas", "s", "a");
-        totalCost = ProfileData.getTotalCost();
+        totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
     }
     
@@ -54,7 +55,7 @@ public class StringTest {
      */
     public void testStringReplaceCostHundred() {
         StringExample.stringReplace("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas", "s", "a");
-        long totalCost = ProfileData.getTotalCost();
+        long totalCost = Util.getTotalCost();
         assertEquals(7, totalCost);
     }
 }

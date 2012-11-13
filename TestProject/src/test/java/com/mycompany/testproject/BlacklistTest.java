@@ -1,7 +1,8 @@
 package com.mycompany.testproject;
 
+import com.mycompany.testproject.iteratives.IterativeExample;
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -32,31 +33,31 @@ public class BlacklistTest {
     
     @Test
     public void testProfileDataPackageBlacklist() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
         blacklist.add("com/mycompany/testproject/");
-        long totalCost = ProfileData.getTotalCost(blacklist);
+        long totalCost = Util.getTotalCost(blacklist);
         assertEquals(0, totalCost);
     }
     
     @Test
     public void testProfileDataClassBlacklist() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
         blacklist.add("com/mycompany/testproject/FunctionExample");
-        long totalCost = ProfileData.getTotalCost(blacklist);
+        long totalCost = Util.getTotalCost(blacklist);
         assertEquals(0, totalCost);
     }
     
     @Test
     public void testProfileDataMethodBlacklist() {
-        FunctionExample.iterativeFunction(5);
+        IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
         blacklist.add("com/mycompany/testproject/FunctionExample.iterativeFunction");
-        long totalCost = ProfileData.getTotalCost(blacklist);
+        long totalCost = Util.getTotalCost(blacklist);
         assertEquals(0, totalCost);
         FunctionExample.recursiveFunction(6);
-        totalCost = ProfileData.getTotalCost(blacklist);
+        totalCost = Util.getTotalCost(blacklist);
         assertEquals(105, totalCost);
     }
 

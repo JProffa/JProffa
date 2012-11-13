@@ -1,7 +1,7 @@
 package com.mycompany.testproject;
 
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ProfileData;
 import fi.lolcatz.profiler.Util;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -34,7 +34,7 @@ public class NativeTest {
      public void hello() throws IOException {
          NativeExample example = new NativeExample();
          example.writeSomething();
-         long cost = ProfileData.getTotalCost();
-         ProfileData.printBasicBlocksCost(false);
+         long cost = Util.getTotalCost();
+         Util.printBasicBlocksCost(false);
      }
 }
