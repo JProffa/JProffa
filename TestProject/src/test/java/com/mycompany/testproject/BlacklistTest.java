@@ -1,6 +1,7 @@
 package com.mycompany.testproject;
 
 import com.mycompany.testproject.iteratives.IterativeExample;
+import com.mycompany.testproject.recursives.RecursiveComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
@@ -56,7 +57,7 @@ public class BlacklistTest {
         blacklist.add("com/mycompany/testproject/FunctionExample.iterativeFunction");
         long totalCost = Util.getTotalCost(blacklist);
         assertEquals(0, totalCost);
-        FunctionExample.recursiveFunction(6);
+        RecursiveComplexityExample.recursiveFunction(6);
         totalCost = Util.getTotalCost(blacklist);
         assertEquals(105, totalCost);
     }

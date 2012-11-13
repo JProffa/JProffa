@@ -1,50 +1,44 @@
-package com.mycompany.testproject.iterativeTests;
+package com.mycompany.testproject.objecttests;
 
-import com.mycompany.testproject.iteratives.IterativeComplexityExample;
+import com.mycompany.testproject.Example;
+import com.mycompany.testproject.iterativeTests.IntegerImpl;
+import com.mycompany.testproject.objects.ObjectExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ComplexityAndTimeLinearTest {
+public class ObjectTest {
     
-    public ComplexityAndTimeLinearTest() {
-    }
-    
-    public static long freshTime;
     IntegerImpl impl;
-        
+    
     @BeforeClass
     public static void classSetup() {
-        System.out.println("Testing");
-        long startTime = System.currentTimeMillis();
-        IterativeComplexityExample.linearFunction(200000000);
-        long endTime   = System.currentTimeMillis();
-        freshTime = endTime - startTime;
-        
-
-        ClassBlacklist.add(ComplexityAndTimeLinearTest.class);
+        ClassBlacklist.add(ObjectTest.class);
+        Example.main(null);
+        // Used to initialize the method, creating objects for the first time causes problems with profiler
+        ObjectExample.createPersons(1);
         Util.loadAgent();      
         ProfileData.initialize();
-        Logger.getRootLogger().setLevel(Level.OFF);
     }
 
     @Before
     public void testSetup() {
         impl = new IntegerImpl();
-        impl.setClassName("com.mycompany.testproject.iteratives.IterativeComplexityExample");
+        impl.setClassName("com.mycompany.testproject.objects.ObjectExample");
     }
     
+    
     @Test
-    public void testLinear() {
-        impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+    public void testObjectsLinear() {
+        
+         impl.setMethodName("createPersons");
+         
+         impl.run(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 1000;
@@ -60,12 +54,15 @@ public class ComplexityAndTimeLinearTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+         
     }
-    
+     
     @Test
-    public void testLinearLarge() {
-        impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+    public void testObjectsLinearLarge() {
+        
+         impl.setMethodName("createPersons");
+         
+         impl.run(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 100000;
@@ -81,12 +78,15 @@ public class ComplexityAndTimeLinearTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+         
     }
-    
+      
     @Test
-    public void testLinearHUUGE() {
-        impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+    public void testObjectsLinearHuge() {
+        
+         impl.setMethodName("createPersons");
+         
+         impl.run(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 10000000;
@@ -102,26 +102,19 @@ public class ComplexityAndTimeLinearTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+         
     }
-    
-    /**
-     * Noting, that profiling nullifies all system related optimization,
-     * but if code is not optimized to begin with (like in the example)
-     * its about as fast whether or not you profile it.
-     */
-    
+
     @Test
-    public void testProfilingIsFastEnough() {
-        long startTime = System.currentTimeMillis();
-        IterativeComplexityExample.linearFunction(200000000);
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
+    public void testObjectsBehaveDeterministic() {
+        impl.setMethodName("createPersons");
         
-        System.out.println("Runtime without profiler was " + freshTime + "ms");
-        System.out.println("Runtime with profiler was " + totalTime + "ms");
+        impl.run(impl.getInput(500));
         
-        assertTrue(totalTime < 10*freshTime);
+        long first = impl.run(500);
+        long second = impl.run(500);
+        System.out.println("Margin of error: " + impl.getMarginOfError(first));
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-impl.getMarginOfError(first) && first < second+impl.getMarginOfError(first));
         
     }
-    
 }

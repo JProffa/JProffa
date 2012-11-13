@@ -4,55 +4,56 @@ import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.junit.Assert.*;
 
-public class ComplexityAndTimeLinearTest {
+public class LogarithmicComplexityTest {
     
-    public ComplexityAndTimeLinearTest() {
+    LongImpl impl;
+    
+    public LogarithmicComplexityTest() {
     }
     
-    public static long freshTime;
-    IntegerImpl impl;
-        
     @BeforeClass
     public static void classSetup() {
-        System.out.println("Testing");
-        long startTime = System.currentTimeMillis();
-        IterativeComplexityExample.linearFunction(200000000);
-        long endTime   = System.currentTimeMillis();
-        freshTime = endTime - startTime;
-        
-
-        ClassBlacklist.add(ComplexityAndTimeLinearTest.class);
+        ClassBlacklist.add(LogarithmicComplexityTest.class);
         Util.loadAgent();      
         ProfileData.initialize();
-        Logger.getRootLogger().setLevel(Level.OFF);
     }
 
     @Before
     public void testSetup() {
-        impl = new IntegerImpl();
+        impl = new LongImpl();
         impl.setClassName("com.mycompany.testproject.iteratives.IterativeComplexityExample");
     }
     
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+        
+    }
+    
+    @After
+    public void tearDown() {
+    }
+    
     @Test
-    public void testLinear() {
-        impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+    public void testLogarithmic() {
+        
+        impl.setMethodName("logarithmicFunction");
+        impl.run(impl.getInput(1000L));
         
         long[] totalCost = new long[5];
-        int syote = 1000;
+        long syote = 1000L;
         
         totalCost[0] = impl.run(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
-            syote = 2*syote;
+            syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
         
@@ -60,20 +61,22 @@ public class ComplexityAndTimeLinearTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
     }
     
     @Test
-    public void testLinearLarge() {
-        impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+    public void testLogarithmicLarge() {
+        
+        impl.setMethodName("logarithmicFunction");
+        impl.run(impl.getInput(1000L));
         
         long[] totalCost = new long[5];
-        int syote = 100000;
+        long syote = 1000L;
         
         totalCost[0] = impl.run(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
-            syote = 2*syote;
+            syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
         
@@ -81,20 +84,22 @@ public class ComplexityAndTimeLinearTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
     }
     
     @Test
-    public void testLinearHUUGE() {
-        impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+    public void testLogarithmicHuge() {
+            
+        impl.setMethodName("logarithmicFunction");
+        impl.run(impl.getInput(100000000000L));
         
         long[] totalCost = new long[5];
-        int syote = 10000000;
+        long syote = 100000000000L;
         
         totalCost[0] = impl.run(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
-            syote = 2*syote;
+            syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
         
@@ -102,25 +107,6 @@ public class ComplexityAndTimeLinearTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
-    }
-    
-    /**
-     * Noting, that profiling nullifies all system related optimization,
-     * but if code is not optimized to begin with (like in the example)
-     * its about as fast whether or not you profile it.
-     */
-    
-    @Test
-    public void testProfilingIsFastEnough() {
-        long startTime = System.currentTimeMillis();
-        IterativeComplexityExample.linearFunction(200000000);
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        
-        System.out.println("Runtime without profiler was " + freshTime + "ms");
-        System.out.println("Runtime with profiler was " + totalTime + "ms");
-        
-        assertTrue(totalTime < 10*freshTime);
         
     }
     

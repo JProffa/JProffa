@@ -72,7 +72,7 @@ public class IterativeComplexityExample {
      * Logarithmic function used to test assertLogarithmic function.
      * @param n 
      */
-    public static void logarithmicFunction(long n) {
+    public static void logarithmicFunction(Long n) {
         while (n >= 1) {
             n = n/2;
         }
