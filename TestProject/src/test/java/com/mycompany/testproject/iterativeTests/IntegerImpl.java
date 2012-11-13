@@ -49,8 +49,9 @@ public class IntegerImpl implements Benchmarkable<Integer>{
         ProfileData.resetCounters();
         try {
             Class<?> c = Class.forName(className);
-            Method m = c.getMethod(methodName, Integer.class);
-            m.invoke(input, null);     
+            Method m = c.getDeclaredMethod(methodName, Integer.TYPE);
+            m.setAccessible(true);
+            m.invoke(null, input.intValue());
         } catch (Exception x) {
 	    Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
 	}  

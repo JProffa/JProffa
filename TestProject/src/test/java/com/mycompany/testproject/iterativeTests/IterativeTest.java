@@ -44,8 +44,8 @@ public class IterativeTest {
         impl.setMethodName("iterativeFunction");
         impl.run(impl.getInput(5));
         
-        long first = impl.run(impl.getInput(5));
-        long second = impl.run(impl.getInput(5));
+        long first = impl.run(5);
+        long second = impl.run(5);
         System.out.println("fist: " + first);
         System.out.println("sist: " + second);
         
