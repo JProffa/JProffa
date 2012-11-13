@@ -21,6 +21,8 @@ public class ProfileData {
     private static ArrayList<Long> basicBlockCostAccumulator = new ArrayList<Long>();
     private static ArrayList<String> basicBlockDesc = new ArrayList<String>();
     
+    private static boolean profilingAllowed = true;
+    
     /**
      * Adds basic block with default cost (1).
      * 
@@ -58,7 +60,7 @@ public class ProfileData {
     }
 
     public static void incrementCallsToBasicBlock(int index) {
-        callsToBasicBlock[index] += 1;
+        if (profilingAllowed) callsToBasicBlock[index] += 1;
     }
 
     /**
@@ -74,7 +76,11 @@ public class ProfileData {
      * Initialize arrays from added basic blocks. Needs to be called before using the arrays.
      */
     public static void initialize() {
-        callsToBasicBlock = new long[basicBlockAmount];
+        long[] newCallsToBasicBlock = new long[basicBlockAmount];
+        if (callsToBasicBlock != null) {
+            System.arraycopy(callsToBasicBlock, 0, newCallsToBasicBlock, 0, callsToBasicBlock.length);
+        }
+        callsToBasicBlock = newCallsToBasicBlock;
 
         basicBlockCost = new long[basicBlockCostAccumulator.size()];
         for (int i = 0; i < basicBlockCostAccumulator.size(); i++) {
@@ -106,5 +112,22 @@ public class ProfileData {
 
     public static ArrayList<String> getBasicBlockDesc() {
         return basicBlockDesc;
+    }
+
+    
+    /**
+     * Are counter increments allowed.
+     * @return 
+     */
+    public static boolean isProfilingAllowed() {
+        return profilingAllowed;
+    }
+
+    /**
+     * Set to true to disallow counter increments.
+     * @param profilingAllowed 
+     */
+    public static void setProfilingAllowed(boolean profilingAllowed) {
+        ProfileData.profilingAllowed = profilingAllowed;
     }
 }

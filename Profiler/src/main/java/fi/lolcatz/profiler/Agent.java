@@ -1,5 +1,6 @@
 package fi.lolcatz.profiler;
 
+import fi.lolcatz.profiledata.ProfileData;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -13,6 +14,7 @@ public class Agent {
     private static Instrumentation inst;
     private static Logger logger = Logger.getLogger(Agent.class);
     private static final String log4jConfFilename = "log4j.properties";
+    private static boolean retransforming = false;
 
     /**
      * Method that is called when agent is ran from command line using -javaagent option when launching .jar that you
@@ -75,7 +77,11 @@ public class Agent {
             }
             inst.addTransformer(new ProfilerTransformer(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
+            
+            retransforming = true;
             inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
+            retransforming = false;
+            ProfileData.initialize();
 
         } catch (Exception e) {
             logger.fatal(e.getMessage(), e);
@@ -105,5 +111,14 @@ public class Agent {
         // System.out.println("AllLoadedClasses: " + Arrays.toString(inst.getAllLoadedClasses()));
         // System.out.println("InitiatedClasses: " +
         // Arrays.toString(inst.getInitiatedClasses(ClassLoader.getSystemClassLoader())));
+    }
+
+    
+    /**
+     * Is retransformClasses running.
+     * @return 
+     */
+    public static boolean isRetransforming() {
+        return retransforming;
     }
 }

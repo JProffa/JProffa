@@ -676,6 +676,9 @@ public class Util implements Opcodes {
         if (callsToBasicBlock == null) {
             return 0;
         }
+        
+        ProfileData.setProfilingAllowed(false);
+        
         if (classBlacklist == null) classBlacklist = new ArrayList<String>();
         
         ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
@@ -693,6 +696,8 @@ public class Util implements Opcodes {
             long cost = basicBlockCost[i];
             totalCost += calls * cost;
         }
+        
+        ProfileData.setProfilingAllowed(true);
 
         return totalCost;
     }
@@ -728,6 +733,8 @@ public class Util implements Opcodes {
             return;
         }
         
+        ProfileData.setProfilingAllowed(false);
+        
         ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
         
@@ -743,8 +750,8 @@ public class Util implements Opcodes {
                     i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
                     basicBlockDesc.get(i));
             System.out.println();
-
         }
+        ProfileData.setProfilingAllowed(true);
     }
 
     public static String getBasicBlockCostsString(boolean showUncalledBlocks) {
@@ -754,6 +761,7 @@ public class Util implements Opcodes {
             logger.warn("ProfileData hasn't been initialized (no classes loaded).");
             return "";
         }
+        ProfileData.setProfilingAllowed(false);
         
         ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
@@ -766,6 +774,7 @@ public class Util implements Opcodes {
                     basicBlockDesc.get(i)));
             sb.append(System.getProperty("line.separator"));
         }
+        ProfileData.setProfilingAllowed(true);
         return sb.toString();
     }
     
@@ -807,6 +816,8 @@ public class Util implements Opcodes {
             return;
         }
         
+        ProfileData.setProfilingAllowed(false);
+        
         ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
         
@@ -837,6 +848,7 @@ public class Util implements Opcodes {
             System.out.printf("Total: %9d Desc: %s", entry.getValue(), entry.getKey());
             System.out.println();
         }
+        ProfileData.setProfilingAllowed(true);
     }
 
     private static int multicharIndexOf(String string, char... chars) {
