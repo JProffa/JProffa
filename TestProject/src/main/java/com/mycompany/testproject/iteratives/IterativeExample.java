@@ -3,6 +3,8 @@ package com.mycompany.testproject.iteratives;
 
 public class IterativeExample {
     
+    
+    static int[] numbers = new int[] {1,2,3,4,5,6,7,8,9,10};
     /**
      * Factorial function used to test for loops
      * @param number
@@ -30,6 +32,14 @@ public class IterativeExample {
         return sum;
     }
     
+    public static int factorialForEachFunctionTen(){
+        int sum = numbers[0];
+        for (int i : numbers) {
+            sum *= i;
+        }
+        return sum;
+    }
+    
     
     public static int iterativeFunction(int number) {
         while (number != 1) {
@@ -42,5 +52,7 @@ public class IterativeExample {
         }
         return number;
     }
+    
+    
     
 }
