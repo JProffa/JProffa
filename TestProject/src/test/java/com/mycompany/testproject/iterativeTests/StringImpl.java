@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 
-package com.mycompany.testproject.iterativeTests;
+package com.mycompany.testproject;
 
+import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Util;

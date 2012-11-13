@@ -18,6 +18,7 @@ public class ComplexityAndTimeLinearTest {
     }
     
     public static long freshTime;
+    IntegerImpl impl;
         
     @BeforeClass
     public static void classSetup() {
@@ -36,84 +37,71 @@ public class ComplexityAndTimeLinearTest {
 
     @Before
     public void testSetup() {
-        ProfileData.resetCounters();
+        impl = new IntegerImpl();
+        impl.setClassName("com.mycompany.testproject.iteratives.IterativeComplexityExample");
     }
     
     @Test
     public void testLinear() {
-        long[] totalCost = new long[5];
+        impl.setMethodName("linearFunction");
+        impl.run(impl.getInput(1000));
         
-        IterativeComplexityExample.linearFunction(100);
-        totalCost[0] = Util.getTotalCost();
-        System.out.println("cost 100 " + Util.getTotalCost());
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(200);
-        totalCost[1] = Util.getTotalCost();
-        System.out.println("cost 200 " +  Util.getTotalCost());
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(300);
-        totalCost[2] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(400);
-        totalCost[3] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(500);
-        totalCost[4] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        assertTrue(totalCost[0]+1100 == totalCost[1]);
-        assertTrue(totalCost[1]+1100 == totalCost[2]);
-        assertTrue(totalCost[2]+1100 == totalCost[3]);
-        assertTrue(totalCost[3]+1100 == totalCost[4]);
+        long[] totalCost = new long[5];
+        int syote = 1000;
+        
+        totalCost[0] = impl.run(impl.getInput(syote));
+        
+        for (int i = 1; i < totalCost.length; i++) {
+            syote = 2*syote;
+            totalCost[i] = impl.run(impl.getInput(syote));    
+        }
+        
+        assertTrue(totalCost[0]*2 >= totalCost[1]);
+        assertTrue(totalCost[1]*2 >= totalCost[2]);
+        assertTrue(totalCost[2]*2 >= totalCost[3]);
+        assertTrue(totalCost[3]*2 >= totalCost[4]);
     }
     
     @Test
     public void testLinearLarge() {
-        long[] totalCost = new long[5];
+        impl.setMethodName("linearFunction");
+        impl.run(impl.getInput(1000));
         
-        IterativeComplexityExample.linearFunction(10000);
-        totalCost[0] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(20000);
-        totalCost[1] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(30000);
-        totalCost[2] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(40000);
-        totalCost[3] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(50000);
-        totalCost[4] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        assertTrue(totalCost[0]+110000 == totalCost[1]);
-        assertTrue(totalCost[1]+110000 == totalCost[2]);
-        assertTrue(totalCost[2]+110000 == totalCost[3]);
-        assertTrue(totalCost[3]+110000 == totalCost[4]);
+        long[] totalCost = new long[5];
+        int syote = 100000;
+        
+        totalCost[0] = impl.run(impl.getInput(syote));
+        
+        for (int i = 1; i < totalCost.length; i++) {
+            syote = 2*syote;
+            totalCost[i] = impl.run(impl.getInput(syote));    
+        }
+        
+        assertTrue(totalCost[0]*2 >= totalCost[1]);
+        assertTrue(totalCost[1]*2 >= totalCost[2]);
+        assertTrue(totalCost[2]*2 >= totalCost[3]);
+        assertTrue(totalCost[3]*2 >= totalCost[4]);
     }
     
     @Test
     public void testLinearHUUGE() {
-        long[] totalCost = new long[5];
+        impl.setMethodName("linearFunction");
+        impl.run(impl.getInput(1000));
         
-        IterativeComplexityExample.linearFunction(10000000);
-        totalCost[0] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(20000000);
-        totalCost[1] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(30000000);
-        totalCost[2] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(40000000);
-        totalCost[3] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.linearFunction(50000000);
-        totalCost[4] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        assertTrue(totalCost[0]+110000000 == totalCost[1]);
-        assertTrue(totalCost[1]+110000000 == totalCost[2]);
-        assertTrue(totalCost[2]+110000000 == totalCost[3]);
-        assertTrue(totalCost[3]+110000000 == totalCost[4]);
+        long[] totalCost = new long[5];
+        int syote = 10000000;
+        
+        totalCost[0] = impl.run(impl.getInput(syote));
+        
+        for (int i = 1; i < totalCost.length; i++) {
+            syote = 2*syote;
+            totalCost[i] = impl.run(impl.getInput(syote));    
+        }
+        
+        assertTrue(totalCost[0]*2 >= totalCost[1]);
+        assertTrue(totalCost[1]*2 >= totalCost[2]);
+        assertTrue(totalCost[2]*2 >= totalCost[3]);
+        assertTrue(totalCost[3]*2 >= totalCost[4]);
     }
     
     /**
