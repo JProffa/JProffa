@@ -34,7 +34,7 @@ public class ObjectTest {
     
     
     @Test
-    public void testObjectsLinear() {
+    public void testObjectsLinear() throws Exception {
         
          impl.setMethodName("createPersons");
          
@@ -58,7 +58,7 @@ public class ObjectTest {
     }
      
     @Test
-    public void testObjectsLinearLarge() {
+    public void testObjectsLinearLarge() throws Exception {
         
          impl.setMethodName("createPersons");
          
@@ -82,7 +82,7 @@ public class ObjectTest {
     }
       
     @Test
-    public void testObjectsLinearHuge() {
+    public void testObjectsLinearHuge() throws Exception {
         
          impl.setMethodName("createPersons");
          
@@ -106,7 +106,7 @@ public class ObjectTest {
     }
 
     @Test
-    public void testObjectsBehaveDeterministic() {
+    public void testObjectsBehaveDeterministic() throws Exception {
         impl.setMethodName("createPersons");
         
         impl.run(impl.getInput(500));

@@ -42,7 +42,7 @@ public class ComplexityAndTimeLinearTest {
     }
     
     @Test
-    public void testLinear() {
+    public void testLinear() throws Exception {
         impl.setMethodName("linearFunction");
         impl.run(impl.getInput(1000));
         
@@ -63,7 +63,7 @@ public class ComplexityAndTimeLinearTest {
     }
     
     @Test
-    public void testLinearLarge() {
+    public void testLinearLarge() throws Exception {
         impl.setMethodName("linearFunction");
         impl.run(impl.getInput(1000));
         
@@ -84,7 +84,7 @@ public class ComplexityAndTimeLinearTest {
     }
     
     @Test
-    public void testLinearHUUGE() {
+    public void testLinearHUUGE() throws Exception {
         impl.setMethodName("linearFunction");
         impl.run(impl.getInput(1000));
         

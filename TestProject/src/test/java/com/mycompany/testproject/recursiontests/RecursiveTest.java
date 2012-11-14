@@ -31,7 +31,7 @@ public class RecursiveTest {
     }
 
     @Test
-    public void testRecursionCostIsDeterministic() {
+    public void testRecursionCostIsDeterministic() throws Exception {
         impl.setMethodName("recursiveFunction");
         
         impl.run(impl.getInput(500));
@@ -44,7 +44,7 @@ public class RecursiveTest {
     }
     
     @Test
-    public void testRecursionLinear() {
+    public void testRecursionLinear() throws Exception {
         impl.setMethodName("linearRecursive");
         impl.run(impl.getInput(1000), impl.getInput(0));
         
@@ -67,7 +67,7 @@ public class RecursiveTest {
     }
     
     @Test
-    public void testRecursionLinearLarge() {
+    public void testRecursionLinearLarge() throws Exception {
         impl.setMethodName("linearRecursive");
         impl.run(impl.getInput(1000), impl.getInput(0));
         
@@ -89,7 +89,7 @@ public class RecursiveTest {
     }
     
     @Test
-    public void testRecursionLinearHUGE() {
+    public void testRecursionLinearHUGE() throws Exception {
         impl.setMethodName("linearRecursive");
         impl.run(impl.getInput(1000),impl.getInput(0));
         
@@ -112,7 +112,7 @@ public class RecursiveTest {
     }
     
     @Test
-    public void testRecursionSquared() {
+    public void testRecursionSquared() throws Exception {
         impl.setMethodName("squaredRecursive");
         impl.run(impl.getInput(10),impl.getInput(0),impl.getInput(10));
         
@@ -135,7 +135,7 @@ public class RecursiveTest {
     }
     
     @Test
-    public void testRecursionSquaredLarge() {
+    public void testRecursionSquaredLarge() throws Exception {
         impl.setMethodName("squaredRecursive");
         impl.run(impl.getInput(10),impl.getInput(0),impl.getInput(10));
         
@@ -158,7 +158,7 @@ public class RecursiveTest {
     }
     
     @Test
-    public void testRecursionSquaredHuge() {
+    public void testRecursionSquaredHuge() throws Exception {
         impl.setMethodName("squaredRecursive");
         impl.run(impl.getInput(10),impl.getInput(0),impl.getInput(10));
         

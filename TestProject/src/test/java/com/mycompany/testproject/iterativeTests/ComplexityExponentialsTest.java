@@ -33,7 +33,7 @@ public class ComplexityExponentialsTest {
 
     
     @Test
-    public void squaredTest() {
+    public void squaredTest() throws Exception {
         long[] totalCost = new long[5];
         int syote = 10;
         
@@ -55,7 +55,7 @@ public class ComplexityExponentialsTest {
     }
 
     @Test
-    public void testApproximatedSquared() {
+    public void testApproximatedSquared() throws Exception {
         long[] totalCost = new long[5];
 
         int syote = 10;
@@ -78,7 +78,7 @@ public class ComplexityExponentialsTest {
     }
 
     @Test
-    public void testCoinFlipExponential() {
+    public void testCoinFlipExponential() throws Exception {
         long[] totalCost = new long[5];
         int syote = 10;
         

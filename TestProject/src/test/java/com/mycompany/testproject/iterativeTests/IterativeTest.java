@@ -38,7 +38,7 @@ public class IterativeTest {
      * Test to determine if the function is deterministic. Allows for 25 bytecode offset.
      */
     @Test
-    public void testIterativeDeterministic() {
+    public void testIterativeDeterministic() throws Exception {
 
         impl.setMethodName("iterativeFunction");
 
@@ -54,7 +54,7 @@ public class IterativeTest {
     }
 
     @Test
-    public void testForLoopsDeterministic() {
+    public void testForLoopsDeterministic() throws Exception {
 
         impl.setMethodName("factorialForFunction");
 
@@ -69,7 +69,7 @@ public class IterativeTest {
     }
 
     @Test
-    public void testWhileLoopsDeterministic() {
+    public void testWhileLoopsDeterministic() throws Exception {
 
         impl.setMethodName("factorialWhileFunction");
 
@@ -84,7 +84,7 @@ public class IterativeTest {
     }
 
     @Test
-    public void testForEachLoopsDeterministic() {
+    public void testForEachLoopsDeterministic() throws Exception {
 
         impl.setMethodName("factorialForEachFunction");
 

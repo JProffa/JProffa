@@ -21,7 +21,7 @@ public class IntegerImpl  extends AbstractImpl implements Benchmarkable<Integer>
     }
 
     @Override
-    public long run(Integer input) {
+    public long run(Integer input) throws Exception {
         ProfileData.resetCounters();
         try {
             Class<?> c = Class.forName(getClassName());
@@ -34,11 +34,12 @@ public class IntegerImpl  extends AbstractImpl implements Benchmarkable<Integer>
             }
         } catch (Exception x) {
             Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+            throw x;
         }
         return Util.getTotalCost();
     }
     
-    public long run(int input, int input2) {
+    public long run(int input, int input2) throws Exception {
     ProfileData.resetCounters();
         try {
             Class<?> c = Class.forName(getClassName());
@@ -50,11 +51,12 @@ public class IntegerImpl  extends AbstractImpl implements Benchmarkable<Integer>
             }
         } catch (Exception x) {
             Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+            throw x;
         }
         return Util.getTotalCost();
     }
     
-    public long run(int input, int input2, int input3) {
+    public long run(int input, int input2, int input3) throws Exception {
     ProfileData.resetCounters();
         try {
             Class<?> c = Class.forName(getClassName());
@@ -66,6 +68,7 @@ public class IntegerImpl  extends AbstractImpl implements Benchmarkable<Integer>
             }
         } catch (Exception x) {
             Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
+            throw x;
         }
         return Util.getTotalCost();
     }
