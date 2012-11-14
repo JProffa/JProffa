@@ -43,7 +43,7 @@ public class NativeTransformer implements ClassFileTransformer, Opcodes {
                     }
                     logger.info("    Original InsnList: " + Util.getInsnListString(mn.instructions));
                     logger.info("    Wrappable native method found!");
-                    logger.info("Node: " + mn.toString() + " Desc: " + mn.desc + " sign: " + mn.signature + " exep: " +
+                    logger.info("    Node: " + mn.toString() + " Desc: " + mn.desc + " sign: " + mn.signature + " exep: " +
                             mn.exceptions + " acc: " + mn.access + " ins: " + mn.instructions + " attrs: " + mn.attrs +
                     " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
                     mn.access -= ACC_NATIVE;
