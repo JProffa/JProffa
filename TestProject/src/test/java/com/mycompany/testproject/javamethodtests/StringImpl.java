@@ -10,7 +10,6 @@ import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
-import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
