@@ -8,6 +8,7 @@ package com.mycompany.testproject.javamethodtests;
 import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import fi.lolcatz.profiledata.ProfileData;
+import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
@@ -15,11 +16,8 @@ import java.lang.reflect.Modifier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class StringImpl implements Benchmarkable<String> {
-
-    private String className;
-    private String methodName;
-    
+public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
+   
     @Override
     public String getInput(int size) {
         String s = "";
@@ -48,30 +46,13 @@ public class StringImpl implements Benchmarkable<String> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public void setMethodName(String name) {
-        this.methodName = name;
-    }
-
-    @Override
-    public void setClassName(String name) {
-        this.className = name;
-    }
-    
-    public String getClassName(){
-        return className;
-    }
-    
-    public String getMethodName(){
-        return methodName;
-    }
-    
+       
     @Override
     public long run(String input) {
     ProfileData.resetCounters();
         try {
-            Class<?> c = Class.forName(className);
-            Method m = c.getMethod(methodName, String.class);
+            Class<?> c = Class.forName(getClassName());
+            Method m = c.getMethod(getMethodName(), String.class);
             if (Modifier.isStatic(m.getModifiers())) {
                 m.invoke(null, input);
             } else {
@@ -87,8 +68,8 @@ public class StringImpl implements Benchmarkable<String> {
     public long run(String input, String input2) {
     ProfileData.resetCounters();
         try {
-            Class<?> c = Class.forName(className);
-            Method m = c.getMethod(methodName, String.class, String.class);
+            Class<?> c = Class.forName(getClassName());
+            Method m = c.getMethod(getMethodName(), String.class, String.class);
             if (Modifier.isStatic(m.getModifiers())) {
                 m.invoke(null, input, input2);
             } else {
@@ -103,8 +84,8 @@ public class StringImpl implements Benchmarkable<String> {
     public long run(String input, String input2, String input3) {
     ProfileData.resetCounters();
         try {
-            Class<?> c = Class.forName(className);
-            Method m = c.getMethod(methodName, String.class, String.class, String.class);
+            Class<?> c = Class.forName(getClassName());
+            Method m = c.getMethod(getMethodName(), String.class, String.class, String.class);
             if (Modifier.isStatic(m.getModifiers())) {
                 m.invoke(null, input, input2, input3);
             } else {

@@ -15,9 +15,6 @@ import java.util.logging.Logger;
 
 public class IntegerImpl  extends AbstractImpl implements Benchmarkable<Integer>{
 
-    private String className;
-    private String methodName;
-
     @Override
     public Integer getInput(int size) {
         return new Integer(size);

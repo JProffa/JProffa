@@ -5,6 +5,7 @@
 package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiledata.ProfileData;
+import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
@@ -12,10 +13,7 @@ import java.lang.reflect.Modifier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LongImpl implements Benchmarkable<Long> {
-
-    private String methodName;
-    private String className;
+public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 
     public Long getInput(long size) {
         return new Long(size);
@@ -27,29 +25,11 @@ public class LongImpl implements Benchmarkable<Long> {
     }
 
     @Override
-    public void setMethodName(String name) {
-        this.methodName = name;
-    }
-
-    @Override
-    public void setClassName(String name) {
-        this.className = name;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    @Override
     public long run(Long input) {
         ProfileData.resetCounters();
         try {
-            Class<?> c = Class.forName(className);
-            Method m = c.getMethod(methodName, Long.class);
+            Class<?> c = Class.forName(getClassName());
+            Method m = c.getMethod(getMethodName(), Long.class);
             if (Modifier.isStatic(m.getModifiers())) {
                 m.invoke(null, input.longValue());
             } else {
