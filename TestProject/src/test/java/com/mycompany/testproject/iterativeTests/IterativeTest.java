@@ -12,86 +12,89 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class IterativeTest {
-    
+
     IntegerImpl impl;
-    
+
     public IterativeTest() {
     }
-    
+
     
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(IterativeTest.class);
         Example.main(null);
-        Util.loadAgent();      
-        ProfileData.initialize(); 
-    } 
-    
+        Util.loadAgent();
+        ProfileData.initialize();
+    }
+
     @Before
     public void testSetup() {
         impl = new IntegerImpl();
         impl.setClassName("com.mycompany.testproject.iteratives.IterativeExample");
     }
-    
+
     
     /**
-     * Test to determine if the function is deterministic. Allows for 25 bytecode
-     * offset.
+     * Test to determine if the function is deterministic. Allows for 25 bytecode offset.
      */
     @Test
     public void testIterativeDeterministic() {
-        
+
         impl.setMethodName("iterativeFunction");
-        
+
         impl.run(impl.getInput(500));
-        
+
         long first = impl.run(500);
         long second = impl.run(500);
-        System.out.println("Margin of error: " + impl.getMarginOfError(first));
-        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-impl.getMarginOfError(first) && first < second+impl.getMarginOfError(first));
-        
+
+        long marginError = impl.getMarginOfError(first);
+
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
+
     }
-    
+
     @Test
     public void testForLoopsDeterministic() {
-        
+
         impl.setMethodName("factorialForFunction");
-        
+
         impl.run(impl.getInput(500));
-        
+
         long first = impl.run(impl.getInput(500));
         long second = impl.run(impl.getInput(500));
-        
-        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
+
+        long marginError = impl.getMarginOfError(first);
+
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
     }
-    
+
     @Test
     public void testWhileLoopsDeterministic() {
-        
+
         impl.setMethodName("factorialWhileFunction");
-        
+
         impl.run(impl.getInput(500));
-        
+
         long first = impl.run(impl.getInput(500));
         long second = impl.run(impl.getInput(500));
-        
-        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
+
+        long marginError = impl.getMarginOfError(first);
+
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
     }
-    
+
     @Test
     public void testForEachLoopsDeterministic() {
-        
+
         impl.setMethodName("factorialForEachFunction");
-        
+
         impl.run(impl.getInput(500));
-        
+
         long first = impl.run(impl.getInput(500));
         long second = impl.run(impl.getInput(500));
-        
-        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-50 && first < second+50);
-    }
-    
-    
-    
 
+        long marginError = impl.getMarginOfError(first);        
+        
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
+    }
 }
