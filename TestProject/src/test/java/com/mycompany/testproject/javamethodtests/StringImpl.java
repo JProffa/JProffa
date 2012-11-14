@@ -10,9 +10,11 @@ import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
+import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,12 +42,11 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
         }
         return b.toString();
     }
-
+    
     @Override
-    public int getMaxTime(String input, int size) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public int getSize(String input){
+        return input.length();
     }
-
        
     @Override
     public long run(String input) {
@@ -96,4 +97,5 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
         }
         return Util.getTotalCost();
     }
+
 }

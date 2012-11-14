@@ -21,11 +21,6 @@ public class IntegerImpl  extends AbstractImpl implements Benchmarkable<Integer>
     }
 
     @Override
-    public int getMaxTime(Integer input, int size) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public long run(Integer input) {
         ProfileData.resetCounters();
         try {
@@ -73,5 +68,10 @@ public class IntegerImpl  extends AbstractImpl implements Benchmarkable<Integer>
             Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, x);
         }
         return Util.getTotalCost();
+    }
+
+    @Override
+    public int getSize(Integer input) {
+        return input.intValue();
     }
 }

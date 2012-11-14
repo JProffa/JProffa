@@ -15,15 +15,10 @@ import java.util.logging.Logger;
 
 public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 
-    public Long getInput(long size) {
-        return new Long(size);
+    public Long getInput(long l){
+        return new Long(l);
     }
-
-    @Override
-    public int getMaxTime(Long input, int size) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
     @Override
     public long run(Long input) {
         ProfileData.resetCounters();
@@ -42,7 +37,13 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
     }
 
     @Override
-    public Long getInput(int size) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public int getSize(Long input) {
+        return input.intValue();
     }
+
+    @Override
+    public Long getInput(int size) {
+        return new Long(size);
+    }
+
 }
