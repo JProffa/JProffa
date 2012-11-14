@@ -15,7 +15,8 @@ public class ComplexityExponentialsTest {
 
     public ComplexityExponentialsTest() {
     }
-
+    
+    IntegerImpl impl;
     @BeforeClass
     public static void setUpClass() {
         ClassBlacklist.add(ComplexityExponentialsTest.class);
@@ -26,37 +27,22 @@ public class ComplexityExponentialsTest {
 
     @Before
     public void testSetup() {
-        ProfileData.resetCounters();
+        impl = new IntegerImpl();
+        impl.setClassName("com.mycompany.testproject.iteratives.IterativeComplexityExample");
     }
 
     
     @Test
     public void squaredTest() {
-        long[] totalCost = new long[6];
-
-        IterativeComplexityExample.squaredFunction(5);
-        totalCost[0] = Util.getTotalCost();
-        ProfileData.resetCounters();
-
-        IterativeComplexityExample.squaredFunction(10);
-        totalCost[1] = Util.getTotalCost();
-        ProfileData.resetCounters();
-
-        IterativeComplexityExample.squaredFunction(20);
-        totalCost[2] = Util.getTotalCost();
-        ProfileData.resetCounters();
-
-        IterativeComplexityExample.squaredFunction(40);
-        totalCost[3] = Util.getTotalCost();
-        ProfileData.resetCounters();
-
-        IterativeComplexityExample.squaredFunction(80);
-        totalCost[4] = Util.getTotalCost();
-        ProfileData.resetCounters();
-
-        IterativeComplexityExample.squaredFunction(160);
-        totalCost[5] = Util.getTotalCost();
-        ProfileData.resetCounters();
+        long[] totalCost = new long[5];
+        int syote = 10;
+        
+        totalCost[0] = impl.run(impl.getInput(syote));
+        
+        for (int i = 1; i < totalCost.length; i++) {
+            syote = 2*syote;
+            totalCost[i] = impl.run(impl.getInput(syote));    
+        }
         
         printResults("--- testSquared ---", totalCost);
 
@@ -64,7 +50,6 @@ public class ComplexityExponentialsTest {
         assertTrue(totalCost[1] * 4 >= totalCost[2]);
         assertTrue(totalCost[2] * 4 >= totalCost[3]);
         assertTrue(totalCost[3] * 4 >= totalCost[4]);
-        assertTrue(totalCost[4] * 4 >= totalCost[5]);
         System.out.println("- - - - -");
 
     }
@@ -73,27 +58,14 @@ public class ComplexityExponentialsTest {
     public void testApproximatedSquared() {
         long[] totalCost = new long[5];
 
-        IterativeComplexityExample.approximatedSquaredFunction(5);
-        System.out.println("cost 5 " + Util.getTotalCost());
-        long total5 = Util.getTotalCost();
-        ProfileData.resetCounters();
-
-
-        IterativeComplexityExample.approximatedSquaredFunction(10);
-        totalCost[0] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.approximatedSquaredFunction(20);
-        totalCost[1] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.approximatedSquaredFunction(40);
-        totalCost[2] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.approximatedSquaredFunction(80);
-        totalCost[3] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.approximatedSquaredFunction(160);
-        totalCost[4] = Util.getTotalCost();
-        ProfileData.resetCounters();
+        int syote = 10;
+        
+        totalCost[0] = impl.run(impl.getInput(syote));
+        
+        for (int i = 1; i < totalCost.length; i++) {
+            syote = 2*syote;
+            totalCost[i] = impl.run(impl.getInput(syote));    
+        }
         
         printResults("--- testApproximatedSquared ---", totalCost);
         assertTrue(totalCost[0] * 4 >= totalCost[1]);
@@ -108,27 +80,14 @@ public class ComplexityExponentialsTest {
     @Test
     public void testCoinFlipExponential() {
         long[] totalCost = new long[5];
-
-        IterativeComplexityExample.squaredCoinFlipFunction(5);
-        Util.getTotalCost();
-        long total5 = Util.getTotalCost();
-        ProfileData.resetCounters();
-
-        IterativeComplexityExample.squaredCoinFlipFunction(10);
-        totalCost[0] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.squaredCoinFlipFunction(20);
-        totalCost[1] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.squaredCoinFlipFunction(40);
-        totalCost[2] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.squaredCoinFlipFunction(80);
-        totalCost[3] = Util.getTotalCost();
-        ProfileData.resetCounters();
-        IterativeComplexityExample.squaredCoinFlipFunction(160);
-        totalCost[4] = Util.getTotalCost();
-        ProfileData.resetCounters();
+        int syote = 10;
+        
+        totalCost[0] = impl.run(impl.getInput(syote));
+        
+        for (int i = 1; i < totalCost.length; i++) {
+            syote = 2*syote;
+            totalCost[i] = impl.run(impl.getInput(syote));    
+        }
 
 
         printResults("--- testCoinFlipSquared ---", totalCost);
