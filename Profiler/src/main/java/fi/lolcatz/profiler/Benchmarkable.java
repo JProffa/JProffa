@@ -10,5 +10,5 @@ public interface Benchmarkable<T> {
     int getSize(T input);
     long run (T input) throws Exception;
     //int getMaxTime(T input, int size);
-    Output<T> generateOutput(List<T> list);
+    Output<T> generateOutput(List<T> list) throws Exception;
 }

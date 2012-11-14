@@ -7,9 +7,11 @@ package com.mycompany.testproject.iterativeTests;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
+import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,6 +46,17 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
     @Override
     public Long getInput(int size) {
         return new Long(size);
+    }
+
+    @Override
+    public Output<Long> generateOutput(List<Long> list) throws Exception {
+        Output<Long> out = new Output<Long>();
+        for (Long l : list){
+            out.addToInput(l);
+            out.addToSize(getSize(l));
+            out.addToTime(run(l));
+        }
+        return out;
     }
 
 }
