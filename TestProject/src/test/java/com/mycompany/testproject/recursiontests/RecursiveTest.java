@@ -58,7 +58,7 @@ public class RecursiveTest {
             totalCost[i] = impl.run(impl.getInput(syote), impl.getInput(0));    
         }
         
-        printResults("--- Test Linear Recursion ---", totalCost);
+        printResults("--- testRecursiveLinear ---", totalCost);
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
@@ -80,8 +80,7 @@ public class RecursiveTest {
             syote = 2*syote;
             totalCost[i] = impl.run(impl.getInput(syote), impl.getInput(0));    
         }
-        
-        printResults("--- Test Linear Recursion large ---", totalCost);
+        printResults("--- testRecursiveLinearLarge ---", totalCost);
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
@@ -104,8 +103,7 @@ public class RecursiveTest {
             totalCost[i] = impl.run(impl.getInput(syote),impl.getInput(0));    
         }
         
-        
-        printResults("--- Test Linear Recursion huge ---", totalCost);
+        printResults("--- testRecursiveLinearHuge ---", totalCost);
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
@@ -127,7 +125,8 @@ public class RecursiveTest {
             syote = 2*syote;
             totalCost[0] = impl.run(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));   
         }
-        printResults("--- Test Squared Recursion ---", totalCost);
+        
+        printResults("--- testRecursiveSquared ---", totalCost);
         
         assertTrue(totalCost[0]*4 >= totalCost[1]);
         assertTrue(totalCost[1]*4 >= totalCost[2]);
@@ -149,7 +148,8 @@ public class RecursiveTest {
             syote = 2*syote;
             totalCost[0] = impl.run(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));   
         }
-        printResults("--- Test Squared Recursion large ---", totalCost);
+        
+        printResults("--- testRecursiveSquaredLarge ---", totalCost);
         
         assertTrue(totalCost[0]*4 >= totalCost[1]);
         assertTrue(totalCost[1]*4 >= totalCost[2]);
@@ -171,7 +171,9 @@ public class RecursiveTest {
             syote = 2*syote;
             totalCost[0] = impl.run(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));   
         }
-        printResults("--- Test Squared Recursion huge ---", totalCost);
+        
+        printResults("--- testRecursiveSquaredHuge ---", totalCost);
+        
         assertTrue(totalCost[0]*4 >= totalCost[1]);
         assertTrue(totalCost[1]*4 >= totalCost[2]);
         assertTrue(totalCost[2]*4 >= totalCost[3]);
@@ -186,6 +188,5 @@ public class RecursiveTest {
             System.out.println(i + ": " + l);
         }
     }
-    
 
 }

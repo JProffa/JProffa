@@ -55,7 +55,6 @@ public class ComplexityAndTimeLinearTest {
             syote = 2*syote;
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
-        printResults("--- Test Linear ---", totalCost);
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
@@ -77,7 +76,6 @@ public class ComplexityAndTimeLinearTest {
             syote = 2*syote;
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
-        printResults("--- Test Linear Large ---", totalCost);
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
@@ -99,7 +97,7 @@ public class ComplexityAndTimeLinearTest {
             syote = 2*syote;
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
-        printResults("--- Test Linear Huge ---", totalCost);
+        
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
@@ -126,12 +124,4 @@ public class ComplexityAndTimeLinearTest {
         
     }
     
-    public void printResults(String testname, long[] results) {
-        System.out.println("---" + testname + "---");
-        int i = 0;
-        for (long l : results) {
-            i++;
-            System.out.println(i + ": " + l);
-        }
-    }
 }

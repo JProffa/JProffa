@@ -56,8 +56,7 @@ public class LogarithmicComplexityTest {
             syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
-        printResults("--- Test Logarithmic Huge ---", totalCost);
-        
+        printResults("--- testLogarithmic ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
@@ -80,8 +79,7 @@ public class LogarithmicComplexityTest {
             syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
-        printResults("--- Test Logarithmic Huge ---", totalCost);
-        
+        printResults("--- testLogarithmicLarge ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
@@ -104,7 +102,7 @@ public class LogarithmicComplexityTest {
             syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.run(impl.getInput(syote));    
         }
-        printResults("--- Test Logarithmic Huge ---", totalCost);
+        printResults("--- testLogarithmicHuge ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
