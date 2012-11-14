@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Output<T> {
 
-    List<T> input;
-    List<Integer> size;
-    List<Long> time;
+    private List<T> input;
+    private List<Integer> size;
+    private List<Long> time;
     
 
     public List<T> getInput() {
