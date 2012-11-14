@@ -62,7 +62,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             Util.writeByteArrayToFile(filename + ".class", bytecode);
 
             // Initialize counter arrays
-            ProfileData.initialize();
+            if (!Agent.isRetransforming()) ProfileData.initialize();
 
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
