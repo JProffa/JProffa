@@ -128,16 +128,19 @@ public class ProfileData {
      * Disallow counter increments.
      */
     public static synchronized void disallowProfiling() {
-        numOfBlockingThreads--;
-        if (numOfBlockingThreads == 0) profilingAllowed = true;
+        numOfBlockingThreads++;
+        profilingAllowed = false;
     }
     
     /**
      * Allow counter increments.
      */
     public static synchronized void allowProfiling() {
-        numOfBlockingThreads++;
-        profilingAllowed = false;
+        numOfBlockingThreads--;
+        if (numOfBlockingThreads <= 0) {
+            profilingAllowed = true;
+            numOfBlockingThreads = 0;
+        }
         
     }
 }
