@@ -36,7 +36,7 @@ public class StringTest {
     }
     
     @Test
-    public void testStringReplaceLinear() {
+    public void testStringReplaceLinear() throws Exception {
         impl.setMethodName("stringReplace");
         impl.run(impl.getInput(25), "a", "b");
         
@@ -60,7 +60,7 @@ public class StringTest {
     
     
     @Test
-    public void testStringReplaceLinearLarge() {
+    public void testStringReplaceLinearLarge() throws Exception {
         impl.setMethodName("stringReplace");
         impl.run(impl.getInput(25), "a", "b");
         
@@ -83,7 +83,7 @@ public class StringTest {
     }
     
     @Test
-    public void testStringReplaceLinearHUGE() {
+    public void testStringReplaceLinearHUGE() throws Exception {
         impl.setMethodName("stringReplace");
         impl.run(impl.getInput(25), "a", "b");
         
@@ -106,7 +106,7 @@ public class StringTest {
     }
     
     @Test
-    public void testStringReplaceIsDeterministic() {
+    public void testStringReplaceIsDeterministic() throws Exception {
         impl.setMethodName("stringReplace");
         impl.run("aaaaaaaaas", "s", "a");
         

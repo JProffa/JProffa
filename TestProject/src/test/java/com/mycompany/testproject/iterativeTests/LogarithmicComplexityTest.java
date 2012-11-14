@@ -51,10 +51,13 @@ public class LogarithmicComplexityTest {
         long syote = 1000L;
         
         totalCost[0] = impl.run(impl.getInput(syote));
+        Util.printSortedClasses();
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.run(impl.getInput(syote));
+            System.out.println(i+1 + ": -------");
+            Util.printSortedClasses();
         }
         printResults("--- testLogarithmic ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -74,10 +77,15 @@ public class LogarithmicComplexityTest {
         long syote = 1000L;
         
         totalCost[0] = impl.run(impl.getInput(syote));
+        System.out.println(1 + ": -------");
+        Util.printSortedClasses();
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.run(impl.getInput(syote));
+            System.out.println(i+1 + ": -------");
+            Util.printSortedClasses();
+            
         }
         printResults("--- testLogarithmicLarge ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -97,10 +105,14 @@ public class LogarithmicComplexityTest {
         long syote = 100000000000L;
         
         totalCost[0] = impl.run(impl.getInput(syote));
-        
+        System.out.println(1 + ": -------");
+        Util.printSortedClasses();
+            
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.run(impl.getInput(syote)); 
+            System.out.println(i+1 + ": -------");
+            Util.printSortedClasses();
         }
         printResults("--- testLogarithmicHuge ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
