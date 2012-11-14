@@ -32,8 +32,10 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             byte[] classfileBuffer) throws IllegalClassFormatException {
         this.className = className;
         try {
+            ProfileData.disallowProfiling();
             // Don't touch the class if it's blacklisted
             if (ClassBlacklist.isBlacklisted(className)) {
+                ProfileData.allowProfiling();
                 return null;
             }
             logger.info("Class: " + className);
@@ -64,12 +66,15 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             // Initialize counter arrays
             if (!Agent.isRetransforming()) ProfileData.initialize();
 
+            ProfileData.allowProfiling();
+            
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
             logger.fatal(e.getMessage(), e);
         } catch (Error e) {
             logger.fatal(e.getMessage(), e);
         }
+        ProfileData.allowProfiling();
         return null;
     }
 

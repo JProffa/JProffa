@@ -22,6 +22,7 @@ public class ProfileData {
     private static ArrayList<String> basicBlockDesc = new ArrayList<String>();
     
     private static boolean profilingAllowed = true;
+    private static int numOfBlockingThreads = 0;
     
     /**
      * Adds basic block with default cost (1).
@@ -122,12 +123,21 @@ public class ProfileData {
     public static boolean isProfilingAllowed() {
         return profilingAllowed;
     }
-
+    
     /**
-     * Set to true to disallow counter increments.
-     * @param profilingAllowed 
+     * Disallow counter increments.
      */
-    public static void setProfilingAllowed(boolean profilingAllowed) {
-        ProfileData.profilingAllowed = profilingAllowed;
+    public static synchronized void disallowProfiling() {
+        numOfBlockingThreads--;
+        if (numOfBlockingThreads == 0) profilingAllowed = true;
+    }
+    
+    /**
+     * Allow counter increments.
+     */
+    public static synchronized void allowProfiling() {
+        numOfBlockingThreads++;
+        profilingAllowed = false;
+        
     }
 }
