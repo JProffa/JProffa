@@ -102,7 +102,6 @@ public class IterativeTest {
 
         long marginError = impl.getMarginOfError(first);        
         
-        System.out.println("first: " + first + ", second: " + second);
         assertTrue(first != 0 && second != 0);
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
     }
