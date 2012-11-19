@@ -4,6 +4,7 @@ import com.mycompany.testproject.Example;
 import com.mycompany.testproject.iteratives.IterativeExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiler.ComplexityCost;
 import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
 import java.util.ArrayList;
