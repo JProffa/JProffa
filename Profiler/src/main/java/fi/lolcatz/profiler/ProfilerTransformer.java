@@ -113,7 +113,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 case FRAME:
                     break;
                 default:
-                    cost += 1;
+                    cost += ComplexityCost.getCost(type);
             }
         }
         return cost;
