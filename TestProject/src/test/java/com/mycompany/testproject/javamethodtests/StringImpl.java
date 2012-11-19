@@ -103,6 +103,7 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
 
     @Override
     public Output<String> generateOutput(List<String> list) throws Exception {
+        run("");
         Output<String> out = new Output<String>();
         for (String s : list){
             out.addToInput(s);

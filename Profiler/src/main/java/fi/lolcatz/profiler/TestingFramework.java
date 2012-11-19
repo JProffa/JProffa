@@ -19,30 +19,40 @@ public class TestingFramework {
     
     /*
      * Calculates the linearity of the class variable out
-     */
+     */  
     public boolean isLinear(){
-        Integer basicSize = out.getSize().get(0);
-        Long basicCost = out.getTime().get(0);      
+        if (out.getSize().size() < 2) return false;
+        Integer x0 = out.getSize().get(0);
+        Long y0 = out.getTime().get(0);    
+        Integer xn = out.getSize().get(out.getSize().size()-1);
+        Long yn = out.getTime().get(out.getTime().size()-1);
+        double a = Math.abs(y0-yn)/Math.abs(x0-xn);
+        double b = y0 - a*x0;     
         for (int i = 0; i < out.getTime().size(); i++){          
-            double multiplier = out.getSize().get(i)*1.0 / basicSize;
-            Long time = out.getTime().get(i);
-            boolean linearity = Math.abs((multiplier * basicCost) - time) < time*0.2 ? true : false;
-            if (!linearity) return false;     
+            double time = out.getTime().get(i);
+            double function = a*out.getSize().get(i)+b;   
+            boolean linearity = time*1.05 >= function ? true : false;
+            if (!linearity) return false;
         }
         return true;
     }
     
     /*
-     * Calculates the linearity of the parameter output
-     */
+     * Calculates the linearity of the parameter variable out
+     */  
     public boolean isLinear(Output<?> output){
-        Integer basicSize = output.getSize().get(0);
-        Long basicCost = output.getTime().get(0);      
+        if (output.getSize().size() < 2) return false;
+        Integer x0 = output.getSize().get(0);
+        Long y0 = output.getTime().get(0);    
+        Integer xn = output.getSize().get(output.getSize().size()-1);
+        Long yn = output.getTime().get(output.getTime().size()-1);
+        double a = Math.abs(y0-yn)/Math.abs(x0-xn);
+        double b = y0 - a*x0;     
         for (int i = 0; i < output.getTime().size(); i++){          
-            double multiplier = output.getSize().get(i) / basicSize;
-            Long time = output.getTime().get(i);
-            boolean linearity = Math.abs((multiplier * basicCost) - time) < time*0.2 ? true : false;
-            if (!linearity) return false;     
+            double time = output.getTime().get(i);
+            double function = a*output.getSize().get(i)+b;   
+            boolean linearity = time*1.05 >= function ? true : false;
+            if (!linearity) return false;
         }
         return true;
     }

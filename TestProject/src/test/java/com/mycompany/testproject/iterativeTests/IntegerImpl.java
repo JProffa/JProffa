@@ -82,6 +82,7 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer>{
 
     @Override
     public Output<Integer> generateOutput(List<Integer> list) throws Exception {
+        run(1);
         Output<Integer> out = new Output<Integer>();
         for (Integer i : list){          
             out.addToInput(i);

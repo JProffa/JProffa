@@ -50,6 +50,7 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 
     @Override
     public Output<Long> generateOutput(List<Long> list) throws Exception {
+        run(new Long(1));
         Output<Long> out = new Output<Long>();
         for (Long l : list){
             out.addToInput(l);

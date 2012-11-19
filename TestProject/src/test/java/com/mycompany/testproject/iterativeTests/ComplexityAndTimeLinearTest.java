@@ -4,8 +4,10 @@ import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Output;
+import fi.lolcatz.profiler.TestingFramework;
 import fi.lolcatz.profiler.Util;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -22,6 +24,7 @@ public class ComplexityAndTimeLinearTest {
     
     public static long freshTime;
     IntegerImpl impl;
+    TestingFramework framework;
         
     @BeforeClass
     public static void classSetup() {
@@ -29,8 +32,7 @@ public class ComplexityAndTimeLinearTest {
         long startTime = System.currentTimeMillis();
         IterativeComplexityExample.linearFunction(200000000);
         long endTime   = System.currentTimeMillis();
-        freshTime = endTime - startTime;
-        
+        freshTime = endTime - startTime;         
 
         ClassBlacklist.add(ComplexityAndTimeLinearTest.class);
         Util.loadAgent();      
@@ -88,17 +90,41 @@ public class ComplexityAndTimeLinearTest {
     
        
     @Test
-    public void testGenerateOutput() throws Exception {
+    public void testGenerateOutput() throws Exception {     
         impl.setMethodName("linearFunction");
-        List<Integer> list = new ArrayList<Integer>();
-        list.add(500);
-        list.add(1000);
+        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192,16384);
         Output<Integer> o = impl.generateOutput(list);
+        framework = new TestingFramework(o);
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-       
+        assertTrue(framework.isLinear());     
     }
+    
+    @Test
+    public void testGenerateOutputWithHugeLeap() throws Exception {     
+        impl.setMethodName("linearFunction");
+        List<Integer> list = Arrays.asList(2,20,500);
+        Output<Integer> o = impl.generateOutput(list);
+        framework = new TestingFramework(o);
+        for (Long l : o.getTime()){
+            assertTrue(l > 0);
+        }
+        assertTrue(framework.isLinear());     
+    }
+    
+    @Test
+    public void testLinearityOnSquaredFunction() throws Exception {     
+        impl.setMethodName("approximatedSquaredFunction");
+        List<Integer> list = Arrays.asList(2,4,8,16,32,64);
+        Output<Integer> o = impl.generateOutput(list);
+        framework = new TestingFramework(o);
+        for (Long l : o.getTime()){
+            assertTrue(l > 0);
+        }
+        assertFalse(framework.isLinear());     
+    }
+
     
     @Test
     public void testLinearHUUGE() throws Exception {
