@@ -1,11 +1,8 @@
 package com.mycompany.testproject.iterativeTests;
 
-import com.mycompany.testproject.iteratives.IterativeComplexityExample;
-import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
 import org.junit.*;
-
 import static org.junit.Assert.*;
 
 public class LogarithmicComplexityTest {
@@ -18,8 +15,7 @@ public class LogarithmicComplexityTest {
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(LogarithmicComplexityTest.class);
-        Util.loadAgent();      
-        ProfileData.initialize();
+        Util.loadAgent();
     }
 
     @Before
@@ -42,20 +38,20 @@ public class LogarithmicComplexityTest {
     }
     
     @Test
-    public void testLogarithmic() {
+    public void testLogarithmic() throws Exception {
         
         impl.setMethodName("logarithmicFunction");
-        impl.run(impl.getInput(1000L));
+        impl.runStatic(impl.getInput(1000L));
         
         long[] totalCost = new long[5];
         long syote = 1000L;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         Util.printSortedClasses();
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
-            totalCost[i] = impl.run(impl.getInput(syote));
+            totalCost[i] = impl.runStatic(impl.getInput(syote));
             System.out.println(i+1 + ": -------");
             Util.printSortedClasses();
         }
@@ -68,21 +64,21 @@ public class LogarithmicComplexityTest {
     }
     
     @Test
-    public void testLogarithmicLarge() {
+    public void testLogarithmicLarge() throws Exception {
         
         impl.setMethodName("logarithmicFunction");
-        impl.run(impl.getInput(1000L));
+        impl.runStatic(impl.getInput(1000L));
         
         long[] totalCost = new long[5];
         long syote = 1000L;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         System.out.println(1 + ": -------");
         Util.printSortedClasses();
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
-            totalCost[i] = impl.run(impl.getInput(syote));
+            totalCost[i] = impl.runStatic(impl.getInput(syote));
             System.out.println(i+1 + ": -------");
             Util.printSortedClasses();
             
@@ -96,21 +92,21 @@ public class LogarithmicComplexityTest {
     }
     
     @Test
-    public void testLogarithmicHuge() {
+    public void testLogarithmicHuge() throws Exception {
             
         impl.setMethodName("logarithmicFunction");
-        impl.run(impl.getInput(100000000000L));
+        impl.runStatic(impl.getInput(100000000000L));
         
         long[] totalCost = new long[5];
         long syote = 100000000000L;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         System.out.println(1 + ": -------");
         Util.printSortedClasses();
             
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
-            totalCost[i] = impl.run(impl.getInput(syote)); 
+            totalCost[i] = impl.runStatic(impl.getInput(syote)); 
             System.out.println(i+1 + ": -------");
             Util.printSortedClasses();
         }

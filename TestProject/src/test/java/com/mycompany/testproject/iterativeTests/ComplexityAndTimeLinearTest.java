@@ -1,21 +1,18 @@
 package com.mycompany.testproject.iterativeTests;
 
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
-import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.TestingFramework;
 import fi.lolcatz.profiler.Util;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class ComplexityAndTimeLinearTest {
     
@@ -35,8 +32,7 @@ public class ComplexityAndTimeLinearTest {
         freshTime = endTime - startTime;         
 
         ClassBlacklist.add(ComplexityAndTimeLinearTest.class);
-        Util.loadAgent();      
-        ProfileData.initialize();
+        Util.loadAgent();
         Logger.getRootLogger().setLevel(Level.OFF);
     }
 
@@ -49,16 +45,16 @@ public class ComplexityAndTimeLinearTest {
     @Test
     public void testLinear() throws Exception {
         impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+        impl.runStatic(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 1000;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -70,16 +66,16 @@ public class ComplexityAndTimeLinearTest {
     @Test
     public void testLinearLarge() throws Exception {
         impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+        impl.runStatic(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 100000;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -129,16 +125,16 @@ public class ComplexityAndTimeLinearTest {
     @Test
     public void testLinearHUUGE() throws Exception {
         impl.setMethodName("linearFunction");
-        impl.run(impl.getInput(1000));
+        impl.runStatic(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 10000000;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);

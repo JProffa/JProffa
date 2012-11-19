@@ -274,7 +274,7 @@ public class ComplexityCost {
         return 1;
     }
     
-    public static void enableComplexityCos(){
+    public static void enableComplexityCost(){
         wantToUse = true;
     }
     

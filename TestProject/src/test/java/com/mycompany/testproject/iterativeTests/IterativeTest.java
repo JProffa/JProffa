@@ -1,19 +1,12 @@
 package com.mycompany.testproject.iterativeTests;
 
 import com.mycompany.testproject.Example;
-import com.mycompany.testproject.iteratives.IterativeExample;
-import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ComplexityCost;
-import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class IterativeTest {
 
@@ -28,7 +21,6 @@ public class IterativeTest {
         ClassBlacklist.add(IterativeTest.class);
         Example.main(null);
         Util.loadAgent();
-        ProfileData.initialize();
     }
 
     @Before
@@ -46,10 +38,10 @@ public class IterativeTest {
 
         impl.setMethodName("iterativeFunction");
 
-        impl.run(impl.getInput(500));
+        impl.runStatic(impl.getInput(500));
 
-        long first = impl.run(500);
-        long second = impl.run(500);
+        long first = impl.runStatic(500);
+        long second = impl.runStatic(500);
 
         long marginError = impl.getMarginOfError(first);
         
@@ -63,10 +55,10 @@ public class IterativeTest {
 
         impl.setMethodName("factorialForFunction");
 
-        impl.run(impl.getInput(500));
+        impl.runStatic(impl.getInput(500));
 
-        long first = impl.run(impl.getInput(500));
-        long second = impl.run(impl.getInput(500));
+        long first = impl.runStatic(impl.getInput(500));
+        long second = impl.runStatic(impl.getInput(500));
 
         long marginError = impl.getMarginOfError(first);
 
@@ -79,10 +71,10 @@ public class IterativeTest {
 
         impl.setMethodName("factorialWhileFunction");
 
-        impl.run(impl.getInput(500));
+        impl.runStatic(impl.getInput(500));
 
-        long first = impl.run(impl.getInput(500));
-        long second = impl.run(impl.getInput(500));
+        long first = impl.runStatic(impl.getInput(500));
+        long second = impl.runStatic(impl.getInput(500));
 
         long marginError = impl.getMarginOfError(first);
 
@@ -95,10 +87,10 @@ public class IterativeTest {
 
         impl.setMethodName("factorialForEachFunction");
 
-        impl.run(impl.getInput(500));
+        impl.runStatic(impl.getInput(500));
 
-        long first = impl.run(impl.getInput(500));
-        long second = impl.run(impl.getInput(500));
+        long first = impl.runStatic(impl.getInput(500));
+        long second = impl.runStatic(impl.getInput(500));
 
         long marginError = impl.getMarginOfError(first);        
         

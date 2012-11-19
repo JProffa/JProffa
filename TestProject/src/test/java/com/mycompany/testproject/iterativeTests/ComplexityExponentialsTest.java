@@ -1,15 +1,12 @@
 package com.mycompany.testproject.iterativeTests;
 
-import com.mycompany.testproject.iteratives.IterativeComplexityExample;
-import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
 import org.apache.log4j.Logger;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class ComplexityExponentialsTest {
 
@@ -21,7 +18,6 @@ public class ComplexityExponentialsTest {
     public static void setUpClass() {
         ClassBlacklist.add(ComplexityExponentialsTest.class);
         Util.loadAgent();
-        ProfileData.initialize();
         Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
     }
 
@@ -37,11 +33,11 @@ public class ComplexityExponentialsTest {
         long[] totalCost = new long[5];
         int syote = 10;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         printResults("--- testSquared ---", totalCost);
@@ -60,11 +56,11 @@ public class ComplexityExponentialsTest {
 
         int syote = 10;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         printResults("--- testApproximatedSquared ---", totalCost);
@@ -82,11 +78,11 @@ public class ComplexityExponentialsTest {
         long[] totalCost = new long[5];
         int syote = 10;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
 
 

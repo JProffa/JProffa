@@ -5,14 +5,12 @@ import com.mycompany.testproject.recursives.RecursiveComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 
 public class BlacklistTest {
@@ -24,7 +22,6 @@ public class BlacklistTest {
     public static void classSetup() {
         ClassBlacklist.add(BlacklistTest.class);
         Util.loadAgent();
-        ProfileData.initialize(); 
     }
     
     @Before

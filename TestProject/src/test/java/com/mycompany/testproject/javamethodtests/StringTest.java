@@ -1,16 +1,13 @@
 package com.mycompany.testproject.javamethodtests;
 
 import com.mycompany.testproject.Example;
-import com.mycompany.testproject.javamethodtests.StringImpl;
-import com.mycompany.testproject.javamethods.StringExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class StringTest {
     
@@ -23,8 +20,7 @@ public class StringTest {
     public static void classSetup() {
         ClassBlacklist.add(StringTest.class);
         Example.main(null);
-        Util.loadAgent();      
-        ProfileData.initialize(); 
+        Util.loadAgent();
     }
     
     
@@ -38,16 +34,16 @@ public class StringTest {
     @Test
     public void testStringReplaceLinear() throws Exception {
         impl.setMethodName("stringReplace");
-        impl.run(impl.getInput(25), "a", "b");
+        impl.runStatic(impl.getInput(25), "a", "b");
         
         long[] totalCost = new long[5];
         int syote = 100;
         
-        totalCost[0] = impl.run(impl.getInput(syote), "a", "b");
+        totalCost[0] = impl.runStatic(impl.getInput(syote), "a", "b");
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote), "a", "b");    
+            totalCost[i] = impl.runStatic(impl.getInput(syote), "a", "b");    
         }
         
         printResults("testStringReplaceLinear", totalCost);
@@ -62,16 +58,16 @@ public class StringTest {
     @Test
     public void testStringReplaceLinearLarge() throws Exception {
         impl.setMethodName("stringReplace");
-        impl.run(impl.getInput(25), "a", "b");
+        impl.runStatic(impl.getInput(25), "a", "b");
         
         long[] totalCost = new long[5];
         int syote = 10000;
         
-        totalCost[0] = impl.run(impl.getInput(syote), "a", "b");
+        totalCost[0] = impl.runStatic(impl.getInput(syote), "a", "b");
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote), "a", "b");    
+            totalCost[i] = impl.runStatic(impl.getInput(syote), "a", "b");    
         }
         
         printResults("testStringReplaceLinearLarge", totalCost);
@@ -85,16 +81,16 @@ public class StringTest {
     @Test
     public void testStringReplaceLinearHUGE() throws Exception {
         impl.setMethodName("stringReplace");
-        impl.run(impl.getInput(25), "a", "b");
+        impl.runStatic(impl.getInput(25), "a", "b");
         
         long[] totalCost = new long[5];
         int syote = 10000000;
         
-        totalCost[0] = impl.run(impl.getInput(syote), "a", "b");
+        totalCost[0] = impl.runStatic(impl.getInput(syote), "a", "b");
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote), "a", "b");    
+            totalCost[i] = impl.runStatic(impl.getInput(syote), "a", "b");    
         }
         
         printResults("testStringReplaceLinearHUGE", totalCost);
@@ -108,10 +104,10 @@ public class StringTest {
     @Test
     public void testStringReplaceIsDeterministic() throws Exception {
         impl.setMethodName("stringReplace");
-        impl.run("aaaaaaaaas", "s", "a");
+        impl.runStatic("aaaaaaaaas", "s", "a");
         
-        long total1 = impl.run("aaaaaaaaas", "s", "a");
-        long total2 = impl.run("aaaaaaaaas", "s", "a");
+        long total1 = impl.runStatic("aaaaaaaaas", "s", "a");
+        long total2 = impl.runStatic("aaaaaaaaas", "s", "a");
         
         assertTrue(total1 > total2 -100 && total1 < total2 + 100);
     }
