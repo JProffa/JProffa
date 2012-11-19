@@ -5,6 +5,7 @@
 
 package fi.lolcatz.profiler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Output<T> {
@@ -13,6 +14,11 @@ public class Output<T> {
     private List<Integer> size;
     private List<Long> time;
     
+    public Output(){
+        input = new ArrayList<T>();
+        size = new ArrayList<Integer>();
+        time = new ArrayList<Long>();
+    }
 
     public List<T> getInput() {
         return input;
