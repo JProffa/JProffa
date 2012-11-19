@@ -4,7 +4,10 @@ import com.mycompany.testproject.Example;
 import com.mycompany.testproject.iteratives.IterativeExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,7 +51,8 @@ public class IterativeTest {
         long second = impl.run(500);
 
         long marginError = impl.getMarginOfError(first);
-
+        
+        assertTrue(first != 0 && second != 0);
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
 
     }
@@ -65,6 +69,7 @@ public class IterativeTest {
 
         long marginError = impl.getMarginOfError(first);
 
+        assertTrue(first != 0 && second != 0);
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
     }
 
@@ -80,6 +85,7 @@ public class IterativeTest {
 
         long marginError = impl.getMarginOfError(first);
 
+        assertTrue(first != 0 && second != 0);
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
     }
 
@@ -95,6 +101,7 @@ public class IterativeTest {
 
         long marginError = impl.getMarginOfError(first);        
         
+        assertTrue(first != 0 && second != 0);
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
     }
 }

@@ -3,7 +3,10 @@ package com.mycompany.testproject.iterativeTests;
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -81,6 +84,20 @@ public class ComplexityAndTimeLinearTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+    }
+    
+       
+    @Test
+    public void testGenerateOutput() throws Exception {
+        impl.setMethodName("linearFunction");
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(500);
+        list.add(1000);
+        Output<Integer> o = impl.generateOutput(list);
+        for (Long l : o.getTime()){
+            assertTrue(l > 0);
+        }
+       
     }
     
     @Test
