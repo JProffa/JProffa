@@ -30,6 +30,9 @@ public class ComplexityExponentialsTest {
     
     @Test
     public void squaredTest() throws Exception {
+        
+        impl.setMethodName("squaredFunction");
+        
         long[] totalCost = new long[5];
         int syote = 10;
         
@@ -52,6 +55,9 @@ public class ComplexityExponentialsTest {
 
     @Test
     public void testApproximatedSquared() throws Exception {
+        
+        impl.setMethodName("approximatedSquaredFunction");
+        
         long[] totalCost = new long[5];
 
         int syote = 10;
@@ -75,6 +81,9 @@ public class ComplexityExponentialsTest {
 
     @Test
     public void testCoinFlipExponential() throws Exception {
+        
+        impl.setMethodName("squaredCoinFlipFunction");
+        
         long[] totalCost = new long[5];
         int syote = 10;
         
