@@ -17,11 +17,13 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
 public class Graph extends ApplicationFrame {
-
+ 
+    final JFreeChart chart;
+    
     public Graph(final String title, Output<?> out, Output<?> param) {
         super(title);
         final XYDataset dataset = createDataset(out, param);
-        final JFreeChart chart = createChart(dataset);
+        chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
         setContentPane(chartPanel);
@@ -32,6 +34,10 @@ public class Graph extends ApplicationFrame {
         this.pack();
         RefineryUtilities.centerFrameOnScreen(this);
         this.setVisible(true);
+    }
+    
+    public JFreeChart getChart(){
+        return chart;
     }
 
     /*

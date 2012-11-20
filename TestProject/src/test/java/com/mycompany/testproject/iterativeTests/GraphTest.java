@@ -6,7 +6,6 @@ package com.mycompany.testproject.iterativeTests;
 
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.Graph;
 import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.TestingFramework;
 import fi.lolcatz.profiler.Util;
@@ -14,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.jfree.ui.RefineryUtilities;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -56,6 +54,5 @@ public class GraphTest {
             assertTrue(l > 0);
         }
         impl.drawGraph(actual, param);
-        //while(true); uncomment to show graph
         }
 }

@@ -4,11 +4,16 @@ import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Graph;
 import fi.lolcatz.profiler.Output;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jfree.chart.ChartUtilities;
 
 public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 
-    public Long getInput(long l){
+    public Long getInput(long l) {
         return new Long(l);
     }
 
@@ -26,7 +31,7 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
     public Output<Long> generateOutput(List<Long> list) throws Exception {
         run(new Long(1));
         Output<Long> out = new Output<Long>();
-        for (Long l : list){
+        for (Long l : list) {
             out.addToInput(l);
             out.addToSize(getSize(l));
             out.addToTime(run(l));
@@ -37,7 +42,11 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
     @Override
     public void drawGraph(Output<?> actual, Output<?> param) {
         Graph g = new Graph("Test", actual, param);
-        g.init();
+        File f = new File("Graphs");
+        try {
+            ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
+        } catch (IOException ex) {
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
 }

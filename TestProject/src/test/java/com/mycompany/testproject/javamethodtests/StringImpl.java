@@ -1,10 +1,16 @@
 package com.mycompany.testproject.javamethodtests;
 
+import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Graph;
 import fi.lolcatz.profiler.Output;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jfree.chart.ChartUtilities;
 
 public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
    
@@ -51,7 +57,12 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
     @Override
     public void drawGraph(Output<?> actual, Output<?> param) {
         Graph g = new Graph("Test", actual, param);
-        g.init();
+        File f = new File("Graphs");
+        try {
+            ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
+        } catch (IOException ex) {
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

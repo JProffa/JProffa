@@ -4,7 +4,12 @@ import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Graph;
 import fi.lolcatz.profiler.Output;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jfree.chart.ChartUtilities;
 
 public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> {
 
@@ -32,7 +37,12 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
 
     @Override
     public void drawGraph(Output<?> actual, Output<?> param) {
-        Graph g = new Graph("Test", actual, param);
-        g.init();
+        Graph g = new Graph("Test", actual, param);    
+        File f = new File("Graphs");
+        try {
+            ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
+        } catch (IOException ex) {
+            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
