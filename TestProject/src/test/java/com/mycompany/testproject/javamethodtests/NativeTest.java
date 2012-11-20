@@ -5,11 +5,10 @@ import com.mycompany.testproject.NativeExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.io.IOException;
 
 public class NativeTest {
     
@@ -21,8 +20,7 @@ public class NativeTest {
     public static void classSetup() {
         ClassBlacklist.add(NativeTest.class);
         Example.main(null);
-        Util.loadAgent();      
-        ProfileData.initialize(); 
+        Util.loadAgent();
     }
     
     @Before

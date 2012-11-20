@@ -753,8 +753,12 @@ public class Util implements Opcodes {
         }
         ProfileData.allowProfiling();
     }
+    
+    public static String getBasicBlockCostsString(boolean showBlocksWithNoCalls) {
+        return getBasicBlockCostsString(showBlocksWithNoCalls, null);
+    }
 
-    public static String getBasicBlockCostsString(boolean showUncalledBlocks) {
+    public static String getBasicBlockCostsString(boolean showBlocksWithNoCalls, List<String> classBlacklist) {
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
         
         if (callsToBasicBlock == null) {
@@ -766,9 +770,15 @@ public class Util implements Opcodes {
         ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
         
+        if (classBlacklist == null) classBlacklist = new ArrayList<String>();
+        classBlacklist.addAll(ClassBlacklist.getBlacklist());
         StringBuilder sb = new StringBuilder();
+        outer:
         for (int i = 0; i < callsToBasicBlock.length; i++) {
-            if (!showUncalledBlocks && callsToBasicBlock[i] == 0) continue;
+            if (!showBlocksWithNoCalls && callsToBasicBlock[i] == 0) continue;
+            for (String blacklistedClass : classBlacklist) {
+                if (basicBlockDesc.get(i).startsWith(blacklistedClass)) continue outer;
+            }
             sb.append(String.format("%5d: Calls: %4d Cost: %4d Total: %6d Desc: %s",
                     i, callsToBasicBlock[i], basicBlockCost[i], callsToBasicBlock[i] * basicBlockCost[i],
                     basicBlockDesc.get(i)));

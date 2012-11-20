@@ -8,7 +8,6 @@ import java.util.List;
 public interface Benchmarkable<T> {
     T getInput(int size);
     int getSize(T input);
-    long run (T input) throws Exception;
     //int getMaxTime(T input, int size);
     Output<T> generateOutput(List<T> list) throws Exception;
 }

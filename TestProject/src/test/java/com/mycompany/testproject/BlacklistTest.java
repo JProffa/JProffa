@@ -5,14 +5,12 @@ import com.mycompany.testproject.recursives.RecursiveComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 
 public class BlacklistTest {
@@ -24,7 +22,6 @@ public class BlacklistTest {
     public static void classSetup() {
         ClassBlacklist.add(BlacklistTest.class);
         Util.loadAgent();
-        ProfileData.initialize(); 
     }
     
     @Before
@@ -37,29 +34,29 @@ public class BlacklistTest {
         IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
         blacklist.add("com/mycompany/testproject/");
-        long totalCost = Util.getTotalCost(blacklist);
-        assertEquals(0, totalCost);
+        String basicBlockCostsString = Util.getBasicBlockCostsString(false, blacklist);
+        assertFalse(basicBlockCostsString.contains("com/mycompany/testproject/"));
     }
     
     @Test
     public void testProfileDataClassBlacklist() {
         IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
-        blacklist.add("com/mycompany/testproject/FunctionExample");
-        long totalCost = Util.getTotalCost(blacklist);
-        assertEquals(0, totalCost);
+        blacklist.add("com/mycompany/testproject/iteratives/IterativeExample");
+        String basicBlockCostsString = Util.getBasicBlockCostsString(false, blacklist);
+        assertFalse(basicBlockCostsString.contains("com/mycompany/testproject/iteratives/IterativeExample"));
     }
     
     @Test
     public void testProfileDataMethodBlacklist() {
         IterativeExample.iterativeFunction(5);
         List<String> blacklist = new ArrayList<String>();
-        blacklist.add("com/mycompany/testproject/FunctionExample.iterativeFunction");
-        long totalCost = Util.getTotalCost(blacklist);
-        assertEquals(0, totalCost);
-        RecursiveComplexityExample.recursiveFunction(6);
-        totalCost = Util.getTotalCost(blacklist);
-        assertEquals(105, totalCost);
+        blacklist.add("com/mycompany/testproject/iteratives/IterativeExample.iterativeFunction");
+        String basicBlockCostsString = Util.getBasicBlockCostsString(false, blacklist);
+        assertFalse(basicBlockCostsString.contains("com/mycompany/testproject/iteratives/IterativeExample.iterativeFunction"));
+        IterativeExample.factorialWhileFunction(6);
+        basicBlockCostsString = Util.getBasicBlockCostsString(false, blacklist);
+        assertTrue(basicBlockCostsString.contains("com/mycompany/testproject/iteratives/IterativeExample.factorialWhileFunction"));
     }
 
 }

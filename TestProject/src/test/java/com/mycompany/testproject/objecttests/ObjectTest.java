@@ -3,14 +3,12 @@ package com.mycompany.testproject.objecttests;
 import com.mycompany.testproject.Example;
 import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import com.mycompany.testproject.objects.ObjectExample;
-import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class ObjectTest {
     
@@ -22,8 +20,7 @@ public class ObjectTest {
         Example.main(null);
         // Used to initialize the method, creating objects for the first time causes problems with profiler
         ObjectExample.createPersons(1);
-        Util.loadAgent();      
-        ProfileData.initialize();
+        Util.loadAgent();
     }
 
     @Before
@@ -38,16 +35,16 @@ public class ObjectTest {
         
          impl.setMethodName("createPersons");
          
-         impl.run(impl.getInput(1000));
+         impl.runStatic(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 1000;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -62,16 +59,16 @@ public class ObjectTest {
         
          impl.setMethodName("createPersons");
          
-         impl.run(impl.getInput(1000));
+         impl.runStatic(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 100000;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -86,16 +83,16 @@ public class ObjectTest {
         
          impl.setMethodName("createPersons");
          
-         impl.run(impl.getInput(1000));
+         impl.runStatic(impl.getInput(1000));
         
         long[] totalCost = new long[5];
         int syote = 10000000;
         
-        totalCost[0] = impl.run(impl.getInput(syote));
+        totalCost[0] = impl.runStatic(impl.getInput(syote));
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.run(impl.getInput(syote));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -109,10 +106,10 @@ public class ObjectTest {
     public void testObjectsBehaveDeterministic() throws Exception {
         impl.setMethodName("createPersons");
         
-        impl.run(impl.getInput(500));
+        impl.runStatic(impl.getInput(500));
         
-        long first = impl.run(500);
-        long second = impl.run(500);
+        long first = impl.runStatic(500);
+        long second = impl.runStatic(500);
         System.out.println("Margin of error: " + impl.getMarginOfError(first));
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-impl.getMarginOfError(first) && first < second+impl.getMarginOfError(first));
         
