@@ -52,7 +52,7 @@ public class RecursiveTest {
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.runStatic(impl.getInput(syote), impl.getInput(0));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote), impl.getInput(0));
         }
         
         printResults("--- testRecursiveLinear ---", totalCost);
@@ -75,7 +75,7 @@ public class RecursiveTest {
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.runStatic(impl.getInput(syote), impl.getInput(0));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote), impl.getInput(0));
         }
         printResults("--- testRecursiveLinearLarge ---", totalCost);
         
@@ -97,7 +97,7 @@ public class RecursiveTest {
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[i] = impl.runStatic(impl.getInput(syote),impl.getInput(0));    
+            totalCost[i] = impl.runStatic(impl.getInput(syote),impl.getInput(0));
         }
         
         printResults("--- testRecursiveLinearHuge ---", totalCost);
@@ -120,7 +120,7 @@ public class RecursiveTest {
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[0] = impl.runStatic(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));   
+            totalCost[i] = impl.runStatic(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));
         }
         
         printResults("--- testRecursiveSquared ---", totalCost);
@@ -143,7 +143,7 @@ public class RecursiveTest {
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[0] = impl.runStatic(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));   
+            totalCost[i] = impl.runStatic(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));
         }
         
         printResults("--- testRecursiveSquaredLarge ---", totalCost);
@@ -166,7 +166,7 @@ public class RecursiveTest {
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = 2*syote;
-            totalCost[0] = impl.runStatic(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));   
+            totalCost[i] = impl.runStatic(impl.getInput(syote),impl.getInput(0),impl.getInput(syote));
         }
         
         printResults("--- testRecursiveSquaredHuge ---", totalCost);

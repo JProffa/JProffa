@@ -35,6 +35,6 @@ public class NativeTest {
          NativeExample example = new NativeExample();
          example.writeSomething();
          long cost = Util.getTotalCost();
-         Util.printBasicBlocksCost(false);
+         // Util.printBasicBlocksCost(false);
      }
 }
