@@ -32,7 +32,7 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
 
     @Override
     public void drawGraph(Output<?> actual, Output<?> param) {
-        Graph g = new Graph("VITTU", actual, param);
+        Graph g = new Graph("Test", actual, param);
         g.init();
     }
 }

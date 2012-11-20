@@ -2,6 +2,7 @@ package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
+import fi.lolcatz.profiler.Graph;
 import fi.lolcatz.profiler.Output;
 import java.util.List;
 
@@ -35,7 +36,8 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 
     @Override
     public void drawGraph(Output<?> actual, Output<?> param) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Graph g = new Graph("Test", actual, param);
+        g.init();
     }
 
 }

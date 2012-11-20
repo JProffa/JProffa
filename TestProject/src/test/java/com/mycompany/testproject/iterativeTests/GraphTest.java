@@ -48,22 +48,14 @@ public class GraphTest {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
         Output<Integer> actual = impl.generateOutput(list);
-        Output<Integer> param = createOutput2(40);
+        
+        List<Integer> list2 = Arrays.asList(16, 32, 64);
+        
+        Output<Integer> param = impl.generateOutput(list2);
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
         impl.drawGraph(actual, param);
+        //while(true); uncomment to show graph
         }
-
-    
-    
-    public static Output<Integer> createOutput2(int j) {
-        Output<Integer> out = new Output<Integer>();
-        for (int i = 0; i < j; i++) {
-            out.addToInput(i);
-            out.addToTime(new Long(i));
-            out.addToSize(i*3);
-        }
-        return out;
-    }
 }
