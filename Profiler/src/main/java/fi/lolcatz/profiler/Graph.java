@@ -43,7 +43,7 @@ public class Graph extends ApplicationFrame {
             series1.add(out.getTime().get(i), out.getSize().get(i));
         }
         final XYSeries series2 = new XYSeries("Actual");
-        for (int i = 0; i < out.getInput().size(); i++) {
+        for (int i = 0; i < param.getInput().size(); i++) {
             series2.add(param.getTime().get(i), param.getSize().get(i));
         }
 
@@ -85,7 +85,7 @@ public class Graph extends ApplicationFrame {
         renderer.setSeriesLinesVisible(0, true);
         renderer.setSeriesShapesVisible(0, false);
         renderer.setSeriesLinesVisible(1, true);
-        renderer.setSeriesShapesVisible(1, false);
+        renderer.setSeriesShapesVisible(1, false);    
         plot.setRenderer(renderer);
 
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
