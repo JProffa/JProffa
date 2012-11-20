@@ -42,7 +42,7 @@ public class GraphTest {
     }
 
     @Test
-    public void testGenerateOutput() throws Exception {
+    public void testCreateGraph() throws Exception {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
         Output<Integer> actual = impl.generateOutput(list);
