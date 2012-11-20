@@ -5,15 +5,9 @@
 package fi.lolcatz.profiler;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.PlotRenderingInfo;
-import org.jfree.chart.plot.PlotState;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
@@ -40,6 +34,9 @@ public class Graph extends ApplicationFrame {
         this.setVisible(true);
     }
 
+    /*
+     * Creates the dataset from two Output objects.
+     */
     private XYDataset createDataset(Output<?> out, Output<?> param) {
         final XYSeries series1 = new XYSeries("Projected");
         for (int i = 0; i < out.getInput().size(); i++) {
@@ -57,19 +54,13 @@ public class Graph extends ApplicationFrame {
         return dataset;
 
     }
-
-    /**
-     * Creates a chart.
-     *
-     * @param dataset the data for the chart.
-     *
-     * @return a chart.
+    /*
+     * Builds and returns the chart from a custom dataset.
      */
     private JFreeChart createChart(final XYDataset dataset) {
 
-        // create the chart...
         final JFreeChart chart = ChartFactory.createXYLineChart(
-                "Saatana", // chart title
+                "Runtime chart", // chart title
                 "X", // x axis label
                 "Y", // y axis label
                 dataset, // data
@@ -79,13 +70,11 @@ public class Graph extends ApplicationFrame {
                 false // urls
                 );
 
-        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
         chart.setBackgroundPaint(Color.white);
 
-//        final StandardLegend legend = (StandardLegend) chart.getLegend();
+        //        final StandardLegend legend = (StandardLegend) chart.getLegend();
         //      legend.setDisplaySeriesShapes(true);
 
-        // get a reference to the plot for further customisation...
         final XYPlot plot = chart.getXYPlot();
         plot.setBackgroundPaint(Color.lightGray);
         //    plot.setAxisOffset(new Spacer(Spacer.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));
@@ -99,10 +88,8 @@ public class Graph extends ApplicationFrame {
         renderer.setSeriesShapesVisible(1, false);
         plot.setRenderer(renderer);
 
-        // change the auto tick unit selection to integer units only...
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        // OPTIONAL CUSTOMISATION COMPLETED.
 
         return chart;
 
@@ -111,7 +98,7 @@ public class Graph extends ApplicationFrame {
     public static void main(final String[] args) {
         Output<Integer> out = createOutput(30);
         Output<Integer> param = createOutput2(50);
-        final Graph demo = new Graph("saatana", out, param);
+        final Graph demo = new Graph("Test", out, param);
         demo.init();
 
     }
