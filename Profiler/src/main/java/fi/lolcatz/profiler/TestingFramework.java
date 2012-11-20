@@ -31,8 +31,6 @@ public class TestingFramework {
         for (int i = 0; i < out.getTime().size(); i++){          
             double time = out.getTime().get(i);
             double function = a*out.getSize().get(i)+b;   
-            System.out.println("Time: " + time);
-            System.out.println("Function: " + function);
             boolean linearity = (time*1.002 >= function && time-(time*0.002) <= function) ? true : false;
             if (!linearity) return false;
         }

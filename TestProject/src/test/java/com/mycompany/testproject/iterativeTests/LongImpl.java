@@ -33,4 +33,9 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
         return out;
     }
 
+    @Override
+    public void drawGraph(Output<?> actual, Output<?> param) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

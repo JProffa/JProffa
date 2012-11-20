@@ -47,4 +47,9 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
         return out;
     }
 
+    @Override
+    public void drawGraph(Output<?> actual, Output<?> param) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

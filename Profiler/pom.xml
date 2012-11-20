@@ -32,7 +32,7 @@
                 <configuration>
                     <transformers>
                         <transformer
-                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <manifestEntries>
                                 <Main-Class>fi.lolcatz.profiler.App</Main-Class>
                                 <Premain-Class>fi.lolcatz.profiler.Agent</Premain-Class>
@@ -101,6 +101,12 @@
             <scope>system</scope>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
+        
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.13</version>
+        </dependency>        
 
         <dependency>
             <groupId>log4j</groupId>

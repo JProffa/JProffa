@@ -2,6 +2,7 @@ package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
+import fi.lolcatz.profiler.Graph;
 import fi.lolcatz.profiler.Output;
 import java.util.List;
 
@@ -27,5 +28,11 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
             out.addToTime(runStatic(i));
         }
         return out;
+    }
+
+    @Override
+    public void drawGraph(Output<?> actual, Output<?> param) {
+        Graph g = new Graph("VITTU", actual, param);
+        g.init();
     }
 }
