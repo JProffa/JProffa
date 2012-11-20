@@ -67,8 +67,8 @@ public class Graph extends ApplicationFrame {
 
         final JFreeChart chart = ChartFactory.createXYLineChart(
                 "Runtime chart", // chart title
-                "X", // x axis label
-                "Y", // y axis label
+                "Time", // x axis label
+                "Input", // y axis label
                 dataset, // data
                 PlotOrientation.VERTICAL,
                 true, // include legend
