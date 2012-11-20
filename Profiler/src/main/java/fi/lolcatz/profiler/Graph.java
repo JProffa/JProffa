@@ -94,32 +94,4 @@ public class Graph extends ApplicationFrame {
         return chart;
 
     }
-
-    public static void main(final String[] args) {
-        Output<Integer> out = createOutput(30);
-        Output<Integer> param = createOutput2(50);
-        final Graph demo = new Graph("Test", out, param);
-        demo.init();
-
-    }
-
-    public static Output<Integer> createOutput(int j) {
-        Output<Integer> out = new Output<Integer>();
-        for (int i = 0; i < j; i++) {
-            out.addToInput(i);
-            out.addToTime(new Long(i));
-            out.addToSize(i);
-        }
-        return out;
-    }
-    
-     public static Output<Integer> createOutput2(int j) {
-        Output<Integer> out = new Output<Integer>();
-        for (int i = 0; i < j; i++) {
-            out.addToInput(i);
-            out.addToTime(new Long(i));
-            out.addToSize(i*3);
-        }
-        return out;
-    }
 }
