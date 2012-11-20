@@ -43,12 +43,12 @@ public class Graph extends ApplicationFrame {
     /*
      * Creates the dataset from two Output objects.
      */
-    private XYDataset createDataset(Output<?> out, Output<?> param) {
-        final XYSeries series1 = new XYSeries("Projected");
-        for (int i = 0; i < out.getInput().size(); i++) {
-            series1.add(out.getTime().get(i), out.getSize().get(i));
+    private XYDataset createDataset(Output<?> actual, Output<?> param) {
+        final XYSeries series1 = new XYSeries("Actual");
+        for (int i = 0; i < actual.getInput().size(); i++) {
+            series1.add(actual.getTime().get(i), actual.getSize().get(i));
         }
-        final XYSeries series2 = new XYSeries("Actual");
+        final XYSeries series2 = new XYSeries("Param");
         for (int i = 0; i < param.getInput().size(); i++) {
             series2.add(param.getTime().get(i), param.getSize().get(i));
         }
