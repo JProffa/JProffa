@@ -124,7 +124,7 @@ public class ComplexityExponentialsTest {
             assertTrue(l > 0);
         }
         impl.drawGraph(o, o);
-        assertTrue(framework.isExponential());     
+        assertTrue(framework.isSquared());     
     }
     
 //    @Test

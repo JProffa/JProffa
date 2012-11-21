@@ -68,8 +68,12 @@ public class TestingFramework {
         }
         return true;
     }
-
-    public boolean isExponential() {
+    
+    /**Calculates whether the class variable output is squared
+     * 
+     * @return True if output is squared, false if not
+     */
+    public boolean isSquared() {
         if (out.getSize().size() < 2) {
             return false;
         }
@@ -97,7 +101,10 @@ public class TestingFramework {
         
         return true;
     }
-    
+    /**Calculates whether the class variable output is O(NlogN)
+     *
+     * @return True if output is O(NlogN), false if not
+     */
     public boolean isNlogN() {
         if (out.getSize().size() < 2) {
             return false;
