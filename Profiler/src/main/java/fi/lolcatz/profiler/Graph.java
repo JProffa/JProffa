@@ -45,7 +45,7 @@ public class Graph extends ApplicationFrame {
     private XYDataset createDataset(Output<?> actual, Output<?> param) {
         final XYSeries series1 = new XYSeries("Actual");
         for (int i = 0; i < actual.getInput().size(); i++) {
-            series1.add(param.getSize().get(i), param.getTime().get(i));
+            series1.add(actual.getSize().get(i), actual.getTime().get(i));
         }
         final XYSeries series2 = new XYSeries("Param");
         for (int i = 0; i < param.getInput().size(); i++) {

@@ -46,13 +46,33 @@ public class GraphTest {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
         Output<Integer> actual = impl.generateOutput(list);
-        
+
         List<Integer> list2 = Arrays.asList(16, 32, 64);
-        
+
         Output<Integer> param = impl.generateOutput(list2);
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
         impl.drawGraph(actual, param);
+    }
+
+    @Test
+    public void testCreateLinearAndSquaredGraph() throws Exception {
+        impl.setMethodName("linearFunction");
+        List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
+        Output<Integer> actual = impl.generateOutput(list);
+
+        impl.setMethodName("squaredFunction");
+        List<Integer> list2 = Arrays.asList(2, 4, 8, 16, 32, 64);
+
+        Output<Integer> param = impl.generateOutput(list2);
+        for (Long l : actual.getTime()) {
+            assertTrue(l > 0);
         }
+        for (Long l : param.getTime()) {
+            assertTrue(l > 0);
+        }
+        
+        impl.drawGraph(actual, param);
+    }
 }

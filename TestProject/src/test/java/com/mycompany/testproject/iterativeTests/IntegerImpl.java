@@ -7,6 +7,7 @@ import fi.lolcatz.profiler.Output;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jfree.chart.ChartUtilities;
@@ -38,7 +39,8 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
     @Override
     public void drawGraph(Output<?> actual, Output<?> param) {
         Graph g = new Graph("Test", actual, param);    
-        File f = new File("Graphs");
+        Random r = new Random();
+        File f = new File("Graphs" + r.nextInt());
         try {
             ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
         } catch (IOException ex) {
