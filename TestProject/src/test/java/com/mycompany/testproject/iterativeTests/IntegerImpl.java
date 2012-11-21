@@ -25,7 +25,7 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
     }
 
     @Override
-    public Output<Integer> generateOutput(List<Integer> list) throws Exception {
+    public Output<Integer> runMethod(List<Integer> list) throws Exception {
         runStatic(1);
         Output<Integer> out = new Output<Integer>();
         for (Integer i : list){          
@@ -34,17 +34,5 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
             out.addToTime(runStatic(i));
         }
         return out;
-    }
-
-    @Override
-    public void drawGraph(Output<?> actual, Output<?> param) {
-        Graph g = new Graph("Test", actual, param);    
-        Random r = new Random();
-        File f = new File("Graphs" + r.nextInt());
-        try {
-            ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
-        } catch (IOException ex) {
-            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }
