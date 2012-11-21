@@ -67,6 +67,9 @@ public abstract class AbstractImpl {
      * @throws Exception 
      */
     public long run(Object instance, Object... inputs) throws Exception {
+        ProfileData.disallowProfiling();
+        System.runFinalization();
+        System.gc();
         ProfileData.resetCounters();
         try {
             Class<?>[] parameterTypes = new Class<?>[inputs.length];
@@ -77,9 +80,11 @@ public abstract class AbstractImpl {
             if (!Modifier.isStatic(m.getModifiers()) && instance == null) {
                 throw new NullPointerException("Cannot access instance method of a null instance");
             }
+            ProfileData.allowProfiling();
             m.invoke(instance, (Object[]) inputs);
         } catch (Exception x) {
             Logger.getLogger(AbstractImpl.class.getName()).log(Level.SEVERE, null, x);
+            ProfileData.allowProfiling();
             throw x;
         }
         return Util.getTotalCost();
