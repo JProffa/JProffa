@@ -68,6 +68,7 @@ public class ProfileData {
      * Reset callsToBasicBlock arrays elements to 0.
      */
     public static void resetCounters() {
+        if (callsToBasicBlock == null) initialize();
         for (int i = 0; i < callsToBasicBlock.length; i++) {
             callsToBasicBlock[i] = 0L;
         }
