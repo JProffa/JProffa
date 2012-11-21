@@ -16,3 +16,4 @@ hs_err*.log
 .DS_Store
 /ProfileData/nbproject/private/
 *.png
+/TestProject/Graphs
