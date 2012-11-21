@@ -101,9 +101,6 @@ public class ComplexityAndTimeLinearTest {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2,20,500);
         Output<Integer> o = impl.runMethod(list);
-        for (Long l : o.getTime()){
-            assertTrue(l > 0);
-        }
         assertTrue(framework.isLinear(o));     
     }
     

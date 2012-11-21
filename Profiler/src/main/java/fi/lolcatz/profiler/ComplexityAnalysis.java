@@ -40,7 +40,7 @@ public class ComplexityAnalysis {
         for (int i = 0; i < output.getTime().size(); i++) {
             double time = output.getTime().get(i);
             double function = a * output.getSize().get(i) + b;
-            boolean linearity = time * 1.05 >= function ? true : false;
+            boolean linearity = (time * 1.002 >= function && time - (time * 0.002) <= function) ? true : false;
             if (!linearity) {
                 return false;
             }
