@@ -14,8 +14,13 @@ import org.jfree.chart.ChartUtilities;
 
 public class ComplexityAnalysis {
 
-    public ComplexityAnalysis() {
+    private ComplexityAnalysis() {
     }
+    
+    /*
+     * add asserts for linear etc methods
+     * e.g. assertLinear ... if (!isLinear()) throw new AssertionError  (<-- same exception that junit uses)
+     */
 
     /**
      * Calculates the linearity of the parameter output
@@ -44,11 +49,11 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Calculates whether the class variable output is squared
+     * Calculates whether the parameter output is O(n*n)
      *
      * @return True if output is squared, false if not
      */
-    public static boolean isSquared(Output<?> out) {
+    public static boolean isQuadric(Output<?> out) {
         if (out.getSize().size() < 2) {
             return false;
         }
@@ -119,6 +124,8 @@ public class ComplexityAnalysis {
      * @param projected The example output
      */
     public static void drawGraph(Output<?> actual, Output<?> projected) {
+        //generate example outputs for one param
+        //linear, quadric ,nlogn
         Graph g = new Graph("Test", actual, projected);
         Random r = new Random();
         File f = new File("Graphs" + r.nextInt());

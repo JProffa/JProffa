@@ -93,7 +93,7 @@ public class ComplexityAndTimeLinearTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue(framework.isLinear(o));     
+        assertTrue(framework.isLinear(o));   
     }
     
     @Test
