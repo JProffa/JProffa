@@ -17,9 +17,10 @@ public class TestingFramework {
         this.out = out;
     }
     
-    /*
-     * Calculates the linearity of the class variable out
-     */  
+   /**Calculates the linearity of the class variable output
+    * 
+    * @return True if the output is linear, false if the output is not linear
+    */
     public boolean isLinear(){
         if (out.getSize().size() < 2) return false;
         Integer x0 = out.getSize().get(0);
@@ -37,9 +38,10 @@ public class TestingFramework {
         return true;
     }
     
-    /*
-     * Calculates the linearity of the parameter variable out
-     */  
+    /**Calculates the linearity of the parameter output
+     * 
+     * @return True if the output is linear, false if the output is not linear
+     */
     public boolean isLinear(Output<?> output){
         if (output.getSize().size() < 2) return false;
         Integer x0 = output.getSize().get(0);
