@@ -1,8 +1,8 @@
     package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
-import fi.lolcatz.profiler.TestingFramework;
 import fi.lolcatz.profiler.Util;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ public class ComplexityExponentialsTest {
     }
     
     IntegerImpl impl;
-    TestingFramework framework;
+    ComplexityAnalysis framework;
     
     @BeforeClass
     public static void setUpClass() {
@@ -86,8 +86,7 @@ public class ComplexityExponentialsTest {
     }
 
     @Test
-    public void testCoinFlipExponential() throws Exception {
-        
+    public void testCoinFlipExponential() throws Exception {     
         impl.setMethodName("squaredCoinFlipFunction");
         
         long[] totalCost = new long[5];
@@ -115,16 +114,15 @@ public class ComplexityExponentialsTest {
     public void testGenerateOutput() throws Exception {     
         impl.setMethodName("approximatedSquaredFunction");
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
-        Output<Integer> o = impl.generateOutput(list);
-        framework = new TestingFramework(o);
+        Output<Integer> o = impl.runMethod(list);
         int i = 0;
         for (Long l : o.getTime()){
 //            System.out.println("Size: " + o.getSize().get(i) + " Time: " + l);
 //            i++;
             assertTrue(l > 0);
         }
-        impl.drawGraph(o, o);
-        assertTrue(framework.isSquared());     
+        framework.drawGraph(o, o);
+        assertTrue(framework.isQuadric(o));     
     }
     
 //    @Test
@@ -132,7 +130,6 @@ public class ComplexityExponentialsTest {
 //        impl.setMethodName("approximatedNlogNFunction");
 //        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512/*,1024,2048,4096,8192,16384*/);
 //        Output<Integer> o = impl.generateOutput(list);
-//        framework = new TestingFramework(o);
 //        int i = 0;
 //        for (Long l : o.getTime()){
 //            System.out.println("Size: " + o.getSize().get(i) + " Time: " + l);
@@ -140,7 +137,7 @@ public class ComplexityExponentialsTest {
 //            assertTrue(l > 0);
 //        }
 //        impl.drawGraph(o, o);
-//        assertTrue(framework.isNlogN());     
+//        assertTrue(framework.isNlogN(o));     
 //    }
     
     public void printResults(String testname, long[] results) {

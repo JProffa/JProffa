@@ -29,7 +29,7 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
     }
 
     @Override
-    public Output<Long> generateOutput(List<Long> list) throws Exception {
+    public Output<Long> runMethod(List<Long> list) throws Exception {
         run(new Long(1));
         Output<Long> out = new Output<Long>();
         for (Long l : list) {
@@ -38,17 +38,5 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
             out.addToTime(run(l));
         }
         return out;
-    }
-
-    @Override
-    public void drawGraph(Output<?> actual, Output<?> param) {
-        Graph g = new Graph("Test", actual, param);
-        Random r = new Random();
-        File f = new File("Graphs" + r.nextInt());
-        try {
-            ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
-        } catch (IOException ex) {
-            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

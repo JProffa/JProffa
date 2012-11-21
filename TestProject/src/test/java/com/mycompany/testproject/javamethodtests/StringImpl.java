@@ -44,7 +44,7 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
     }
 
     @Override
-    public Output<String> generateOutput(List<String> list) throws Exception {
+    public Output<String> runMethod(List<String> list) throws Exception {
         run("");
         Output<String> out = new Output<String>();
         for (String s : list){
@@ -54,17 +54,4 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
         }
         return out;
     }
-
-    @Override
-    public void drawGraph(Output<?> actual, Output<?> param) {
-        Graph g = new Graph("Test", actual, param);
-        Random r = new Random();
-        File f = new File("Graphs" + r.nextInt());
-        try {
-            ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
-        } catch (IOException ex) {
-            Logger.getLogger(IntegerImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
 }

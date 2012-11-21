@@ -2,8 +2,8 @@ package com.mycompany.testproject.iterativeTests;
 
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
-import fi.lolcatz.profiler.TestingFramework;
 import fi.lolcatz.profiler.Util;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ComplexityAndTimeLinearTest {
     
     public static long freshTime;
     IntegerImpl impl;
-    TestingFramework framework;
+    ComplexityAnalysis framework;
         
     @BeforeClass
     public static void classSetup() {
@@ -89,36 +89,30 @@ public class ComplexityAndTimeLinearTest {
     public void testGenerateOutput() throws Exception {     
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192,16384);
-        Output<Integer> o = impl.generateOutput(list);
-        framework = new TestingFramework(o);
+        Output<Integer> o = impl.runMethod(list);
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue(framework.isLinear());     
+        assertTrue(framework.isLinear(o));   
     }
     
     @Test
     public void testGenerateOutputWithHugeLeap() throws Exception {     
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2,20,500);
-        Output<Integer> o = impl.generateOutput(list);
-        framework = new TestingFramework(o);
-        for (Long l : o.getTime()){
-            assertTrue(l > 0);
-        }
-        assertTrue(framework.isLinear());     
+        Output<Integer> o = impl.runMethod(list);
+        assertTrue(framework.isLinear(o)); 
     }
     
     @Test
     public void testLinearityOnSquaredFunction() throws Exception {     
         impl.setMethodName("approximatedSquaredFunction");
         List<Integer> list = Arrays.asList(2,4,8,16,32,64);
-        Output<Integer> o = impl.generateOutput(list);
-        framework = new TestingFramework(o);
+        Output<Integer> o = impl.runMethod(list);
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertFalse(framework.isLinear());     
+        assertFalse(framework.isLinear(o));     
     }
 
     

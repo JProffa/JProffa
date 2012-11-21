@@ -6,8 +6,8 @@ package com.mycompany.testproject.iterativeTests;
 
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
-import fi.lolcatz.profiler.TestingFramework;
 import fi.lolcatz.profiler.Util;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 public class GraphTest {
 
     IntegerImpl impl;
-    TestingFramework framework;
+    ComplexityAnalysis framework;
 
     @BeforeClass
     public static void classSetup() {
@@ -45,27 +45,27 @@ public class GraphTest {
     public void testCreateGraph() throws Exception {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
-        Output<Integer> actual = impl.generateOutput(list);
+        Output<Integer> actual = impl.runMethod(list);
 
         List<Integer> list2 = Arrays.asList(16, 32, 64);
 
-        Output<Integer> param = impl.generateOutput(list2);
+        Output<Integer> param = impl.runMethod(list2);
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        impl.drawGraph(actual, param);
+        framework.drawGraph(actual, param);
     }
 
     @Test
     public void testCreateLinearAndSquaredGraph() throws Exception {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
-        Output<Integer> actual = impl.generateOutput(list);
+        Output<Integer> actual = impl.runMethod(list);
 
         impl.setMethodName("squaredFunction");
         List<Integer> list2 = Arrays.asList(2, 4, 8, 16, 32, 64);
 
-        Output<Integer> param = impl.generateOutput(list2);
+        Output<Integer> param = impl.runMethod(list2);
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
@@ -73,6 +73,6 @@ public class GraphTest {
             assertTrue(l > 0);
         }
         
-        impl.drawGraph(actual, param);
+        framework.drawGraph(actual, param);
     }
 }

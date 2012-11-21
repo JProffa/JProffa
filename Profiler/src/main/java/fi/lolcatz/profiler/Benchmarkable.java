@@ -24,11 +24,5 @@ public interface Benchmarkable<T> {
      * @return Generic type of output containing data of the runtime
      * @throws Exception 
      */
-    public Output<T> generateOutput(List<T> list) throws Exception;
-    /**Draws a runtime chart of the outputs size and time lists and saves the chart to a new .png file.
-     * 
-     * @param actual The tested output
-     * @param projected The example output
-     */
-    public void drawGraph(Output<?> actual, Output<?> projected);
+    public Output<T> runMethod(List<T> list) throws Exception;
 }
