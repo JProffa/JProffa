@@ -1,7 +1,11 @@
-package com.mycompany.testproject.iterativeTests;
+    package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiler.Output;
+import fi.lolcatz.profiler.TestingFramework;
 import fi.lolcatz.profiler.Util;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.log4j.Logger;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -14,6 +18,8 @@ public class ComplexityExponentialsTest {
     }
     
     IntegerImpl impl;
+    TestingFramework framework;
+    
     @BeforeClass
     public static void setUpClass() {
         ClassBlacklist.add(ComplexityExponentialsTest.class);
@@ -104,6 +110,39 @@ public class ComplexityExponentialsTest {
 
         System.out.println("- - - - -");
     }
+    
+    @Test
+    public void testGenerateOutput() throws Exception {     
+        impl.setMethodName("approximatedSquaredFunction");
+        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
+        Output<Integer> o = impl.generateOutput(list);
+        framework = new TestingFramework(o);
+        int i = 0;
+        for (Long l : o.getTime()){
+//            System.out.println("Size: " + o.getSize().get(i) + " Time: " + l);
+//            i++;
+            assertTrue(l > 0);
+        }
+        impl.drawGraph(o, o);
+        assertTrue(framework.isExponential());     
+    }
+    
+//    @Test
+//    public void testGenerateOutputNlogN() throws Exception {     
+//        impl.setMethodName("approximatedNlogNFunction");
+//        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512/*,1024,2048,4096,8192,16384*/);
+//        Output<Integer> o = impl.generateOutput(list);
+//        framework = new TestingFramework(o);
+//        int i = 0;
+//        for (Long l : o.getTime()){
+//            System.out.println("Size: " + o.getSize().get(i) + " Time: " + l);
+//            i++;
+//            assertTrue(l > 0);
+//        }
+//        impl.drawGraph(o, o);
+//        assertTrue(framework.isNlogN());     
+//    }
+    
     public void printResults(String testname, long[] results) {
         System.out.println("---" + testname + "---");
         int i = 0;

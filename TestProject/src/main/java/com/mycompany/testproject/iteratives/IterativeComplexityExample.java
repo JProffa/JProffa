@@ -3,10 +3,10 @@ package com.mycompany.testproject.iteratives;
 import java.util.Random;
 
 public class IterativeComplexityExample {
-    
+
     /**
-     * Linear function used to test assertLinear Functions, uses coin flips to
-     * nullify optimization
+     * Linear function used to test assertLinear Functions, uses coin flips to nullify optimization
+     *
      * @param i input
      */
     public static void linearFunction(int i) {
@@ -17,34 +17,36 @@ public class IterativeComplexityExample {
 //          r ++;
         }
     }
-    
+
     /**
-     * Approximated squared complexity function for testing approximation on 
-     * assertSquared functions
+     * Approximated squared complexity function for testing approximation on assertSquared functions
+     *
      * @param i input
      */
     public static void approximatedSquaredFunction(int i) {
         int r = 0;
         for (int j = 0; j < i; j++) {
             for (int k = 0; k < i; k++) {
-                r ++;
+                r++;
             }
         }
     }
-    
+
     /**
      * Squared complexity function used to test assertSquared functions
+     *
      * @param i input
      */
     public static void squaredFunction(int i) {
         int r = 0;
-        for (int j = 0; j < i*i; j++) {
-            r ++;
+        for (int j = 0; j < i * i; j++) {
+            r++;
         }
     }
-    
+
     /**
      * Approximated squared complexity function used to test assertSquared functions without optimization
+     *
      * @param i input
      */
     public static void squaredCoinFlipFunction(int i) {
@@ -56,25 +58,37 @@ public class IterativeComplexityExample {
             }
         }
     }
-    
+
     /**
      * Cubic function used to test assertCubic functions
-     * @param i 
+     *
+     * @param i
      */
     public static void cubicFunction(int i) {
         int r = 0;
-        for (int j = 0; j < i*i*i; j++) {
+        for (int j = 0; j < i * i * i; j++) {
             r++;
         }
     }
-    
+
     /**
      * Logarithmic function used to test assertLogarithmic function.
-     * @param n 
+     *
+     * @param n
      */
     public static void logarithmicFunction(Long n) {
         while (n >= 1) {
-            n = n/2;
+            n = n / 2;
         }
+    }
+
+    public static void approximatedNlogNFunction(int i) {
+        for (int j = 0; j < i; j++) {
+            int n = i;
+            while (n >= 1) {
+                n = n / 2;
+            }
+        }
+
     }
 }
