@@ -60,8 +60,8 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             }
             byte[] bytecode = Util.generateBytecode(classNode);
 
-            String filename = className.substring(className.lastIndexOf('/') + 1);
-            Util.writeByteArrayToFile(filename + ".class", bytecode);
+            //String filename = className.substring(className.lastIndexOf('/') + 1);
+            //Util.writeByteArrayToFile(filename + ".class", bytecode);
 
             // Initialize counter arrays
             if (!Agent.isRetransforming()) ProfileData.initialize();
