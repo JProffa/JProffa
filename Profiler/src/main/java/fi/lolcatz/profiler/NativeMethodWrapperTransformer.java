@@ -9,17 +9,16 @@ import org.objectweb.asm.tree.*;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NativeTransformer implements ClassFileTransformer, Opcodes {
+public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opcodes {
 
-    private static Logger logger = Logger.getLogger(NativeTransformer.class);
+    private static Logger logger = Logger.getLogger(NativeMethodWrapperTransformer.class);
     public String prefix;
     public String className;
 
-    public NativeTransformer(String prefix) {
+    public NativeMethodWrapperTransformer(String prefix) {
         this.prefix = prefix;
     }
 

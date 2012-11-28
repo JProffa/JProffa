@@ -77,7 +77,7 @@ public class Agent {
             }
 
             String nativePrefix = "$$$wrapped$$$_";
-            ClassFileTransformer nativeTransformer = new NativeTransformer(nativePrefix);
+            ClassFileTransformer nativeTransformer = new NativeMethodWrapperTransformer(nativePrefix);
             inst.addTransformer(nativeTransformer, true);
             inst.setNativeMethodPrefix(nativeTransformer, nativePrefix);
 
