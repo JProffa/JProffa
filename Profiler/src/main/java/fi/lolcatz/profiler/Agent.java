@@ -26,7 +26,7 @@ public class Agent {
      */
     public static void premain(String agentArgs, Instrumentation inst) throws IOException {
         loadLoggingConf();
-        logger.info("AgentArgs: " + agentArgs);
+        logger.debug("AgentArgs: " + agentArgs);
 
         Agent.inst = inst;
         printInstrumentationInfo(inst);
@@ -53,7 +53,6 @@ public class Agent {
      */
     public static void agentmain(String args, Instrumentation inst) throws Exception {
         loadLoggingConf();
-        logger.info("AgentArgs: " + args);
 
         try {
             logger.debug("AgentArgs: " + args);
