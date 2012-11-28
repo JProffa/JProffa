@@ -63,6 +63,9 @@ public class RecursiveTest {
         assertTrue(totalCost[3]*2 >= totalCost[4]);
         
         assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
     }
     
     @Test
@@ -87,6 +90,9 @@ public class RecursiveTest {
         assertTrue(totalCost[3]*2 >= totalCost[4]);
         
         assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
     }
     
     @Test
@@ -113,6 +119,9 @@ public class RecursiveTest {
         
         
         assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
     }
     
     @Test
@@ -138,6 +147,9 @@ public class RecursiveTest {
         assertTrue(totalCost[3]*4 >= totalCost[4]);
         
         assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
     }
     
     @Test
@@ -163,6 +175,10 @@ public class RecursiveTest {
         assertTrue(totalCost[3]*4 >= totalCost[4]);
         
         assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
+        
     }
     
     @Test
@@ -188,6 +204,9 @@ public class RecursiveTest {
         assertTrue(totalCost[3]*4 >= totalCost[4]);
         
         assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
     }
     
     public void printResults(String testname, long[] results) {
