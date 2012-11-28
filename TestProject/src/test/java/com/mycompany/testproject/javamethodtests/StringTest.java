@@ -52,6 +52,8 @@ public class StringTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
+        assertTrue(totalCost[1] > totalCost[0]);
     }
     
     
@@ -76,6 +78,8 @@ public class StringTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
+        assertTrue(totalCost[1] > totalCost[0]);
     }
     
     @Test
@@ -99,6 +103,8 @@ public class StringTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
+        assertTrue(totalCost[1] > totalCost[0]);
     }
     
     @Test
