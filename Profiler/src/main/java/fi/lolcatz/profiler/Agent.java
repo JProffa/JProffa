@@ -6,6 +6,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 
@@ -74,6 +75,12 @@ public class Agent {
                     modifiableClasses.add(clazz);
                 } else logger.info("Unmodifiable class: " + clazz.getName());
             }
+
+            String nativePrefix = "$$$wrapped$$$_";
+            ClassFileTransformer nativeTransformer = new NativeTransformer(nativePrefix);
+            inst.addTransformer(nativeTransformer, true);
+            inst.setNativeMethodPrefix(nativeTransformer, nativePrefix);
+
             inst.addTransformer(new ProfilerTransformer(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
             

@@ -9,12 +9,13 @@ import org.objectweb.asm.tree.*;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class NativeTransformer implements ClassFileTransformer, Opcodes {
 
-    private static Logger logger = Logger.getLogger(ProfilerTransformer.class.getName());
+    private static Logger logger = Logger.getLogger(NativeTransformer.class);
     public String prefix;
     public String className;
 
@@ -34,6 +35,7 @@ public class NativeTransformer implements ClassFileTransformer, Opcodes {
             logger.info("Class " + className);
             ClassNode cn = Util.initClassNode(classfileBuffer);
 
+            List<MethodNode> wrappers = new LinkedList<MethodNode>();
             for (MethodNode mn : (List<MethodNode>) cn.methods) {
                 logger.info("  Method " + mn.name);
                 if ((mn.access & ACC_NATIVE) != 0) {
@@ -42,21 +44,39 @@ public class NativeTransformer implements ClassFileTransformer, Opcodes {
                         continue;
                     }
                     logger.info("    Original InsnList: " + Util.getInsnListString(mn.instructions));
-                    logger.info("    Wrappable native method found!");
+                    logger.warn("    Wrappable native method " + className + "." + mn.name + " found!");
                     logger.info("    Node: " + mn.toString() + " Desc: " + mn.desc + " sign: " + mn.signature + " exep: " +
                             mn.exceptions + " acc: " + mn.access + " ins: " + mn.instructions + " attrs: " + mn.attrs +
                     " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
-                    mn.access -= ACC_NATIVE;
 
-                    mn.maxStack = 4;
-                    mn.maxLocals = 4;
-                    int index = ProfileData.addBasicBlock(100, className + "." + prefix + mn.name);
-                    mn.instructions.add(createCounterIncrementInsnList(index));
-                    mn.instructions.add(callWrappedNative(mn));
-                    mn.instructions.add(new InsnNode(RETURN));
-                    logger.trace(Util.getInsnListString(mn.instructions));
+                    MethodNode wrapper = new MethodNode();
+                    wrapper.name = mn.name;
+                    mn.name = prefix + mn.name;
+                    wrapper.access = mn.access - ACC_NATIVE;
+
+                    wrapper.annotationDefault = mn.annotationDefault;
+                    wrapper.attrs = mn.attrs;
+                    wrapper.desc = mn.desc;
+                    wrapper.exceptions = mn.exceptions;
+                    wrapper.invisibleAnnotations = mn.invisibleAnnotations;
+                    wrapper.localVariables = mn.localVariables;
+                    wrapper.maxStack = 4;
+                    wrapper.maxLocals = 4;
+                    wrapper.invisibleParameterAnnotations = mn.invisibleParameterAnnotations;
+                    wrapper.signature = mn.signature;
+                    wrapper.tryCatchBlocks = mn.tryCatchBlocks;
+                    wrapper.visibleAnnotations = mn.visibleAnnotations;
+                    wrapper.visibleParameterAnnotations = mn.visibleParameterAnnotations;
+
+                    int index = ProfileData.addBasicBlock(100, className + "." + wrapper.name);
+                    wrapper.instructions.add(createCounterIncrementInsnList(index));
+                    wrapper.instructions.add(callWrappedNative(wrapper));
+                    wrapper.instructions.add(new InsnNode(RETURN));
+                    logger.trace(Util.getInsnListString(wrapper.instructions));
+                    wrappers.add(wrapper);
                 }
             }
+            cn.methods.addAll(wrappers);
 
             byte[] newBytecode = Util.generateBytecode(cn);
             String filename = className.substring(className.lastIndexOf('/') + 1);
