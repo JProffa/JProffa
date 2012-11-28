@@ -4,15 +4,16 @@
  */
 package fi.lolcatz.profiler;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.Math.*;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartUtilities;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
+
 public class ComplexityAnalysis {
+
+    private static Logger logger = Logger.getLogger(ComplexityAnalysis.class);
 
     private ComplexityAnalysis() {
     }
@@ -132,7 +133,7 @@ public class ComplexityAnalysis {
         try {
             ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
         } catch (IOException ex) {
-            Logger.getLogger(ComplexityAnalysis.class.getName()).log(Level.SEVERE, null, ex);
+            logger.fatal("Exception while saving graph as .png", ex);
         }
     }
 }

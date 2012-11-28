@@ -1,13 +1,16 @@
 package fi.lolcatz.profiler;
 
 import fi.lolcatz.profiledata.ProfileData;
+import org.apache.log4j.Logger;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public abstract class AbstractImpl {
+
+    private static Logger logger = Logger.getLogger(AbstractImpl.class);
+
     String methodName, className;
     
     public void setMethodName(String name) {
@@ -83,7 +86,7 @@ public abstract class AbstractImpl {
             ProfileData.allowProfiling();
             m.invoke(instance, (Object[]) inputs);
         } catch (Exception x) {
-            Logger.getLogger(AbstractImpl.class.getName()).log(Level.SEVERE, null, x);
+            logger.fatal("Exception when running", x);
             ProfileData.allowProfiling();
             throw x;
         }
