@@ -51,6 +51,11 @@ public class ObjectTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
+        assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
          
     }
      
@@ -75,6 +80,11 @@ public class ObjectTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
+        assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
          
     }
       
@@ -99,6 +109,11 @@ public class ObjectTest {
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
+        assertTrue(totalCost[1] > totalCost[0]);
+        assertTrue(totalCost[2] > totalCost[1]);
+        assertTrue(totalCost[3] > totalCost[2]);
+        assertTrue(totalCost[4] > totalCost[3]);
          
     }
 
