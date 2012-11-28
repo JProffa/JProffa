@@ -78,11 +78,9 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
             cn.methods.addAll(wrappers);
 
             byte[] newBytecode = Util.generateBytecode(cn);
-            String filename = className.substring(className.lastIndexOf('/') + 1);
-            Util.writeByteArrayToFile(filename + ".class", newBytecode);
             return newBytecode;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.fatal("Exception when running NativeMethodWrapperTransformer.transform", e);
         }
         return null;
     }
