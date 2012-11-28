@@ -67,9 +67,7 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
                     wrapper.visibleAnnotations = mn.visibleAnnotations;
                     wrapper.visibleParameterAnnotations = mn.visibleParameterAnnotations;
 
-                    int index = ProfileData.addBasicBlock(100, className + "." + wrapper.name);
-                    wrapper.instructions.add(createCounterIncrementInsnList(index));
-                    wrapper.instructions.add(callWrappedNative(wrapper));
+                    wrapper.instructions.add(callWrappedNative(mn));
                     wrapper.instructions.add(new InsnNode(RETURN));
                     logger.trace(Util.getInsnListString(wrapper.instructions));
                     wrappers.add(wrapper);
@@ -91,7 +89,7 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
         if ((mn.access & ACC_STATIC) != 0) invokeOpcode = INVOKESTATIC;
         else if ((mn.access & ACC_PRIVATE) != 0) invokeOpcode = INVOKESPECIAL;
         else invokeOpcode = INVOKEVIRTUAL;
-        insns.add(new MethodInsnNode(invokeOpcode, className, prefix + mn.name, mn.desc));
+        insns.add(new MethodInsnNode(invokeOpcode, className, mn.name, mn.desc));
         return insns;
     }
 
