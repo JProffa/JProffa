@@ -128,7 +128,7 @@ public class ComplexityAnalysis {
         //linear, quadric ,nlogn
         Graph g = new Graph("Test", actual, projected);
         Random r = new Random();
-        File f = new File("Graphs" + r.nextInt());
+        File f = new File("Graphs" + r.nextInt() + ".png");
         try {
             ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
         } catch (IOException ex) {
