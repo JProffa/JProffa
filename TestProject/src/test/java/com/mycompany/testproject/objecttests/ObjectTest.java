@@ -46,6 +46,7 @@ public class ObjectTest {
             syote = 2*syote;
             totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
+        printResults("--- testObjectsLinear ---", totalCost);
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
@@ -75,6 +76,7 @@ public class ObjectTest {
             syote = 2*syote;
             totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
+        printResults("--- testObjectsLinearLarge ---", totalCost);
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
@@ -105,10 +107,14 @@ public class ObjectTest {
             totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
+        printResults("--- testObjectsLinearHuge ---", totalCost);
+        
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);
         assertTrue(totalCost[2]*2 >= totalCost[3]);
         assertTrue(totalCost[3]*2 >= totalCost[4]);
+        
+        
         
         assertTrue(totalCost[1] > totalCost[0]);
         assertTrue(totalCost[2] > totalCost[1]);
@@ -128,5 +134,14 @@ public class ObjectTest {
         System.out.println("Margin of error: " + impl.getMarginOfError(first));
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-impl.getMarginOfError(first) && first < second+impl.getMarginOfError(first));
         
+    }
+    
+    public void printResults(String testname, long[] results) {
+        System.out.println("---" + testname + "---");
+        int i = 0;
+        for (long l : results) {
+            i++;
+            System.out.println(i + ": " + l);
+        }
     }
 }
