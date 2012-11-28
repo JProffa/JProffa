@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fi.lolcatz.profiler;
 
 import org.apache.log4j.Logger;
 import org.jfree.chart.ChartUtilities;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
