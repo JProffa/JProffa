@@ -1,4 +1,4 @@
-lolcatz
+JProffa
 =======
 
 Deterministic Java Profiler
