@@ -1,5 +1,6 @@
-package fi.lolcatz.profiler;
+package jproffa.graph;
 
+import fi.lolcatz.profiler.Output;
 import java.awt.Color;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;

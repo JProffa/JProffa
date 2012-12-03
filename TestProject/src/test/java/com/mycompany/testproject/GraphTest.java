@@ -1,5 +1,9 @@
-package com.mycompany.testproject.iterativeTests;
+package com.mycompany.testproject;
 
+import com.mycompany.testproject.iterativeTests.ComplexityAndTimeLinearTest;
+import com.mycompany.testproject.iterativeTests.ComplexityAndTimeLinearTest;
+import com.mycompany.testproject.iterativeTests.IntegerImpl;
+import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ComplexityAnalysis;
@@ -57,7 +61,6 @@ public class GraphTest {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
         Output<Integer> actual = impl.runMethod(list);
-
         impl.setMethodName("squaredFunction");
         List<Integer> list2 = Arrays.asList(2, 4, 8, 16, 32, 64);
 
@@ -68,7 +71,6 @@ public class GraphTest {
         for (Long l : param.getTime()) {
             assertTrue(l > 0);
         }
-        
         framework.drawGraph(actual, param);
     }
 }

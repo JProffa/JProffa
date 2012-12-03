@@ -2,6 +2,7 @@ package fi.lolcatz.profiler;
 
 import java.util.Arrays;
 import java.util.List;
+import jproffa.graph.Graph;
 import org.junit.*;
 import static org.junit.Assert.*;
 
