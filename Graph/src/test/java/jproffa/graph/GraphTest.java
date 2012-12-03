@@ -1,5 +1,6 @@
-package fi.lolcatz.profiler;
+package jproffa.graph;
 
+import fi.lolcatz.profiler.Output;
 import java.util.Arrays;
 import java.util.List;
 import jproffa.graph.Graph;
