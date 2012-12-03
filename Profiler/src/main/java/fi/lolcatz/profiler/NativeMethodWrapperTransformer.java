@@ -39,11 +39,11 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
                 logger.info("  Method " + mn.name);
                 if ((mn.access & ACC_NATIVE) != 0) {
                     if (!mn.desc.equals("()V")) {
-                        logger.warn("    Native method with this desc isn't supported yet: " + mn.desc);
+                        logger.warn("    Native method " + className + "." + mn.name + " with this desc isn't supported yet: " + mn.desc);
                         continue;
                     }
                     logger.info("    Original InsnList: " + Util.getInsnListString(mn.instructions));
-                    logger.warn("    Wrappable native method " + className + "." + mn.name + " found!");
+                    System.out.println("    Wrappable native method " + className + "." + mn.name + " found!");
                     logger.info("    Node: " + mn.toString() + " Desc: " + mn.desc + " sign: " + mn.signature + " exep: " +
                             mn.exceptions + " acc: " + mn.access + " ins: " + mn.instructions + " attrs: " + mn.attrs +
                     " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
@@ -67,6 +67,7 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
                     wrapper.visibleAnnotations = mn.visibleAnnotations;
                     wrapper.visibleParameterAnnotations = mn.visibleParameterAnnotations;
 
+                    wrapper.instructions.add(getPrintInsn("We're at " + className + "." + wrapper.name + "!"));
                     wrapper.instructions.add(callWrappedNative(mn));
                     wrapper.instructions.add(new InsnNode(RETURN));
                     logger.trace(Util.getInsnListString(wrapper.instructions));
@@ -75,7 +76,11 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
             }
             cn.methods.addAll(wrappers);
 
+
+
             byte[] newBytecode = Util.generateBytecode(cn);
+            String filename = className.substring(className.lastIndexOf('/') + 1);
+            Util.writeByteArrayToFile(filename + ".class", newBytecode);
             return newBytecode;
         } catch (Exception e) {
             logger.fatal("Exception when running NativeMethodWrapperTransformer.transform", e);
@@ -120,5 +125,13 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
         } else {
             return new LdcInsnNode(i);
         }
+    }
+
+    private InsnList getPrintInsn(String message) {
+        InsnList printInsn = new InsnList();
+        printInsn.add(new FieldInsnNode(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
+        printInsn.add(new LdcInsnNode("RUNTIME: " + message));
+        printInsn.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V"));
+        return printInsn;
     }
 }
