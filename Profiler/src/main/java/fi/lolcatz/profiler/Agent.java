@@ -76,11 +76,6 @@ public class Agent {
                 } else logger.info("Unmodifiable class: " + clazz.getName());
             }
 
-            String nativePrefix = "$$$wrapped$$$_";
-            ClassFileTransformer nativeTransformer = new NativeMethodWrapperTransformer(nativePrefix);
-            inst.addTransformer(nativeTransformer, true);
-            inst.setNativeMethodPrefix(nativeTransformer, nativePrefix);
-
             inst.addTransformer(new ProfilerTransformer(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
             
