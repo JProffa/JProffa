@@ -56,7 +56,7 @@ public class ProfileData {
     public static int addBasicBlock(long cost, String desc) {
         basicBlockAmount++;
         basicBlockCostAccumulator.add(cost);
-        basicBlockDesc.add(desc);
+        basicBlockDesc.add(desc == null ? "" : desc);
         return basicBlockAmount - 1;
     }
 
