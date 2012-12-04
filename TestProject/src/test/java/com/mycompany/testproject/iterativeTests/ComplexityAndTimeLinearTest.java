@@ -105,6 +105,7 @@ public class ComplexityAndTimeLinearTest {
         }
         assertTrue(framework.isLinear(o));   
         assertTrue(framework.isLinearOrFaster(o, 1.1));
+        framework.assertLinear(o);
     }
     
     @Test
@@ -114,6 +115,7 @@ public class ComplexityAndTimeLinearTest {
         Output<Integer> o = impl.runMethod(list);
         assertTrue(framework.isLinear(o)); 
         assertTrue(framework.isLinearOrFaster(o, 1.1));
+        framework.assertLinear(o);
     }
     
     @Test
@@ -124,7 +126,8 @@ public class ComplexityAndTimeLinearTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertFalse(framework.isLinear(o));     
+        assertFalse(framework.isLinear(o));  
+        framework.assertQuadric(o);
     }
 
     

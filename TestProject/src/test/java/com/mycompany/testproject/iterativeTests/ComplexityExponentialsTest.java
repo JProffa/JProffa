@@ -136,7 +136,10 @@ public class ComplexityExponentialsTest {
 //            i++;
             assertTrue(l > 0);
         }
-        assertTrue(framework.isQuadric(o));     
+        assertTrue(framework.isQuadric(o));    
+        assertTrue(framework.isQuadricOrFaster(o, 1.1));
+        framework.assertQuadric(o);
+                
     }
     
 //    @Test
