@@ -122,10 +122,5 @@
             <scope>compile</scope>           
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>jproffa</groupId>
-            <artifactId>Graph</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 </project>

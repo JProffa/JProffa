@@ -136,7 +136,6 @@ public class ComplexityExponentialsTest {
 //            i++;
             assertTrue(l > 0);
         }
-        framework.drawGraph(o, o);
         assertTrue(framework.isQuadric(o));     
     }
     

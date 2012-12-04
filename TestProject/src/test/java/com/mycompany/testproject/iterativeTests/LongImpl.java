@@ -2,7 +2,6 @@ package com.mycompany.testproject.iterativeTests;
 
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
-import fi.lolcatz.profiler.Graph;
 import fi.lolcatz.profiler.Output;
 import java.io.File;
 import java.io.IOException;

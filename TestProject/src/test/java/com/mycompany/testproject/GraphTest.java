@@ -11,6 +11,7 @@ import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
 import java.util.Arrays;
 import java.util.List;
+import jproffa.graph.GraphUI;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -22,6 +23,7 @@ public class GraphTest {
 
     IntegerImpl impl;
     ComplexityAnalysis framework;
+    GraphUI ui;
 
     @BeforeClass
     public static void classSetup() {
@@ -53,7 +55,7 @@ public class GraphTest {
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        framework.drawGraph(actual, param);
+        ui.drawGraph(actual, param);
     }
 
     @Test
@@ -71,6 +73,6 @@ public class GraphTest {
         for (Long l : param.getTime()) {
             assertTrue(l > 0);
         }
-        framework.drawGraph(actual, param);
+        ui.drawGraph(actual, param);
     }
 }

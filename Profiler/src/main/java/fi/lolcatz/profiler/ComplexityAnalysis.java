@@ -1,6 +1,5 @@
 package fi.lolcatz.profiler;
 
-import jproffa.graph.Graph;
 import org.apache.log4j.Logger;
 import org.jfree.chart.ChartUtilities;
 import java.io.File;
@@ -113,28 +112,4 @@ public class ComplexityAnalysis {
         return true;
     }
 
-    /**
-     * Draws a runtime chart of the outputs size and time lists and saves the
-     * chart to a new .png file.
-     *
-     * @param actual The tested output
-     * @param projected The example output
-     */
-    public static void drawGraph(Output<?> actual, Output<?> projected) {
-        //generate example outputs for one param
-        //linear, quadric ,nlogn       
-        if (System.getenv("PROFILER_VISUALIZATIONS_TO_FILE") != null) {
-            Graph g = new Graph("Test", actual, projected);
-            Random r = new Random();
-            File f = new File(System.getenv("PROFILER_VISUALIZATIONS_TO_FILE"));
-            try {
-                ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
-            } catch (IOException ex) {
-                logger.fatal("Exception while saving graph as .png", ex);
-            }
-        } else if (System.getenv("PROFILER_VISUALIZATIONS_SHOW") != null) {
-            Graph g = new Graph("Test", actual, projected);
-            g.init();
-        }
-    }
 }
