@@ -37,5 +37,24 @@ public class GraphUI {
             g.init();
         }
     }
+    
+    public static void drawGraphWithOutEnv(Output<?> actual, Output<?> projected, String name) {
+                //generate example outputs for one param
+        //linear, quadric ,nlogn
+        Graph g = new Graph("Test", actual, projected);
+        Random r = new Random();
+        File f = new File(name + ".png");
+        try {
+            ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
+        } catch (IOException ex) {
+            
+        }
+    
+    }
+    
+    public static void showGraphWithOutEnv(Output<?> actual, Output<?> projected, String name){
+        Graph g = new Graph(name, actual, projected);
+        g.init();
+    }
 
 }

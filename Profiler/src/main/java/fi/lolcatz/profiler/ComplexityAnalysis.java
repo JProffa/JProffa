@@ -102,7 +102,7 @@ public class ComplexityAnalysis {
         for (int i = 0; i < out.getTime().size(); i++) {
             double time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2))) + (b * out.getSize().get(i)) + c;
-            System.out.println("function: " + a + "*" + out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2)) + "+" + b + "*" + out.getSize().get(i) + "+" + c + " = " + function);
+            //System.out.println("function: " + a + "*" + out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2)) + "+" + b + "*" + out.getSize().get(i) + "+" + c + " = " + function);
             boolean nlogn = (time * 1.004 >= function && time - (time * 0.004) <= function) ? true : false;
             if (!nlogn) {
                 return false;
