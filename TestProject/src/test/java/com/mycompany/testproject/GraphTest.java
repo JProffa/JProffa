@@ -5,10 +5,12 @@ import com.mycompany.testproject.iterativeTests.ComplexityAndTimeLinearTest;
 import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import com.mycompany.testproject.iterativeTests.IntegerImpl;
 import com.mycompany.testproject.iteratives.IterativeComplexityExample;
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import jproffa.graph.GraphUI;
@@ -55,24 +57,33 @@ public class GraphTest {
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        ui.drawGraph(actual, param);
+        ui.drawGraphWithOutEnv(actual, param, "Testi");
     }
-
+        
     @Test
     public void testCreateLinearAndSquaredGraph() throws Exception {
-        impl.setMethodName("linearFunction");
-        List<Integer> list = Arrays.asList(2, 4, 8, 16, 32, 64);
-        Output<Integer> actual = impl.runMethod(list);
-        impl.setMethodName("squaredFunction");
-        List<Integer> list2 = Arrays.asList(2, 4, 8, 16, 32, 64);
+        List<Integer> list = new ArrayList<Integer>();
+        for (int i = 1; i < 64; i++) {
+            list.add(i);
 
-        Output<Integer> param = impl.runMethod(list2);
+        }
+        
+        
+        impl.setMethodName("linearFunction");
+        
+        Output<Integer> actual = impl.runMethod(list);
+        
+        impl.setMethodName("squaredFunction");
+        
+        Output<Integer> param = impl.runMethod(list);
+
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
         for (Long l : param.getTime()) {
             assertTrue(l > 0);
         }
-        ui.drawGraph(actual, param);
+
+        ui.drawGraphWithOutEnv(actual, param, "testi2");
     }
 }

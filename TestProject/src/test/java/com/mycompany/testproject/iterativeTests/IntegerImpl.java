@@ -26,12 +26,23 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
     @Override
     public Output<Integer> runMethod(List<Integer> list) throws Exception {
         runStatic(1);
+        
         Output<Integer> out = new Output<Integer>();
+        Output<Integer> out2 = new Output<Integer>();
+        Output<Integer> out3 = new Output<Integer>();
         for (Integer i : list){          
             out.addToInput(i);
             out.addToSize(getSize(i));
-            out.addToTime(runStatic(i));
+            out2.addToTime(runStatic(i));
+            out3.addToTime(runStatic(i));
         }
+        for (int i = 0;  i < out2.getTime().size(); i++) {
+            if(out2.getTime().get(i) > out3.getTime().get(i) && out3.getTime().get(i) != 0)
+                out.addToTime(out3.getTime().get(i));
+            else
+                out.addToTime(out2.getTime().get(i));
+        }
+        
         return out;
     }
 }
