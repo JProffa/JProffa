@@ -668,6 +668,7 @@ public class Util implements Opcodes {
      * @return Total cost of execution.
      */
     public static long getTotalCost(List<String> classBlacklist) {
+        checkAgentIsLoaded();
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
 
         if (callsToBasicBlock == null) {
@@ -722,6 +723,7 @@ public class Util implements Opcodes {
      * @param classBlacklist List of classnames to be ignored.
      */
     public static void printBasicBlocksCost(boolean showBlocksWithNoCalls, List<String> classBlacklist) {
+        checkAgentIsLoaded();
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
 
         if (callsToBasicBlock == null) {
@@ -755,6 +757,7 @@ public class Util implements Opcodes {
     }
 
     public static void writeBasicBlockCostsCsv(String filename) {
+        checkAgentIsLoaded();
         FileWriter fileWriter;
         try {
             fileWriter = new FileWriter(filename);
@@ -786,6 +789,7 @@ public class Util implements Opcodes {
     }
 
     public static String getBasicBlockCostsString(boolean showBlocksWithNoCalls, List<String> classBlacklist) {
+        checkAgentIsLoaded();
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
 
         if (callsToBasicBlock == null) {
@@ -848,6 +852,7 @@ public class Util implements Opcodes {
     }
 
     private static void printSortedStuff(List<String> classBlacklist, boolean stripMethods) {
+        checkAgentIsLoaded();
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
 
         if (callsToBasicBlock == null) {
@@ -898,7 +903,15 @@ public class Util implements Opcodes {
             }
         }
         return -1;
-
+    }
+    
+    /**
+     * Check that agent is loaded. If not, throw RuntimeException.
+     */
+    private static void checkAgentIsLoaded() {
+        if (!agentLoaded) {
+            throw new RuntimeException("Tried to get profiledata before loading profiler agent.");
+        }
     }
 }
 
