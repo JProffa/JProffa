@@ -37,8 +37,8 @@ public class ComplexityAnalysis {
      * Throws AssertionError if the parameter is not quadric
      * @throws AssertionError 
      */
-    public static void assertQuadric(Output<?> output) throws AssertionError {
-        if (!isQuadric(output)) {
+    public static void assertSquared(Output<?> output) throws AssertionError {
+        if (!isSquared(output)) {
             throw new AssertionError();
         }
     }
@@ -47,8 +47,8 @@ public class ComplexityAnalysis {
      * Throws AssertionError if the parameter is slower than quadric
      * @throws AssertionError 
      */
-    public static void assertQuadricOrFaster(Output<?> output, double margin) throws AssertionError {
-        if (!isQuadricOrFaster(output, margin)) {
+    public static void assertSquaredOrFaster(Output<?> output, double margin) throws AssertionError {
+        if (!isSquaredOrFaster(output, margin)) {
             throw new AssertionError();
         }
     }
@@ -121,7 +121,7 @@ public class ComplexityAnalysis {
      *
      * @return True if output is squared, false if not
      */
-    public static boolean isQuadric(Output<?> out) {
+    public static boolean isSquared(Output<?> out) {
         if (out.getSize().size() < 2) {
             return false;
         }
@@ -155,7 +155,7 @@ public class ComplexityAnalysis {
      * @return True if the output is quadric or faster, false if the output is
      * slower
      */
-    public static boolean isQuadricOrFaster(Output<?> out, double margin) {
+    public static boolean isSquaredOrFaster(Output<?> out, double margin) {
         if (out.getSize().size() < 2) {
             return false;
         }
