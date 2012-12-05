@@ -35,7 +35,7 @@ public class ComplexityExponentialsTest {
 
     
     @Test
-    public void squaredTest() throws Exception {
+    public void squaredTestNoFramework() throws Exception {
         
         impl.setMethodName("squaredFunction");
         
@@ -63,99 +63,59 @@ public class ComplexityExponentialsTest {
         System.out.println("- - - - -");
 
     }
+    
+    @Test
+    public void squaredTestWithFramework() throws Exception {
+        
+        impl.setMethodName("squaredFunction");
+        
+        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
+        Output<Integer> o = impl.runMethod(list);
+        int i = 0;
+        for (Long l : o.getTime()){
+            assertTrue(l > 0);
+        }
+        assertTrue("isSquared()", framework.isSquared(o));    
+        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
+        
+        framework.assertSquared(o);
+
+    }
 
     @Test
     public void testApproximatedSquared() throws Exception {
         
         impl.setMethodName("approximatedSquaredFunction");
         
-        long[] totalCost = new long[5];
-
-        int syote = 10;
-        
-        totalCost[0] = impl.runStatic(impl.getInput(syote));
-        
-        for (int i = 1; i < totalCost.length; i++) {
-            syote = 2*syote;
-            totalCost[i] = impl.runStatic(impl.getInput(syote));    
-        }
-        
-        printResults("--- testApproximatedSquared ---", totalCost);
-        assertTrue(totalCost[0] * 4 >= totalCost[1]);
-        assertTrue(totalCost[1] * 4 >= totalCost[2]);
-        assertTrue(totalCost[2] * 4 >= totalCost[3]);
-        assertTrue(totalCost[3] * 4 >= totalCost[4]);
-        
-        assertTrue(totalCost[1] > totalCost[0]);
-        assertTrue(totalCost[2] > totalCost[1]);
-        assertTrue(totalCost[3] > totalCost[2]);
-        assertTrue(totalCost[4] > totalCost[3]);
-
-        
-
-    }
-
-    @Test
-    public void testCoinFlipExponential() throws Exception {     
-        impl.setMethodName("squaredCoinFlipFunction");
-        
-        long[] totalCost = new long[5];
-        int syote = 10;
-        
-        totalCost[0] = impl.runStatic(impl.getInput(syote));
-        
-        for (int i = 1; i < totalCost.length; i++) {
-            syote = 2*syote;
-            totalCost[i] = impl.runStatic(impl.getInput(syote));    
-        }
-
-
-        printResults("--- testCoinFlipSquared ---", totalCost);
-        
-        assertTrue(totalCost[0] * 4 >= totalCost[1]);
-        assertTrue(totalCost[1] * 4 >= totalCost[2]);
-        assertTrue(totalCost[2] * 4 >= totalCost[3]);
-        assertTrue(totalCost[3] * 4 >= totalCost[4]);
-        
-        assertTrue(totalCost[1] > totalCost[0]);
-        assertTrue(totalCost[2] > totalCost[1]);
-        assertTrue(totalCost[3] > totalCost[2]);
-        assertTrue(totalCost[4] > totalCost[3]);
-
-        System.out.println("- - - - -");
-    }
-    
-    @Test
-    public void testGenerateOutput() throws Exception {     
-        impl.setMethodName("approximatedSquaredFunction");
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
         Output<Integer> o = impl.runMethod(list);
         int i = 0;
         for (Long l : o.getTime()){
-//            System.out.println("Size: " + o.getSize().get(i) + " Time: " + l);
-//            i++;
             assertTrue(l > 0);
         }
-        assertTrue(framework.isQuadric(o));    
-        assertTrue(framework.isQuadricOrFaster(o, 1.1));
-        framework.assertQuadric(o);
-                
+        assertTrue("isSquared()", framework.isSquared(o));    
+        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
+        
+        framework.assertSquared(o);
+
     }
-    
-//    @Test
-//    public void testGenerateOutputNlogN() throws Exception {     
-//        impl.setMethodName("approximatedNlogNFunction");
-//        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512/*,1024,2048,4096,8192,16384*/);
-//        Output<Integer> o = impl.generateOutput(list);
-//        int i = 0;
-//        for (Long l : o.getTime()){
-//            System.out.println("Size: " + o.getSize().get(i) + " Time: " + l);
-//            i++;
-//            assertTrue(l > 0);
-//        }
-//        impl.drawGraph(o, o);
-//        assertTrue(framework.isNlogN(o));     
-//    }
+
+    @Test
+    public void testCoinFlipSquared() throws Exception {     
+        impl.setMethodName("squaredCoinFlipFunction");
+        
+        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
+        Output<Integer> o = impl.runMethod(list);
+        int i = 0;
+        for (Long l : o.getTime()){
+            assertTrue(l > 0);
+        }
+        assertTrue("isSquared()", framework.isSquared(o));    
+        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
+    }
     
     public void printResults(String testname, long[] results) {
         System.out.println("---" + testname + "---");
