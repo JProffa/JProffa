@@ -24,6 +24,36 @@ public class ComplexityAnalysis {
     }
     
     /**
+     * Throws AssertionError if the parameter is not linear
+     * @throws AssertionError 
+     */
+    public static void assertLinear(String message, Output<?> output) throws AssertionError {
+        if (!isLinear(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is linear
+     * @throws AssertionError 
+     */
+    public static void assertNotLinear(Output<?> output) throws AssertionError {
+        if (isLinear(output)) {
+            throw new AssertionError();
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is linear
+     * @throws AssertionError 
+     */
+    public static void assertNotLinear(String message, Output<?> output) throws AssertionError {
+        if (isLinear(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
      * Throws AssertionError if the parameter is slower than linear
      * @throws AssertionError 
      */
@@ -32,9 +62,19 @@ public class ComplexityAnalysis {
             throw new AssertionError();
         }
     }
+    
+    /**
+     * Throws AssertionError if the parameter is slower than linear
+     * @throws AssertionError 
+     */
+    public static void assertLinearOrFaster(String message, Output<?> output, double margin) throws AssertionError {
+        if (!isLinearOrFaster(output, margin)) {
+            throw new AssertionError(message);
+        }
+    }
 
     /**
-     * Throws AssertionError if the parameter is not quadric
+     * Throws AssertionError if the parameter is not squared
      * @throws AssertionError 
      */
     public static void assertSquared(Output<?> output) throws AssertionError {
@@ -44,12 +84,52 @@ public class ComplexityAnalysis {
     }
     
     /**
-     * Throws AssertionError if the parameter is slower than quadric
+     * Throws AssertionError if the parameter is not squared
+     * @throws AssertionError 
+     */
+    public static void assertSquared(String message, Output<?> output) throws AssertionError {
+        if (!isSquared(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is squared
+     * @throws AssertionError 
+     */
+    public static void assertNotSquared(Output<?> output) throws AssertionError {
+        if (isSquared(output)) {
+            throw new AssertionError();
+        }
+    }
+    
+        /**
+     * Throws AssertionError if the parameter is squared
+     * @throws AssertionError 
+     */
+    public static void assertNotSquared(String message, Output<?> output) throws AssertionError {
+        if (isSquared(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is slower than squared
      * @throws AssertionError 
      */
     public static void assertSquaredOrFaster(Output<?> output, double margin) throws AssertionError {
         if (!isSquaredOrFaster(output, margin)) {
             throw new AssertionError();
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is slower than squared
+     * @throws AssertionError 
+     */
+    public static void assertSquaredOrFaster(String message, Output<?> output, double margin) throws AssertionError {
+        if (!isSquaredOrFaster(output, margin)) {
+            throw new AssertionError(message);
         }
     }
 
@@ -62,13 +142,43 @@ public class ComplexityAnalysis {
             throw new AssertionError();
         }
     }
+    
+    /**
+     * Throws AssertionError if the parameter is not NlogN
+     * @throws AssertionError 
+     */
+    public static void assertNlogN(String message, Output<?> output) throws AssertionError {
+        if (!isNlogN(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is NlogN
+     * @throws AssertionError 
+     */
+    public static void assertNotNlogN(Output<?> output) throws AssertionError {
+        if (isNlogN(output)) {
+            throw new AssertionError();
+        }
+    }
+    
+     /**
+     * Throws AssertionError if the parameter is NlogN
+     * @throws AssertionError 
+     */
+    public static void assertNotNlogN(String message, Output<?> output) throws AssertionError {
+        if (isNlogN(output)) {
+            throw new AssertionError(message);
+        }
+    }
 
     /**
      * Calculates the linearity of the parameter output
      *
      * @return True if the output is linear, false if the output is not linear
      */
-    public static boolean isLinear(Output<?> output) {
+    private static boolean isLinear(Output<?> output) {
         if (output.getSize().size() < 2) {
             return false;
         }
@@ -121,7 +231,7 @@ public class ComplexityAnalysis {
      *
      * @return True if output is squared, false if not
      */
-    public static boolean isSquared(Output<?> out) {
+    private static boolean isSquared(Output<?> out) {
         if (out.getSize().size() < 2) {
             return false;
         }
@@ -152,7 +262,7 @@ public class ComplexityAnalysis {
     /**
      * Calculates the runtime speed of the parameter output
      *
-     * @return True if the output is quadric or faster, false if the output is
+     * @return True if the output is squared or faster, false if the output is
      * slower
      */
     public static boolean isSquaredOrFaster(Output<?> out, double margin) {
@@ -188,7 +298,7 @@ public class ComplexityAnalysis {
      *
      * @return True if output is O(NlogN), false if not
      */
-    public static boolean isNlogN(Output<?> out) {
+    private static boolean isNlogN(Output<?> out) {
         if (out.getSize().size() < 2) {
             return false;
         }

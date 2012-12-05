@@ -1,6 +1,7 @@
 package fi.lolcatz.profiler;
 
 import com.sun.tools.attach.VirtualMachine;
+import com.sun.tools.classfile.Dependencies;
 import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -645,6 +646,8 @@ public class Util implements Opcodes {
             String profilerJarPath = jarFile.getPath();
             vm.loadAgent(profilerJarPath);
             vm.detach();
+        } catch(NoClassDefFoundError e) {
+            throw new LinkageError("NoClassDefFoundError thrown: tools.jar probably not loaded.", e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
