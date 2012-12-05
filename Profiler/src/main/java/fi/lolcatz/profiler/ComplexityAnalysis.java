@@ -24,6 +24,16 @@ public class ComplexityAnalysis {
     }
     
     /**
+     * Throws AssertionError if the parameter is linear
+     * @throws AssertionError 
+     */
+    public static void assertNotLinear(Output<?> output) throws AssertionError {
+        if (isLinear(output)) {
+            throw new AssertionError();
+        }
+    }
+    
+    /**
      * Throws AssertionError if the parameter is slower than linear
      * @throws AssertionError 
      */
@@ -39,6 +49,16 @@ public class ComplexityAnalysis {
      */
     public static void assertSquared(Output<?> output) throws AssertionError {
         if (!isSquared(output)) {
+            throw new AssertionError();
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is quadric
+     * @throws AssertionError 
+     */
+    public static void assertNotSquared(Output<?> output) throws AssertionError {
+        if (isSquared(output)) {
             throw new AssertionError();
         }
     }
@@ -62,13 +82,23 @@ public class ComplexityAnalysis {
             throw new AssertionError();
         }
     }
+    
+    /**
+     * Throws AssertionError if the parameter is NlogN
+     * @throws AssertionError 
+     */
+    public static void assertNotNlogN(Output<?> output) throws AssertionError {
+        if (isNlogN(output)) {
+            throw new AssertionError();
+        }
+    }
 
     /**
      * Calculates the linearity of the parameter output
      *
      * @return True if the output is linear, false if the output is not linear
      */
-    public static boolean isLinear(Output<?> output) {
+    private static boolean isLinear(Output<?> output) {
         if (output.getSize().size() < 2) {
             return false;
         }
@@ -121,7 +151,7 @@ public class ComplexityAnalysis {
      *
      * @return True if output is squared, false if not
      */
-    public static boolean isSquared(Output<?> out) {
+    private static boolean isSquared(Output<?> out) {
         if (out.getSize().size() < 2) {
             return false;
         }
@@ -188,7 +218,7 @@ public class ComplexityAnalysis {
      *
      * @return True if output is O(NlogN), false if not
      */
-    public static boolean isNlogN(Output<?> out) {
+    private static boolean isNlogN(Output<?> out) {
         if (out.getSize().size() < 2) {
             return false;
         }
