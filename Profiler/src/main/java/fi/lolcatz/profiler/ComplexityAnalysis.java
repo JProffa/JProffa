@@ -44,7 +44,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is not quadric
+     * Throws AssertionError if the parameter is not squared
      * @throws AssertionError 
      */
     public static void assertSquared(Output<?> output) throws AssertionError {
@@ -54,7 +54,7 @@ public class ComplexityAnalysis {
     }
     
     /**
-     * Throws AssertionError if the parameter is quadric
+     * Throws AssertionError if the parameter is squared
      * @throws AssertionError 
      */
     public static void assertNotSquared(Output<?> output) throws AssertionError {
@@ -64,7 +64,7 @@ public class ComplexityAnalysis {
     }
     
     /**
-     * Throws AssertionError if the parameter is slower than quadric
+     * Throws AssertionError if the parameter is slower than squared
      * @throws AssertionError 
      */
     public static void assertSquaredOrFaster(Output<?> output, double margin) throws AssertionError {
@@ -182,7 +182,7 @@ public class ComplexityAnalysis {
     /**
      * Calculates the runtime speed of the parameter output
      *
-     * @return True if the output is quadric or faster, false if the output is
+     * @return True if the output is squared or faster, false if the output is
      * slower
      */
     public static boolean isSquaredOrFaster(Output<?> out, double margin) {
