@@ -24,6 +24,16 @@ public class ComplexityAnalysis {
     }
     
     /**
+     * Throws AssertionError if the parameter is not linear
+     * @throws AssertionError 
+     */
+    public static void assertLinear(String message, Output<?> output) throws AssertionError {
+        if (!isLinear(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
      * Throws AssertionError if the parameter is linear
      * @throws AssertionError 
      */
@@ -34,12 +44,32 @@ public class ComplexityAnalysis {
     }
     
     /**
+     * Throws AssertionError if the parameter is linear
+     * @throws AssertionError 
+     */
+    public static void assertNotLinear(String message, Output<?> output) throws AssertionError {
+        if (isLinear(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
      * Throws AssertionError if the parameter is slower than linear
      * @throws AssertionError 
      */
     public static void assertLinearOrFaster(Output<?> output, double margin) throws AssertionError {
         if (!isLinearOrFaster(output, margin)) {
             throw new AssertionError();
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is slower than linear
+     * @throws AssertionError 
+     */
+    public static void assertLinearOrFaster(String message, Output<?> output, double margin) throws AssertionError {
+        if (!isLinearOrFaster(output, margin)) {
+            throw new AssertionError(message);
         }
     }
 
@@ -54,12 +84,32 @@ public class ComplexityAnalysis {
     }
     
     /**
+     * Throws AssertionError if the parameter is not squared
+     * @throws AssertionError 
+     */
+    public static void assertSquared(String message, Output<?> output) throws AssertionError {
+        if (!isSquared(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
      * Throws AssertionError if the parameter is squared
      * @throws AssertionError 
      */
     public static void assertNotSquared(Output<?> output) throws AssertionError {
         if (isSquared(output)) {
             throw new AssertionError();
+        }
+    }
+    
+        /**
+     * Throws AssertionError if the parameter is squared
+     * @throws AssertionError 
+     */
+    public static void assertNotSquared(String message, Output<?> output) throws AssertionError {
+        if (isSquared(output)) {
+            throw new AssertionError(message);
         }
     }
     
@@ -70,6 +120,16 @@ public class ComplexityAnalysis {
     public static void assertSquaredOrFaster(Output<?> output, double margin) throws AssertionError {
         if (!isSquaredOrFaster(output, margin)) {
             throw new AssertionError();
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is slower than squared
+     * @throws AssertionError 
+     */
+    public static void assertSquaredOrFaster(String message, Output<?> output, double margin) throws AssertionError {
+        if (!isSquaredOrFaster(output, margin)) {
+            throw new AssertionError(message);
         }
     }
 
@@ -84,12 +144,32 @@ public class ComplexityAnalysis {
     }
     
     /**
+     * Throws AssertionError if the parameter is not NlogN
+     * @throws AssertionError 
+     */
+    public static void assertNlogN(String message, Output<?> output) throws AssertionError {
+        if (!isNlogN(output)) {
+            throw new AssertionError(message);
+        }
+    }
+    
+    /**
      * Throws AssertionError if the parameter is NlogN
      * @throws AssertionError 
      */
     public static void assertNotNlogN(Output<?> output) throws AssertionError {
         if (isNlogN(output)) {
             throw new AssertionError();
+        }
+    }
+    
+     /**
+     * Throws AssertionError if the parameter is NlogN
+     * @throws AssertionError 
+     */
+    public static void assertNotNlogN(String message, Output<?> output) throws AssertionError {
+        if (isNlogN(output)) {
+            throw new AssertionError(message);
         }
     }
 
