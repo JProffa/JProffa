@@ -20,7 +20,16 @@ public class Graph extends ApplicationFrame {
     public Graph(final String title, Output<?> out, Output<?> param) {
         super(title);
         final XYDataset dataset = createDataset(out, param);
-        chart = createChart(dataset);
+        chart = createChart(dataset, null, null);
+        final ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        setContentPane(chartPanel);
+    }
+    
+    public Graph(final String title, Output<?> out, Output<?> param, String x, String y) {
+        super(title);
+        final XYDataset dataset = createDataset(out, param);
+        chart = createChart(dataset, x, y);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
         setContentPane(chartPanel);
@@ -59,12 +68,13 @@ public class Graph extends ApplicationFrame {
     /*
      * Builds and returns the chart from a custom dataset.
      */
-    private JFreeChart createChart(final XYDataset dataset) {
-
+    private JFreeChart createChart(final XYDataset dataset, String x, String y) {
+        String xAxis = (x == null ? "Input" : x);
+        String yAxis = (y == null ? "Time" : y);
         final JFreeChart chart = ChartFactory.createXYLineChart(
                 "Runtime chart", // chart title
-                "Input", // x axis label
-                "Time", // y axis label
+                xAxis, // x axis label
+                yAxis, // y axis label
                 dataset, // data
                 PlotOrientation.VERTICAL,
                 true, // include legend
