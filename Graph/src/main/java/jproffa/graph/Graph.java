@@ -17,19 +17,19 @@ public class Graph extends ApplicationFrame {
  
     final JFreeChart chart;
     
-    public Graph(final String title, Output<?> out, Output<?> param) {
+    public Graph(final String title, Output<?> actual, Output<?> param) {
         super(title);
-        final XYDataset dataset = createDataset(out, param);
-        chart = createChart(dataset, null, null);
+        final XYDataset dataset = createDataset(actual, param, null, null);
+        chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
         setContentPane(chartPanel);
     }
     
-    public Graph(final String title, Output<?> out, Output<?> param, String x, String y) {
+    public Graph(final String title, Output<?> actual, Output<?> param, String actualName, String paramName) {
         super(title);
-        final XYDataset dataset = createDataset(out, param);
-        chart = createChart(dataset, x, y);
+        final XYDataset dataset = createDataset(actual, param, actualName, paramName);
+        chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
         setContentPane(chartPanel);
@@ -48,12 +48,14 @@ public class Graph extends ApplicationFrame {
     /*
      * Creates the dataset from two Output objects.
      */
-    private XYDataset createDataset(Output<?> actual, Output<?> param) {
-        final XYSeries series1 = new XYSeries("Actual");
+    private XYDataset createDataset(Output<?> actual, Output<?> param, String actualName, String paramName) {
+        String name1 = (actualName == null ? "Actual" : actualName);
+        String name2 = (paramName == null ? "Param" : paramName);
+        final XYSeries series1 = new XYSeries(name1);
         for (int i = 0; i < actual.getInput().size(); i++) {
             series1.add(actual.getSize().get(i), actual.getTime().get(i));
         }
-        final XYSeries series2 = new XYSeries("Param");
+        final XYSeries series2 = new XYSeries(name2);
         for (int i = 0; i < param.getInput().size(); i++) {
             series2.add(param.getSize().get(i), param.getTime().get(i));
         }
@@ -68,13 +70,11 @@ public class Graph extends ApplicationFrame {
     /*
      * Builds and returns the chart from a custom dataset.
      */
-    private JFreeChart createChart(final XYDataset dataset, String x, String y) {
-        String xAxis = (x == null ? "Input" : x);
-        String yAxis = (y == null ? "Time" : y);
+    private JFreeChart createChart(final XYDataset dataset) {
         final JFreeChart chart = ChartFactory.createXYLineChart(
                 "Runtime chart", // chart title
-                xAxis, // x axis label
-                yAxis, // y axis label
+                "Input", // x axis label
+                "Time", // y axis label
                 dataset, // data
                 PlotOrientation.VERTICAL,
                 true, // include legend

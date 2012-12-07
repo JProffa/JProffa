@@ -58,8 +58,8 @@ public class GraphUI {
     }
     
       
-    public static void showGraphWithOutEnv(Output<?> actual, Output<?> projected, String name, String xAxis, String yAxis){
-        Graph g = new Graph(name, actual, projected, xAxis, yAxis);
+    public static void showGraphWithOutEnv(Output<?> actual, Output<?> projected, String name, String actualName, String paramName){
+        Graph g = new Graph(name, actual, projected, actualName, paramName);
         g.init();
     }
 
