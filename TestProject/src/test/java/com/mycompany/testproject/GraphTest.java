@@ -57,7 +57,8 @@ public class GraphTest {
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        ui.drawGraphWithOutEnv(actual, param, "Testi");
+        ui.saveDataToFile(actual.getTime(), actual.getInput(), "Graph", "DataFile");
+        ui.saveGraphFromFile("Graph", "DataFile", "newGraphFile2");
     }
         
     @Test
@@ -67,8 +68,6 @@ public class GraphTest {
             list.add(i);
 
         }
-        
-        
         impl.setMethodName("linearFunction");
         
         Output<Integer> actual = impl.runMethod(list);
@@ -83,7 +82,5 @@ public class GraphTest {
         for (Long l : param.getTime()) {
             assertTrue(l > 0);
         }
-
-        ui.drawGraphWithOutEnv(actual, param, "testi2");
     }
 }

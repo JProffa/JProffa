@@ -1,7 +1,7 @@
 package jproffa.graph;
 
-import fi.lolcatz.profiler.Output;
 import java.awt.Color;
+import java.util.List;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -17,18 +17,18 @@ public class Graph extends ApplicationFrame {
  
     final JFreeChart chart;
     
-    public Graph(final String title, Output<?> actual, Output<?> param) {
+    public Graph(final String title, List<Long> time, List<Integer> input) {
         super(title);
-        final XYDataset dataset = createDataset(actual, param, null, null);
+        final XYDataset dataset = createDataset(time, input, null, null);
         chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
         setContentPane(chartPanel);
     }
     
-    public Graph(final String title, Output<?> actual, Output<?> param, String actualName, String paramName) {
+    public Graph(final String title, List<Long> time, List<Integer> input, String actualName, String paramName) {
         super(title);
-        final XYDataset dataset = createDataset(actual, param, actualName, paramName);
+        final XYDataset dataset = createDataset(time, input, actualName, paramName);
         chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
@@ -48,21 +48,21 @@ public class Graph extends ApplicationFrame {
     /*
      * Creates the dataset from two Output objects.
      */
-    private XYDataset createDataset(Output<?> actual, Output<?> param, String actualName, String paramName) {
+    private XYDataset createDataset(List<Long> time, List<Integer> input, String actualName, String paramName) {
         String name1 = (actualName == null ? "Actual" : actualName);
         String name2 = (paramName == null ? "Param" : paramName);
         final XYSeries series1 = new XYSeries(name1);
-        for (int i = 0; i < actual.getInput().size(); i++) {
-            series1.add(actual.getSize().get(i), actual.getTime().get(i));
+        for (int i = 0; i < time.size(); i++) {
+            series1.add(input.get(i), time.get(i));
         }
-        final XYSeries series2 = new XYSeries(name2);
-        for (int i = 0; i < param.getInput().size(); i++) {
-            series2.add(param.getSize().get(i), param.getTime().get(i));
-        }
+//        final XYSeries series2 = new XYSeries(name2);
+//        for (int i = 0; i < param.getInput().size(); i++) {
+//            series2.add(param.getSize().get(i), param.getTime().get(i));
+//        }
 
         final XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries(series1);
-        dataset.addSeries(series2);
+//        dataset.addSeries(series2);
 
         return dataset;
 
