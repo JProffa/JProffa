@@ -74,11 +74,9 @@ public class ComplexityExponentialsTest {
         int i = 0;
         for (Long l : o.getTime()){
             assertTrue(l > 0);
-        }
-        assertTrue("isSquared()", framework.isSquared(o));    
+        }      
         assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        
+        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));       
         framework.assertSquared(o);
 
     }
@@ -93,11 +91,9 @@ public class ComplexityExponentialsTest {
         int i = 0;
         for (Long l : o.getTime()){
             assertTrue(l > 0);
-        }
-        assertTrue("isSquared()", framework.isSquared(o));    
+        }   
         assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        
+        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
         framework.assertSquared(o);
 
     }
@@ -112,9 +108,9 @@ public class ComplexityExponentialsTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue("isSquared()", framework.isSquared(o));    
         assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
         assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
+        framework.assertSquared(o);
     }
     
     public void printResults(String testname, long[] results) {

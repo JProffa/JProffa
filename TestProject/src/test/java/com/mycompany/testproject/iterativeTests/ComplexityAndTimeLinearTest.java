@@ -77,12 +77,10 @@ public class ComplexityAndTimeLinearTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue("isLinear()", framework.isLinear(o));   
         assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
         assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
         framework.assertLinear(o);
-        
-        assertFalse("isSquared", framework.isSquared(o));
+        framework.assertNotSquared(o);
     }
     
     @Test
@@ -93,13 +91,11 @@ public class ComplexityAndTimeLinearTest {
         Output<Integer> o = impl.runMethod(list);
         for (Long l : o.getTime()){
             assertTrue(l > 0);
-        }
-        assertTrue("isLinear()", framework.isLinear(o));   
+        } 
         assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
         assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
-        framework.assertLinear(o);
-        
-        assertFalse("isSquared", framework.isSquared(o));
+        framework.assertLinear(o);      
+        framework.assertNotSquared(o);
     }
     
        
@@ -111,11 +107,9 @@ public class ComplexityAndTimeLinearTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue("isLinear()",framework.isLinear(o));   
         assertTrue("isLinearOrFaster()",framework.isLinearOrFaster(o, 1.1));
-        framework.assertLinear(o);
-        
-        assertFalse("isSquared()",framework.isSquared(o));
+        framework.assertLinear(o);    
+        framework.assertNotSquared(o);
     }
     
     @Test
@@ -123,11 +117,9 @@ public class ComplexityAndTimeLinearTest {
         impl.setMethodName("linearFunction");
         List<Integer> list = Arrays.asList(2,20,500,2000,10000000,20000000,20000000);
         Output<Integer> o = impl.runMethod(list);
-        assertTrue("isLinear()",framework.isLinear(o));   
         assertTrue("isLinearOrFaster()",framework.isLinearOrFaster(o, 1.1));
-        framework.assertLinear(o);
-        
-        assertFalse("isSquared()",framework.isSquared(o));
+        framework.assertLinear(o);    
+        framework.assertNotSquared(o);
     }
     
     @Test
@@ -138,9 +130,7 @@ public class ComplexityAndTimeLinearTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertFalse("isLinear()",framework.isLinear(o));
-        assertTrue("isSquared()",framework.isSquared(o));
-        
+        framework.assertNotLinear(o); 
         framework.assertSquared(o);
     }
 
@@ -154,12 +144,10 @@ public class ComplexityAndTimeLinearTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue("isLinear()", framework.isLinear(o));   
         assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
         assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
-        framework.assertLinear(o);
-        
-        assertFalse("isSquared", framework.isSquared(o));
+        framework.assertLinear(o); 
+        framework.assertNotSquared(o);
     }
     
     /**
