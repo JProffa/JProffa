@@ -7,11 +7,14 @@ import java.util.List;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+
 public class GraphTest {
 
 
     List<Long> time;
+    List<Long> time2;
     List<Integer> input;
+    List<Integer> input2;
     GraphUI ui;
     
     @Before
@@ -21,13 +24,17 @@ public class GraphTest {
 
      @Test
      public void testGraphDrawing() throws Exception{
-         ui.saveDataToFile(time, input, "Graph155", "testFile");  
-         ui.saveGraphFromFile("Graph155", "testFile", "GraphFile4");
-         System.out.println("Saving graph..");
+         ui.saveDataToFile(time, input, "GraphA", "testFile");  
+         ui.saveDataToFile(time2, input2, "GraphB", "testFile");  
+         ui.showGraphFromFile("testFile", "GraphA", "GraphB");
+         while(true);
      }
 
     private void initOutputs() {
         input = Arrays.asList(1, 2, 3, 4, 50);
-        time = Arrays.asList(new Long(1), new Long(2), new Long(3), new Long(4), new Long(5));
+        time = Arrays.asList(new Long(1), new Long(2), new Long(3), new Long(4), new Long(12));
+        
+        input2 = Arrays.asList(1, 2, 3, 4, 50);
+        time2 = Arrays.asList(new Long(1), new Long(2), new Long(3), new Long(4), new Long(40));
     }
 }

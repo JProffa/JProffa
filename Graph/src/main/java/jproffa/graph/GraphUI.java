@@ -17,6 +17,8 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
 import org.jfree.chart.ChartUtilities;
+import fi.lolcatz.profiler.Output;
+import java.util.ArrayList;
 
 public class GraphUI {
 
@@ -42,10 +44,10 @@ public class GraphUI {
 //            g.init();
 //        }
 //    }
-
     /**
-     * Saves the data to a file. This data can be made into a graph by either calling
-     * showGraphFromFile or saveGrahFromFile.
+     * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
+     * saveGraphFromFile.
+     *
      * @param time List of times
      * @param input List of inputs
      * @param graphName Name the graph gets
@@ -65,38 +67,78 @@ public class GraphUI {
             System.err.println(e);
         }
     }
-    /** 
-     * Reads and initializes the graph from a file.
-     * 
-     * @param graphName Name of the graph to be initialized
-     * @param fileName File the graph is loaded from
-     * @throws Exception 
-     */
-    public static void showGraphFromFile(String graphName, String fileName) throws Exception {
-        try {
-            Gson gson = new Gson();
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            DataType t = null;
-            while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine();
-                t = gson.fromJson(line, DataType.class);
-                if (t.name.equals(graphName)) {
-                    Graph g = new Graph(graphName, t.time, t.input);
-                    g.init();
-                    return;
-                }
-            }
 
+    /**
+     * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
+     * saveGraphFromFile.
+     *
+     * @param time List of times
+     * @param input List of inputs
+     * @param graphName Name the graph gets
+     * @param fileName File the data is saved to. May exist.
+     */
+    public static void saveDataToFile(Output<?> out, String graphName, String fileName) throws Exception {
+        try {
+            File f = new File(fileName);
+            FileWriter fstream = new FileWriter(f, true);
+            BufferedWriter fbw = new BufferedWriter(fstream);
+            Gson gson = new Gson();
+            String data = gson.toJson(new DataType(out.getTime(), out.getSize(), graphName));
+            fbw.write(data);
+            fbw.newLine();
+            fbw.close();
         } catch (Exception e) {
             System.err.println(e);
         }
     }
+
+    /**
+     * Reads and initializes the graph from a file.
+     *
+     * @param graphName Name of the graph to be initialized
+     * @param fileName File the graph is loaded from
+     * @throws Exception
+     */
+    public static void showGraphFromFile(String fileName, String... graphName) throws Exception {
+        try {
+            Gson gson = new Gson();
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+            List<DataType> dtList = new ArrayList<DataType>();
+            while (bufferedReader.ready()) {
+                String line = bufferedReader.readLine();
+                DataType t = gson.fromJson(line, DataType.class);
+                for (int i = 0; i < graphName.length; i++) {
+                    String s = graphName[i];
+                    if (t.name.equals(s)) {
+                        dtList.add(t);     
+                        graphName[i] = null;
+                        break;
+                    }                                  
+                }
+            }
+            List<List<Integer>> inputList = new ArrayList<List<Integer>>();
+            List<List<Long>> timeList = new ArrayList<List<Long>>();
+            List<String> nameList = new ArrayList<String>();
+            for (DataType dt : dtList) {
+                inputList.add(dt.input);
+                timeList.add(dt.time);
+                nameList.add(dt.name);
+            }
+            Graph g = new Graph(inputList, timeList, nameList);
+            g.init();
+            return;
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
     /**
      * Reads a graph from a file and saves it to a new .png file.
+     *
      * @param graphName Name of the graph to be saved
      * @param fileName Name of the file the data is in
      * @param destination Name of the .png file
-     * @throws Exception 
+     * @throws Exception
      */
     public static void saveGraphFromFile(String graphName, String fileName, String destination) throws Exception {
         try {
