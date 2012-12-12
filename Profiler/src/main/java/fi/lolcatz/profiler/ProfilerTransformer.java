@@ -114,7 +114,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                     break;
                 case METHOD_INSN:
                     MethodInsnNode n = (MethodInsnNode)node;
-                    if (CostlyMethodList.isNativeMethod(n.owner+ "." +n.name+n.desc))
+                    if (CostlyMethodList.isMethodCostly(n.owner+ "." +n.name+n.desc))
                         cost += CostlyMethodList.getCostOfCostlyMethods();
                 default:
                     cost += ComplexityCost.getCost(type);

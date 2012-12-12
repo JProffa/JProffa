@@ -454,7 +454,7 @@ public class CostlyMethodList {
      * @param methodName method to be checked
      * @return Is given method costly
      */
-    public static boolean isNativeMethod(String methodName) {
+    public static boolean isMethodCostly(String methodName) {
         for (String costlyMethod : extraCostlyMethodList) {
             if (methodName.equals(costlyMethod)) {
                 return true;
