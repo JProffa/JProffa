@@ -27,7 +27,7 @@ public class GraphTest {
          ui.saveDataToFile(time, input, "GraphA", "testFile");  
          ui.saveDataToFile(time2, input2, "GraphB", "testFile");  
          ui.showGraphFromFile("testFile", "GraphA", "GraphB");
-         while(true);
+//         while(true);
      }
 
     private void initOutputs() {
