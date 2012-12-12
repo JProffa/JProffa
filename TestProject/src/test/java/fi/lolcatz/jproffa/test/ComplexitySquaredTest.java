@@ -132,44 +132,7 @@ public class ComplexitySquaredTest {
         assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
         framework.assertSquared(o);
     }
-    
-    @Test
-    public void testRecursionSquaredLarge() throws Exception {
-        impl.setClassName("fi.lolcatz.jproffa.testproject.RecursiveComplexityExample");
-        impl.setMethodName("squaredRecursive");
-        
-        List<Integer> list = Arrays.asList(500, 1000, 2000, 4000, 8000, 16000, 32000, 64000);
-        List<Integer> list2 = Arrays.asList(0,0,0,0,0,0,0,0);
-        List<Integer> list3 = Arrays.asList(0,0,0,0,0,0,0,0);
-        Output<Integer> o = impl.runMethod(list, list2, list3);
-        int i = 0;
-        for (Long l : o.getTime()){
-            assertTrue(l > 0);
-        }   
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertSquared(o);
-        
-    }
-    
-    @Test
-    public void testRecursionSquaredHuge() throws Exception {
-        impl.setClassName("fi.lolcatz.jproffa.testproject.RecursiveComplexityExample");
-        impl.setMethodName("squaredRecursive");
-        
-        List<Integer> list = Arrays.asList(5000, 10000, 20000, 40000, 80000, 160000, 320000, 640000);
-        List<Integer> list2 = Arrays.asList(0,0,0,0,0,0,0,0);
-        List<Integer> list3 = Arrays.asList(0,0,0,0,0,0,0,0);
-        Output<Integer> o = impl.runMethod(list, list2, list3);
-        int i = 0;
-        for (Long l : o.getTime()){
-            assertTrue(l > 0);
-        }   
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertSquared(o);
-    }
-    
+ 
      public void printResults(String testname, long[] results) {
         System.out.println("---" + testname + "---");
         int i = 0;
