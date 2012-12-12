@@ -1,15 +1,9 @@
-package fi.lolcatz.jproffa.implementatios;
+package fi.lolcatz.jproffa.implementations;
 
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Output;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jfree.chart.ChartUtilities;
 
 public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 

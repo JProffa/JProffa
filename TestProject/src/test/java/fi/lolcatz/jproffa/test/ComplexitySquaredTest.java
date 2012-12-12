@@ -1,6 +1,6 @@
-    package fi.lolcatz.jproffa.test;
+package fi.lolcatz.jproffa.test;
 
-import fi.lolcatz.jproffa.implementatios.IntegerImpl;
+import fi.lolcatz.jproffa.implementations.IntegerImpl;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
