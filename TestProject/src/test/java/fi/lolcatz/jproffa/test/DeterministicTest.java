@@ -101,6 +101,7 @@ public class DeterministicTest {
     
     @Test
     public void testRecursionCostIsDeterministic() throws Exception {
+        impl.setClassName("fi.lolcatz.jproffa.testproject.RecursiveComplexityExample");
         impl.setMethodName("recursiveFunction");
         
         impl.runStatic(impl.getInput(500));
