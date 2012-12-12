@@ -73,7 +73,7 @@ public class Graph extends ApplicationFrame {
         final XYSeriesCollection dataset = new XYSeriesCollection();
         for (int i = 0; i < times.size(); i++) {
             System.err.println(times.size());
-            final XYSeries series = new XYSeries(names.get(i));
+            final XYSeries series = new XYSeries(i+1);
             for (int j = 0; j < times.get(i).size(); j++) {
                 series.add(inputs.get(i).get(j), times.get(i).get(j));
             }
