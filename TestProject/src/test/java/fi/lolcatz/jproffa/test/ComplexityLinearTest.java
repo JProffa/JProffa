@@ -188,38 +188,4 @@ public class ComplexityLinearTest {
         framework.assertNotSquared(o);
     }
     
-    @Test
-    public void testRecursionLinearLarge() throws Exception {
-        impl.setClassName("fi.lolcatz.jproffa.testproject.RecursiveComplexityExample");
-        impl.setMethodName("linearRecursive");
-        
-        List<Integer> list = Arrays.asList(1000, 2000, 3000, 4000, 6000, 5000, 7000);
-        List<Integer> list2 = Arrays.asList(0,0,0,0,0,0,0);
-        Output<Integer> o = impl.runMethod(list, list2);
-        for (Long l : o.getTime()){
-            assertTrue(l > 0);
-        }
-        assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
-        framework.assertLinear(o); 
-        framework.assertNotSquared(o);
-    }
-    
-    @Test
-    public void testRecursionLinearHuge() throws Exception {
-        impl.setClassName("fi.lolcatz.jproffa.testproject.RecursiveComplexityExample");
-        impl.setMethodName("linearRecursive");
-        
-        List<Integer> list = Arrays.asList(1000, 2000, 3000, 4000, 6000, 5000, 7000);
-        List<Integer> list2 = Arrays.asList(0,0,0,0,0,0,0);
-        Output<Integer> o = impl.runMethod(list, list2);
-        for (Long l : o.getTime()){
-            assertTrue(l > 0);
-        }
-        assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
-        framework.assertLinear(o); 
-        framework.assertNotSquared(o);
-    }
-    
 }
