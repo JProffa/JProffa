@@ -18,3 +18,4 @@ hs_err*.log
 *.png
 /TestProject/Graphs*
 /TestProject/testFile
+/Graph/testFile
