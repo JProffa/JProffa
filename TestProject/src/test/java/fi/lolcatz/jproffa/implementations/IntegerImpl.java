@@ -28,19 +28,10 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
         runStatic(1);
         
         Output<Integer> out = new Output<Integer>();
-        Output<Integer> out2 = new Output<Integer>();
-        Output<Integer> out3 = new Output<Integer>();
         for (Integer i : list){          
             out.addToInput(i);
             out.addToSize(getSize(i));
-            out2.addToTime(runStatic(i));
-            out3.addToTime(runStatic(i));
-        }
-        for (int i = 0;  i < out2.getTime().size(); i++) {
-            if(out2.getTime().get(i) > out3.getTime().get(i) && out3.getTime().get(i) != 0)
-                out.addToTime(out3.getTime().get(i));
-            else
-                out.addToTime(out2.getTime().get(i));
+            out.addToTime(runStaticNTimes(2, i));
         }
         
         return out;
@@ -50,21 +41,11 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
         runStatic(1, 0);
         
         Output<Integer> out = new Output<Integer>();
-        Output<Integer> out2 = new Output<Integer>();
-        Output<Integer> out3 = new Output<Integer>();
         
         for (int i = 0; i < list.size(); i++) {
             out.addToInput(list.get(i));
             out.addToSize(list.get(i));
-            out2.addToTime(runStatic(list.get(i), list2.get(i)));
-            out3.addToTime(runStatic(list.get(i), list2.get(i)));
-        }
-        
-        for (int i = 0;  i < out2.getTime().size(); i++) {
-            if(out2.getTime().get(i) > out3.getTime().get(i) && out3.getTime().get(i) != 0)
-                out.addToTime(out3.getTime().get(i));
-            else
-                out.addToTime(out2.getTime().get(i));
+            out.addToTime(runStatic(list.get(i), list2.get(i)));
         }
         
         return out;
@@ -74,21 +55,11 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
         runStatic(1, 0, 0);
         
         Output<Integer> out = new Output<Integer>();
-        Output<Integer> out2 = new Output<Integer>();
-        Output<Integer> out3 = new Output<Integer>();
         
         for (int i = 0; i < list.size(); i++) {
             out.addToInput(list.get(i));
             out.addToSize(list.get(i));
-            out2.addToTime(runStatic(list.get(i), list2.get(i), list3.get(i)));
-            out3.addToTime(runStatic(list.get(i), list2.get(i), list3.get(i)));
-        }
-        
-        for (int i = 0;  i < out2.getTime().size(); i++) {
-            if(out2.getTime().get(i) > out3.getTime().get(i) && out3.getTime().get(i) != 0)
-                out.addToTime(out3.getTime().get(i));
-            else
-                out.addToTime(out2.getTime().get(i));
+            out.addToTime(runStatic(list.get(i), list2.get(i), list3.get(i)));
         }
         
         return out;
