@@ -42,8 +42,6 @@ public class GraphWriter implements TestRule {
     }
 
     public GraphWriter(String file, String testName) {
-        File f = new File(file);
-        f.delete();
         this.fileName = file;
         this.testName = testName;
     }
@@ -87,7 +85,7 @@ public class GraphWriter implements TestRule {
      * @param time List of times
      * @param input List of inputs
      */
-    public void saveDataToFile(List<Long> time, List<Integer> input) throws Exception {
+    public void save(List<Long> time, List<Integer> input) throws Exception {
         try {
             File parentDir = new File(mainDirectory);
             if (!parentDir.exists()) {
@@ -106,8 +104,8 @@ public class GraphWriter implements TestRule {
         }
     }
 
-    public void saveDataToFile(Output<?> out) throws Exception {
-        saveDataToFile(out.getTime(), out.getSize());
+    public void save(Output<?> out) throws Exception {
+        save(out.getTime(), out.getSize());
     }
 
     //TODO
