@@ -25,7 +25,7 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
         for (Integer i : list){          
             out.addToInput(i);
             out.addToSize(getSize(i));
-            out.addToTime(runStaticNTimes(2, i));
+            out.addToTime(runStatic(i));
         }
         
         return out;

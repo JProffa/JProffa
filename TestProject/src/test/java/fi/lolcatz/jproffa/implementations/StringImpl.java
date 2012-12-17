@@ -42,7 +42,7 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
         for (String s : list){
             out.addToInput(s);
             out.addToSize(getSize(s));
-            out.addToTime(runStaticNTimes(2, s));
+            out.addToTime(runStatic(s));
         }
         return out;
     }
