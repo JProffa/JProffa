@@ -27,12 +27,14 @@ public class GraphWriter implements TestRule {
 
     private String fileName = "jproffa_data.txt"; // todo: from env
     private String testName = "test";
+    private String mainDirectory = "testFolder";
 
     public GraphWriter() {
+//        mainDirectory = System.getenv("DIRECTORY");
         File f = new File(fileName);
         f.delete();
     }
-    
+
     public GraphWriter(String file) {
         File f = new File(file);
         f.delete();
@@ -78,17 +80,20 @@ public class GraphWriter implements TestRule {
 //            g.init();
 //        }
 //    }
-    
     /**
-     * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
-     * saveGraphFromFile.
+     * Saves the data to a file. This data can be made into a graph by either
+     * calling showGraphFromFile or saveGraphFromFile.
      *
      * @param time List of times
      * @param input List of inputs
      */
     public void saveDataToFile(List<Long> time, List<Integer> input) throws Exception {
         try {
-            File f = new File(fileName);
+            File parentDir = new File(mainDirectory);
+            if (!parentDir.exists()) {
+                parentDir.mkdir();
+            }
+            File f = new File(parentDir, fileName);
             FileWriter fstream = new FileWriter(f, true);
             BufferedWriter fbw = new BufferedWriter(fstream);
             Gson gson = new Gson();
@@ -107,8 +112,6 @@ public class GraphWriter implements TestRule {
 
     //TODO
     // Map<String, List<Käppyrä>>  tai joku tuon idean wräppäävä luokka
-    
-
     /**
      * Reads and initializes the graph from a file.
      *
@@ -184,6 +187,7 @@ public class GraphWriter implements TestRule {
     @Override
     public Statement apply(final Statement base, final Description description) {
         return new Statement() {
+
             @Override
             public void evaluate() throws Throwable {
                 testName = description.getClassName() + " " + description.getMethodName();

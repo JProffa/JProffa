@@ -17,7 +17,7 @@ public class GraphTest {
     List<Integer> input2;
     
     @Rule
-    GraphWriter ui = new GraphWriter();
+    public GraphWriter ui = new GraphWriter();
     GraphReader reader;
     
     @Before
