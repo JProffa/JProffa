@@ -95,7 +95,7 @@ public class StringTest {
         impl.runStatic(impl.getInput(25), "a", "b");
         
         long[] totalCost = new long[5];
-        int syote = 10000000;
+        int syote = 5000000;
         
         totalCost[0] = impl.runStatic(impl.getInput(syote), "a", "b");
         
