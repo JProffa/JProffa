@@ -58,7 +58,7 @@ public class GraphTest {
     }
         
     @Test
-    public void testCreateLinearAndSquaredGraph() throws Exception {
+    public void testCreateLinearAndQuadraticGraph() throws Exception {
         List<Integer> list = new ArrayList<Integer>();
         for (int i = 1; i < 64; i++) {
             list.add(i);
