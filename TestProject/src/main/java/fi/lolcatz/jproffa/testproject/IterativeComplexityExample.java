@@ -19,11 +19,11 @@ public class IterativeComplexityExample {
     }
 
     /**
-     * Approximated squared complexity function for testing approximation on assertSquared functions
+     * Approximated quadratic complexity function for testing approximation on assertQuadratic functions
      *
      * @param i input
      */
-    public static void approximatedSquaredFunction(int i) {
+    public static void approximatedQuadraticFunction(int i) {
         int r = 0;
         for (int j = 0; j < i; j++) {
             for (int k = 0; k < i; k++) {
@@ -33,11 +33,11 @@ public class IterativeComplexityExample {
     }
 
     /**
-     * Squared complexity function used to test assertSquared functions
+     * Quadratic complexity function used to test assertQuadratic functions
      *
      * @param i input
      */
-    public static void squaredFunction(int i) {
+    public static void quadraticFunction(int i) {
         int r = 0;
         for (int j = 0; j < i * i; j++) {
             r++;
@@ -45,11 +45,11 @@ public class IterativeComplexityExample {
     }
 
     /**
-     * Approximated squared complexity function used to test assertSquared functions without optimization
+     * Approximated quadratic complexity function used to test assertQuadratic functions without optimization
      *
      * @param i input
      */
-    public static void squaredCoinFlipFunction(int i) {
+    public static void quadraticCoinFlipFunction(int i) {
         int r = 0;
         Random ra = new Random();
         for (int j = 0; j < i; j++) {

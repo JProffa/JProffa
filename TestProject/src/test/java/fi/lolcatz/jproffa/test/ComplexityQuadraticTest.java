@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ComplexitySquaredTest {
+public class ComplexityQuadraticTest {
 
-    public ComplexitySquaredTest() {
+    public ComplexityQuadraticTest() {
     }
     
     IntegerImpl impl;
@@ -23,7 +23,7 @@ public class ComplexitySquaredTest {
     
     @BeforeClass
     public static void setUpClass() {
-        ClassBlacklist.add(ComplexitySquaredTest.class);
+        ClassBlacklist.add(ComplexityQuadraticTest.class);
         Util.loadAgent();
         Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
     }
@@ -36,7 +36,7 @@ public class ComplexitySquaredTest {
 
     
     @Test
-    public void squaredTestNoFramework() throws Exception {
+    public void quadraticTestNoFramework() throws Exception {
         
         impl.setMethodName("squaredFunction");
         

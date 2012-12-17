@@ -74,61 +74,61 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is not squared
+     * Throws AssertionError if the parameter is not quadratic
      * @throws AssertionError 
      */
-    public static void assertSquared(Output<?> output) throws AssertionError {
-        if (!isSquared(output)) {
+    public static void assertQuadratic(Output<?> output) throws AssertionError {
+        if (!isQuadratic(output)) {
             throw new AssertionError();
         }
     }
     
     /**
-     * Throws AssertionError if the parameter is not squared
+     * Throws AssertionError if the parameter is not quadratic
      * @throws AssertionError 
      */
-    public static void assertSquared(String message, Output<?> output) throws AssertionError {
-        if (!isSquared(output)) {
+    public static void assertQuadratic(String message, Output<?> output) throws AssertionError {
+        if (!isQuadratic(output)) {
             throw new AssertionError(message);
         }
     }
     
     /**
-     * Throws AssertionError if the parameter is squared
+     * Throws AssertionError if the parameter is quadratic
      * @throws AssertionError 
      */
-    public static void assertNotSquared(Output<?> output) throws AssertionError {
-        if (isSquared(output)) {
+    public static void assertNotQuadratic(Output<?> output) throws AssertionError {
+        if (isQuadratic(output)) {
             throw new AssertionError();
         }
     }
     
         /**
-     * Throws AssertionError if the parameter is squared
+     * Throws AssertionError if the parameter is quadratic
      * @throws AssertionError 
      */
-    public static void assertNotSquared(String message, Output<?> output) throws AssertionError {
-        if (isSquared(output)) {
+    public static void assertNotQuadratic(String message, Output<?> output) throws AssertionError {
+        if (isQuadratic(output)) {
             throw new AssertionError(message);
         }
     }
     
     /**
-     * Throws AssertionError if the parameter is slower than squared
+     * Throws AssertionError if the parameter is slower than quadratic
      * @throws AssertionError 
      */
-    public static void assertSquaredOrFaster(Output<?> output, double margin) throws AssertionError {
-        if (!isSquaredOrFaster(output, margin)) {
+    public static void assertQuadraticOrFaster(Output<?> output, double margin) throws AssertionError {
+        if (!isQuadraticOrFaster(output, margin)) {
             throw new AssertionError();
         }
     }
     
     /**
-     * Throws AssertionError if the parameter is slower than squared
+     * Throws AssertionError if the parameter is slower than quadratic
      * @throws AssertionError 
      */
-    public static void assertSquaredOrFaster(String message, Output<?> output, double margin) throws AssertionError {
-        if (!isSquaredOrFaster(output, margin)) {
+    public static void assertQuadraticOrFaster(String message, Output<?> output, double margin) throws AssertionError {
+        if (!isQuadraticOrFaster(output, margin)) {
             throw new AssertionError(message);
         }
     }
@@ -228,10 +228,14 @@ public class ComplexityAnalysis {
 
     /**
      * Calculates whether the parameter output is O(n*n)
-     *
-     * @return True if output is squared, false if not
+     * 
+     * a, b and c are from the function an*n+bn+c
+     * denom is the common divider for them.
+     * 
+     * @param out size must be >= 3
+     * @return True if output is quadratic, false if not
      */
-    private static boolean isSquared(Output<?> out) {
+    private static boolean isQuadratic(Output<?> out) {
         if (out.getSize().size() < 2) {
             return false;
         }
@@ -262,10 +266,14 @@ public class ComplexityAnalysis {
     /**
      * Calculates the runtime speed of the parameter output
      *
-     * @return True if the output is squared or faster, false if the output is
+     * a, b and c are from the function an*n+bn+c
+     * denom is the common divider for them.
+     * 
+     * @param out size must be >= 3     
+     * @return True if the output is quadratic or faster, false if the output is
      * slower
      */
-    public static boolean isSquaredOrFaster(Output<?> out, double margin) {
+    public static boolean isQuadraticOrFaster(Output<?> out, double margin) {
         if (out.getSize().size() < 2) {
             return false;
         }

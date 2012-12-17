@@ -11,12 +11,12 @@ public class RecursiveComplexityExample {
     }
     
     
-    public static int squaredRecursive(int count, int result, int org) {
+    public static int quadraticRecursive(int count, int result, int org) {
         if (count == 0) {
             return result;
         }
         result += linearRecursive(org, 0);
-        return squaredRecursive(count-1, result, org);
+        return quadraticRecursive(count-1, result, org);
     }
     
     public static int recursiveFunction(int number) {
