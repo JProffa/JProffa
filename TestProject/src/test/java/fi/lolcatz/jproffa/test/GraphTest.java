@@ -53,7 +53,7 @@ public class GraphTest {
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        ui.saveDataToFile(actual.getTime(), actual.getInput());
+        ui.save(actual.getTime(), actual.getInput());
         ui.saveGraphFromFile("Graph", "DataFile", "newGraphFile2");
     }
         
