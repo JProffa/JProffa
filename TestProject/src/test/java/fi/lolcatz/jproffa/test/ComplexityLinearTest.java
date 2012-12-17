@@ -79,9 +79,9 @@ public class ComplexityLinearTest {
             assertTrue(l > 0);
         }
         assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.0));
         framework.assertLinear(o);
-        framework.assertNotSquared(o);
+        framework.assertNotQuadratic(o);
     }
     
     @Test
@@ -94,9 +94,9 @@ public class ComplexityLinearTest {
             assertTrue(l > 0);
         } 
         assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.0));
         framework.assertLinear(o);      
-        framework.assertNotSquared(o);
+        framework.assertNotQuadratic(o);
     }
     
        
@@ -110,7 +110,7 @@ public class ComplexityLinearTest {
         }
         assertTrue("isLinearOrFaster()",framework.isLinearOrFaster(o, 1.1));
         framework.assertLinear(o);    
-        framework.assertNotSquared(o);
+        framework.assertNotQuadratic(o);
     }
     
     @Test
@@ -120,19 +120,19 @@ public class ComplexityLinearTest {
         Output<Integer> o = impl.runMethod(list);
         assertTrue("isLinearOrFaster()",framework.isLinearOrFaster(o, 1.1));
         framework.assertLinear(o);    
-        framework.assertNotSquared(o);
+        framework.assertNotQuadratic(o);
     }
     
     @Test
-    public void testLinearityOnSquaredFunction() throws Exception {     
-        impl.setMethodName("approximatedSquaredFunction");
+    public void testLinearityOnQuadraticFunction() throws Exception {     
+        impl.setMethodName("approximatedQuadraticFunction");
         List<Integer> list = Arrays.asList(2,4,8,16,32,64);
         Output<Integer> o = impl.runMethod(list);
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
         framework.assertNotLinear(o); 
-        framework.assertSquared(o);
+        framework.assertQuadratic(o);
     }
 
     
@@ -146,9 +146,9 @@ public class ComplexityLinearTest {
             assertTrue(l > 0);
         }
         assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.0));
         framework.assertLinear(o); 
-        framework.assertNotSquared(o);
+        framework.assertNotQuadratic(o);
     }
     
     /**
@@ -183,9 +183,9 @@ public class ComplexityLinearTest {
             assertTrue(l > 0);
         }
         assertTrue("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.0));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.0));
         framework.assertLinear(o); 
-        framework.assertNotSquared(o);
+        framework.assertNotQuadratic(o);
     }
     
 }

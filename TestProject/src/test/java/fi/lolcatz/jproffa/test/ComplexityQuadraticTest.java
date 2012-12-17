@@ -38,7 +38,7 @@ public class ComplexityQuadraticTest {
     @Test
     public void quadraticTestNoFramework() throws Exception {
         
-        impl.setMethodName("squaredFunction");
+        impl.setMethodName("quadraticFunction");
         
         long[] totalCost = new long[5];
         int syote = 10;
@@ -50,7 +50,7 @@ public class ComplexityQuadraticTest {
             totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         
-        printResults("--- testSquared ---", totalCost);
+        printResults("--- testQuadratic ---", totalCost);
 
         assertTrue(totalCost[0] * 4 >= totalCost[1]);
         assertTrue(totalCost[1] * 4 >= totalCost[2]);
@@ -66,9 +66,9 @@ public class ComplexityQuadraticTest {
     }
     
     @Test
-    public void squaredTestWithFramework() throws Exception {
+    public void quadraticTestWithFramework() throws Exception {
         
-        impl.setMethodName("squaredFunction");
+        impl.setMethodName("quadraticFunction");
         
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
         Output<Integer> o = impl.runMethod(list);
@@ -76,16 +76,16 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }      
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
         assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));       
-        framework.assertSquared(o);
+        framework.assertQuadratic(o);
 
     }
 
     @Test
-    public void testApproximatedSquared() throws Exception {
+    public void testApproximatedQuadratic() throws Exception {
         
-        impl.setMethodName("approximatedSquaredFunction");
+        impl.setMethodName("approximatedQuadraticFunction");
         
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
         Output<Integer> o = impl.runMethod(list);
@@ -93,15 +93,15 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }   
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
         assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertSquared(o);
+        framework.assertQuadratic(o);
 
     }
 
     @Test
-    public void testCoinFlipSquared() throws Exception {     
-        impl.setMethodName("squaredCoinFlipFunction");
+    public void testCoinFlipQuadratic() throws Exception {     
+        impl.setMethodName("quadraticCoinFlipFunction");
         
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
         Output<Integer> o = impl.runMethod(list);
@@ -109,16 +109,16 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
         assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        framework.assertSquared(o);
+        framework.assertQuadratic(o);
     }
     
     @Test
-    public void testRecursionSquared() throws Exception {
+    public void testRecursionQuadratic() throws Exception {
         
         impl.setClassName("fi.lolcatz.jproffa.testproject.RecursiveComplexityExample");
-        impl.setMethodName("squaredRecursive");
+        impl.setMethodName("quadraticRecursive");
         
         List<Integer> list = Arrays.asList(50, 100, 200, 400, 800, 1600, 3200, 6400);
         List<Integer> list2 = Arrays.asList(0,0,0,0,0,0,0,0,0,0);
@@ -128,9 +128,9 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }   
-        assertTrue("isSquaredOrFaster()", framework.isSquaredOrFaster(o, 1.1));
+        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
         assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertSquared(o);
+        framework.assertQuadratic(o);
     }
  
      public void printResults(String testname, long[] results) {
