@@ -15,7 +15,10 @@ public class GraphTest {
     List<Long> time2;
     List<Integer> input;
     List<Integer> input2;
-    GraphUI ui;
+    
+    @Rule
+    GraphWriter ui = new GraphWriter();
+    GraphReader reader;
     
     @Before
     public void setUp() {
@@ -24,10 +27,8 @@ public class GraphTest {
 
      @Test
      public void testGraphDrawing() throws Exception{
-         ui.saveDataToFile(time, input, "GraphA", "testFile");  
-         ui.saveDataToFile(time2, input2, "GraphB", "testFile");  
-         ui.showGraphFromFile("testFile", "GraphA", "GraphB");
-//         while(true);
+         ui.saveDataToFile(time, input);  
+         ui.saveDataToFile(time2, input2);             
      }
 
     private void initOutputs() {

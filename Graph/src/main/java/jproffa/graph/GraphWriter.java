@@ -19,15 +19,49 @@ import java.util.Random;
 import org.jfree.chart.ChartUtilities;
 import fi.lolcatz.profiler.Output;
 import java.util.ArrayList;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
-public class GraphUI {
+public class GraphWriter implements TestRule {
 
-    /**
-     * Draws a runtime chart of the outputs size and time lists and saves the chart to a new .png file.
-     *
-     * @param actual The tested output
-     * @param projected The example output
-     */
+    private String fileName = "jproffa_data.txt"; // todo: from env
+    private String testName = "test";
+
+    public GraphWriter() {
+        File f = new File(fileName);
+        f.delete();
+    }
+    
+    public GraphWriter(String file) {
+        File f = new File(file);
+        f.delete();
+        this.fileName = file;
+    }
+
+    public GraphWriter(String file, String testName) {
+        File f = new File(file);
+        f.delete();
+        this.fileName = file;
+        this.testName = testName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
 //    private static void drawGraph(List<Long> time, List<Integer> input) {
 //        //generate example outputs for one param
 //        //linear, quadric ,nlogn       
@@ -44,22 +78,21 @@ public class GraphUI {
 //            g.init();
 //        }
 //    }
+    
     /**
      * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
      * saveGraphFromFile.
      *
      * @param time List of times
      * @param input List of inputs
-     * @param graphName Name the graph gets
-     * @param fileName File the data is saved to. May exist.
      */
-    public static void saveDataToFile(List<Long> time, List<Integer> input, String graphName, String fileName) throws Exception {
+    public void saveDataToFile(List<Long> time, List<Integer> input) throws Exception {
         try {
             File f = new File(fileName);
             FileWriter fstream = new FileWriter(f, true);
             BufferedWriter fbw = new BufferedWriter(fstream);
             Gson gson = new Gson();
-            String data = gson.toJson(new DataType(time, input, graphName));
+            String data = gson.toJson(new GsonDataStructure(time, input, testName));
             fbw.write(data);
             fbw.newLine();
             fbw.close();
@@ -68,29 +101,13 @@ public class GraphUI {
         }
     }
 
-    /**
-     * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
-     * saveGraphFromFile.
-     *
-     * @param time List of times
-     * @param input List of inputs
-     * @param graphName Name the graph gets
-     * @param fileName File the data is saved to. May exist.
-     */
-    public static void saveDataToFile(Output<?> out, String graphName, String fileName) throws Exception {
-        try {
-            File f = new File(fileName);
-            FileWriter fstream = new FileWriter(f, true);
-            BufferedWriter fbw = new BufferedWriter(fstream);
-            Gson gson = new Gson();
-            String data = gson.toJson(new DataType(out.getTime(), out.getSize(), graphName));
-            fbw.write(data);
-            fbw.newLine();
-            fbw.close();
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+    public void saveDataToFile(Output<?> out) throws Exception {
+        saveDataToFile(out.getTime(), out.getSize());
     }
+
+    //TODO
+    // Map<String, List<Käppyrä>>  tai joku tuon idean wräppäävä luokka
+    
 
     /**
      * Reads and initializes the graph from a file.
@@ -99,27 +116,26 @@ public class GraphUI {
      * @param fileName File the graph is loaded from
      * @throws Exception
      */
-    public static void showGraphFromFile(String fileName, String... graphName) throws Exception {
+    public void showGraphFromFile(String fileName, String... graphName) throws Exception {
         try {
             Gson gson = new Gson();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            List<DataType> dtList = new ArrayList<DataType>();
+            List<GsonDataStructure> dtList = new ArrayList<GsonDataStructure>();
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
-                DataType t = gson.fromJson(line, DataType.class);
+                GsonDataStructure t = gson.fromJson(line, GsonDataStructure.class);
                 for (int i = 0; i < graphName.length; i++) {
                     String s = graphName[i];
                     if (t.name.equals(s)) {
-                        dtList.add(t);     
-                        graphName[i] = null;
+                        dtList.add(t);
                         break;
-                    }                                  
+                    }
                 }
             }
             List<List<Integer>> inputList = new ArrayList<List<Integer>>();
             List<List<Long>> timeList = new ArrayList<List<Long>>();
             List<String> nameList = new ArrayList<String>();
-            for (DataType dt : dtList) {
+            for (GsonDataStructure dt : dtList) {
                 inputList.add(dt.input);
                 timeList.add(dt.time);
                 nameList.add(dt.name);
@@ -140,14 +156,14 @@ public class GraphUI {
      * @param destination Name of the .png file
      * @throws Exception
      */
-    public static void saveGraphFromFile(String graphName, String fileName, String destination) throws Exception {
+    public void saveGraphFromFile(String graphName, String fileName, String destination) throws Exception {
         try {
             Gson gson = new Gson();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            DataType t = null;
+            GsonDataStructure t = null;
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
-                t = gson.fromJson(line, DataType.class);
+                t = gson.fromJson(line, GsonDataStructure.class);
                 if (t.name.equals(graphName)) {
                     Graph g = new Graph(graphName, t.time, t.input);
                     File f = new File(destination);
@@ -165,16 +181,14 @@ public class GraphUI {
         }
     }
 
-    private static class DataType {
-
-        public List<Long> time;
-        public List<Integer> input;
-        String name;
-
-        public DataType(List<Long> time, List<Integer> input, String name) {
-            this.time = time;
-            this.input = input;
-            this.name = name;
-        }
+    @Override
+    public Statement apply(final Statement base, final Description description) {
+        return new Statement() {
+            @Override
+            public void evaluate() throws Throwable {
+                testName = description.getClassName() + " " + description.getMethodName();
+                base.evaluate();
+            }
+        };
     }
 }

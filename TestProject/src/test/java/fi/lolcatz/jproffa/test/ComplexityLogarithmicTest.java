@@ -1,6 +1,6 @@
 package fi.lolcatz.jproffa.test;
 
-import fi.lolcatz.jproffa.implementatios.LongImpl;
+import fi.lolcatz.jproffa.implementations.LongImpl;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
 import org.junit.*;

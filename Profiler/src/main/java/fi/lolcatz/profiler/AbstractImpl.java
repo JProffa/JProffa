@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 
 public abstract class AbstractImpl {
@@ -92,7 +93,38 @@ public abstract class AbstractImpl {
         }
         return Util.getTotalCost();
     }
-    
+
+    /**
+     * Run method of given instance with given inputs n times. Smallest time will be returned.
+     *
+     * @param n Number of times test will be run.
+     * @param instance Instance of the class which we are testing.
+     * @param inputs Input variables. Primitive boxing classes (Integer, Boolean, etc.) must not be nulls.
+     * @return Total cost
+     * @throws Exception
+     */
+    public long runNTimes(int n, Object instance, Object... inputs) throws Exception {
+        if (n < 1) throw new Exception("runNTimes(): n must be at least 1");
+        long[] times = new long[n];
+        for (int i = 0; i < n; i++) {
+            times[i] = run(instance, inputs);
+        }
+        Arrays.sort(times);
+        return times[0];
+    }
+
+    /**
+     * Run static method with given inputs n times. Smallest time will be returned.
+     *
+     * @param n Number of times test will be run.
+     * @param inputs Input variables. Primitive boxing classes (Integer, Boolean, etc.) must not be nulls.
+     * @return Total cost
+     * @throws Exception
+     */
+    public long runStaticNTimes(int n, Object... inputs) throws Exception {
+        return runNTimes(n, null, inputs);
+    }
+
     public long getMarginOfError(long cost) {
         long len = Long.toString(cost).length();
         len = (len/3)*(len/3) + (len%3);

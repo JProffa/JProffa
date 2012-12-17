@@ -1,9 +1,7 @@
 package fi.lolcatz.jproffa.test;
 
-import fi.lolcatz.jproffa.implementatios.IntegerImpl;
-import fi.lolcatz.jproffa.implementatios.IntegerImpl;
+import fi.lolcatz.jproffa.implementations.IntegerImpl;
 import fi.lolcatz.jproffa.testproject.IterativeComplexityExample;
-import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
@@ -11,7 +9,7 @@ import fi.lolcatz.profiler.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import jproffa.graph.GraphUI;
+import jproffa.graph.GraphWriter;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -23,7 +21,7 @@ public class GraphTest {
 
     IntegerImpl impl;
     ComplexityAnalysis framework;
-    GraphUI ui;
+    GraphWriter ui;
 
     @BeforeClass
     public static void classSetup() {
@@ -55,7 +53,7 @@ public class GraphTest {
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        ui.saveDataToFile(actual.getTime(), actual.getInput(), "Graph", "DataFile");
+        ui.saveDataToFile(actual.getTime(), actual.getInput());
         ui.saveGraphFromFile("Graph", "DataFile", "newGraphFile2");
     }
         

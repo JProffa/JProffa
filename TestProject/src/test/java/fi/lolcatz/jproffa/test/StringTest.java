@@ -1,6 +1,6 @@
 package fi.lolcatz.jproffa.test;
 
-import fi.lolcatz.jproffa.implementatios.StringImpl;
+import fi.lolcatz.jproffa.implementations.StringImpl;
 import fi.lolcatz.jproffa.testproject.Example;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
