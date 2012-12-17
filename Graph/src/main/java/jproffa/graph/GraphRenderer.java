@@ -13,11 +13,20 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class Graph extends ApplicationFrame {
+public class GraphRenderer extends ApplicationFrame {
 
     final JFreeChart chart;
 
-    public Graph(final String title, List<Long> time, List<Integer> input) {
+    public GraphRenderer(final String title, List<Line> lines) {
+        super(title);
+        final XYDataset dataset = createDataset(lines, null, null);
+        chart = createChart(dataset);
+        final ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        setContentPane(chartPanel);
+    }
+
+    public GraphRenderer(final String title, List<Long> time, List<Integer> input) {
         super(title);
         final XYDataset dataset = createDataset(time, input, null, null);
         chart = createChart(dataset);
@@ -26,7 +35,7 @@ public class Graph extends ApplicationFrame {
         setContentPane(chartPanel);
     }
 
-    public Graph(final String title, List<Long> time, List<Integer> input, String actualName, String paramName) {
+    public GraphRenderer(final String title, List<Long> time, List<Integer> input, String actualName, String paramName) {
         super(title);
         final XYDataset dataset = createDataset(time, input, actualName, paramName);
         chart = createChart(dataset);
@@ -35,7 +44,7 @@ public class Graph extends ApplicationFrame {
         setContentPane(chartPanel);
     }
 
-    public Graph(List<List<Integer>> inputs, List<List<Long>> times, List<String> names) {
+    public GraphRenderer(List<List<Integer>> inputs, List<List<Long>> times, List<String> names) {
         super("Graph");
         final XYDataset dataset = createDataset(times, inputs, names);
         chart = createChart(dataset);
@@ -69,11 +78,25 @@ public class Graph extends ApplicationFrame {
         return dataset;
     }
 
+    private XYDataset createDataset(List<Line> lines, String actualName, String paramName) {
+        String name1 = (actualName == null ? "Actual" : actualName);
+        String name2 = (paramName == null ? "Param" : paramName);
+        final XYSeriesCollection dataset = new XYSeriesCollection();
+        for (int j = 0; j < lines.size(); j++) {
+            final XYSeries series1 = new XYSeries(lines.get(j).name);
+            for (int i = 0; i < lines.get(j).input.size(); i++) {
+                series1.add(lines.get(j).input.get(i), lines.get(j).time.get(i));
+            }
+            dataset.addSeries(series1);
+        }   
+        return dataset;
+    }
+
     private XYDataset createDataset(List<List<Long>> times, List<List<Integer>> inputs, List<String> names) {
         final XYSeriesCollection dataset = new XYSeriesCollection();
         for (int i = 0; i < times.size(); i++) {
             System.err.println(times.size());
-            final XYSeries series = new XYSeries(i+1);
+            final XYSeries series = new XYSeries(i + 1);
             for (int j = 0; j < times.get(i).size(); j++) {
                 series.add(inputs.get(i).get(j), times.get(i).get(j));
             }
@@ -81,7 +104,7 @@ public class Graph extends ApplicationFrame {
         }
         return dataset;
     }
-    
+
     /*
      * Builds and returns the chart from a custom dataset.
      */

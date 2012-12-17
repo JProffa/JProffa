@@ -22,10 +22,10 @@ public class GraphReader {
         try {
             Gson gson = new Gson();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation + "/" + fileName));
-            List<GsonDataStructure> dtList = new ArrayList<GsonDataStructure>();
+            List<Line> dtList = new ArrayList<Line>();
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
-                GsonDataStructure t = gson.fromJson(line, GsonDataStructure.class);
+                Line t = gson.fromJson(line, Line.class);
                 for (int i = 0; i < graphName.length; i++) {
                     String s = graphName[i];
                     if (t.name.equals(s)) {
@@ -37,12 +37,12 @@ public class GraphReader {
             List<List<Integer>> inputList = new ArrayList<List<Integer>>();
             List<List<Long>> timeList = new ArrayList<List<Long>>();
             List<String> nameList = new ArrayList<String>();
-            for (GsonDataStructure dt : dtList) {
+            for (Line dt : dtList) {
                 inputList.add(dt.input);
                 timeList.add(dt.time);
                 nameList.add(dt.name);
             }
-            Graph g = new Graph(inputList, timeList, nameList);
+            GraphRenderer g = new GraphRenderer(inputList, timeList, nameList);
             g.init();
             return;
         } catch (Exception e) {
@@ -50,13 +50,13 @@ public class GraphReader {
         }
     }
 
-    public List<?> get(String fileName, String... graphName) throws Exception {
+    public List<Line> get(String fileName, String... graphName) throws Exception {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation + "/" + fileName));
-        List<GsonDataStructure> dtList = new ArrayList<GsonDataStructure>();
+        List<Line> dtList = new ArrayList<Line>();
         while (bufferedReader.ready()) {
             String line = bufferedReader.readLine();
-            GsonDataStructure t = gson.fromJson(line, GsonDataStructure.class);
+            Line t = gson.fromJson(line, Line.class);
             for (int i = 0; i < graphName.length; i++) {
                 String s = graphName[i];
                 if (t.name.equals(s)) {

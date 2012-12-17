@@ -66,7 +66,7 @@ public class GraphWriter implements TestRule {
 //        //generate example outputs for one param
 //        //linear, quadric ,nlogn       
 //        if (System.getenv("PROFILER_VISUALIZATIONS_TO_FILE") != null) {
-//            Graph g = new Graph("Test", time, input);
+//            GraphRenderer g = new GraphRenderer("Test", time, input);
 //            Random r = new Random();
 //            File f = new File(System.getenv("PROFILER_VISUALIZATIONS_TO_FILE"));
 //            try {
@@ -74,7 +74,7 @@ public class GraphWriter implements TestRule {
 //            } catch (IOException ex) {
 //            }
 //        } else if (System.getenv("PROFILER_VISUALIZATIONS_SHOW") != null) {
-//            Graph g = new Graph("Test", time, input);
+//            GraphRenderer g = new GraphRenderer("Test", time, input);
 //            g.init();
 //        }
 //    }
@@ -95,7 +95,7 @@ public class GraphWriter implements TestRule {
             FileWriter fstream = new FileWriter(f, true);
             BufferedWriter fbw = new BufferedWriter(fstream);
             Gson gson = new Gson();
-            String data = gson.toJson(new GsonDataStructure(time, input, testName));
+            String data = gson.toJson(new Line(time, input, testName));
             fbw.write(data);
             fbw.newLine();
             fbw.close();
@@ -121,10 +121,10 @@ public class GraphWriter implements TestRule {
         try {
             Gson gson = new Gson();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            List<GsonDataStructure> dtList = new ArrayList<GsonDataStructure>();
+            List<Line> dtList = new ArrayList<Line>();
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
-                GsonDataStructure t = gson.fromJson(line, GsonDataStructure.class);
+                Line t = gson.fromJson(line, Line.class);
                 for (int i = 0; i < graphName.length; i++) {
                     String s = graphName[i];
                     if (t.name.equals(s)) {
@@ -136,12 +136,12 @@ public class GraphWriter implements TestRule {
             List<List<Integer>> inputList = new ArrayList<List<Integer>>();
             List<List<Long>> timeList = new ArrayList<List<Long>>();
             List<String> nameList = new ArrayList<String>();
-            for (GsonDataStructure dt : dtList) {
+            for (Line dt : dtList) {
                 inputList.add(dt.input);
                 timeList.add(dt.time);
                 nameList.add(dt.name);
             }
-            Graph g = new Graph(inputList, timeList, nameList);
+            GraphRenderer g = new GraphRenderer(inputList, timeList, nameList);
             g.init();
             return;
         } catch (Exception e) {
@@ -161,12 +161,12 @@ public class GraphWriter implements TestRule {
         try {
             Gson gson = new Gson();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            GsonDataStructure t = null;
+            Line t = null;
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine();
-                t = gson.fromJson(line, GsonDataStructure.class);
+                t = gson.fromJson(line, Line.class);
                 if (t.name.equals(graphName)) {
-                    Graph g = new Graph(graphName, t.time, t.input);
+                    GraphRenderer g = new GraphRenderer(graphName, t.time, t.input);
                     File f = new File(destination);
                     try {
                         ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);

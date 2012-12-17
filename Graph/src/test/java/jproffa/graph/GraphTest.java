@@ -16,7 +16,7 @@ public class GraphTest {
     List<Integer> input;
     List<Integer> input2;
     
-    @Rule
+//    @Rule
     public GraphWriter ui = new GraphWriter();
     GraphReader reader = new GraphReader("testFolder");
     
@@ -31,8 +31,10 @@ public class GraphTest {
          ui.setTestName("method5");
          ui.save(time, input);  
          ui.save(time2, input2); 
-         List<?> list = reader.get("jproffa_text.txt", "method5");
+         List<Line> list = reader.get("jproffa_text.txt", "method5");
          assertTrue(list.size() > 0);
+         GraphRenderer renderer = new GraphRenderer("testGraph", list);
+         assertNotNull(renderer.getChart());
      }
 
     private void initOutputs() {
