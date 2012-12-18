@@ -1,14 +1,25 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package jproffa.graph;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Rule;
 
-public class GraphTest {
-
+/**
+ *
+ * @author oorissan
+ */
+public class GraphTestWithoutRule {
+    
     List<Long> time;
     List<Long> time2;
     List<Integer> input;
@@ -16,8 +27,7 @@ public class GraphTest {
     
     GraphReader reader = new GraphReader("GraphDataFolder");
     
-    @Rule
-    public GraphWriter ui = new GraphWriter();
+    public GraphWriter ui = new GraphWriter("GraphTest");
 
     @Before
     public void setUp() {
@@ -25,20 +35,22 @@ public class GraphTest {
     }
 
     @Test
-    public void testGraphDrawing() throws Exception {
+    public void testGraphDrawingWithoutRule() throws Exception {
+        ui.setMethodName("testGraphDrawingWithoutRule");
         ui.save(time, input);
         ui.save(time2, input2);
-        List<Line> list = reader.get("GraphTest", "testGraphDrawing");
+        List<Line> list = reader.get("GraphTest", "testGraphDrawingWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer("testGraph", list);
         assertNotNull(renderer.getChart());
     }
     
     @Test
-    public void testGraphDrawingAgain() throws Exception {
+    public void testGraphDrawingAgainWithoutRule() throws Exception {
+        ui.setMethodName("testGraphDrawingAgainWithoutRule");
         ui.save(time, input);
         ui.save(time2, input2);
-        List<Line> list = reader.get("GraphTest", "testGraphDrawingAgain");
+        List<Line> list = reader.get("GraphTest", "testGraphDrawingAgainWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer("testGraph", list);
         assertNotNull(renderer.getChart());

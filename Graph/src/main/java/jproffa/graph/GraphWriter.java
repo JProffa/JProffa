@@ -27,7 +27,7 @@ import org.junit.runners.model.Statement;
 
 public class GraphWriter implements TestRule {
 
-    private String methodName = "jproffa_data.txt"; // todo: from env
+    private String methodName = "jproffa_data.txt"; 
     private String testName = "test";
     private String mainDirectory = "GraphDataFolder";
     private String classDirectory = "GraphTest";
@@ -43,17 +43,17 @@ public class GraphWriter implements TestRule {
         createFolders();
     }
 
-    public GraphWriter(String file) {
-        this.methodName = file;
+    public GraphWriter(String className) {
+        this.classDirectory = className;
         if (System.getenv("DIRECTORY") != null) {
             mainDirectory = System.getenv("DIRECTORY");
         }
         createFolders();
     }
 
-    public GraphWriter(String file, String testName) {
-        this.methodName = file;
-        this.testName = testName;
+    public GraphWriter(String className, String methodName) {
+        this.methodName = methodName;
+        this.classDirectory = className;
         if (System.getenv("DIRECTORY") != null) {
             mainDirectory = System.getenv("DIRECTORY");
         }
