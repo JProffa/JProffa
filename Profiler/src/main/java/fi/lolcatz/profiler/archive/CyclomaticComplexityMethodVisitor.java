@@ -34,7 +34,6 @@ public class CyclomaticComplexityMethodVisitor extends MethodVisitor implements 
     public void visitEnd() {
         System.out.println("BytecodeVerifier:...");
         MethodNode mn = (MethodNode) mv;
-        Analyzer a = new Analyzer(new BasicInterpreter());
         CyclomaticComplexity cc = new CyclomaticComplexity();
         // Attempt to count and print the cyclomatic complexity of the current method.
         try {

@@ -44,7 +44,7 @@ public class DenyThreadsInMain implements ClassFileTransformer, Opcodes {
         final String string = "java/lang/String";
         final String exception = "java/lang/RuntimeException";
         final String profileData = "fi/lolcatz/profiledata/ProfileData";
-        final String stackTraceElement = "java/lang/StackTraceElement";
+        // final String stackTraceElement = "java/lang/StackTraceElement";
 
         LabelNode endLabel = new LabelNode();
 

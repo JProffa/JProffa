@@ -39,8 +39,6 @@ public class GraphRenderer extends ApplicationFrame {
 
     private XYDataset createDataset(List<Line> lines, String actualName, String paramName) {
         length = lines.size();
-        String name1 = (actualName == null ? "Actual" : actualName);
-        String name2 = (paramName == null ? "Param" : paramName);
         final XYSeriesCollection dataset = new XYSeriesCollection();
         for (Line line : lines) {
             final XYSeries series1 = new XYSeries(line.name);
