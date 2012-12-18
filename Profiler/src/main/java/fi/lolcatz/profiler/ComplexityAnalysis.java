@@ -1,10 +1,6 @@
 package fi.lolcatz.profiler;
 
 import org.apache.log4j.Logger;
-import org.jfree.chart.ChartUtilities;
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
 
 public class ComplexityAnalysis {
 
@@ -191,7 +187,7 @@ public class ComplexityAnalysis {
         for (int i = 0; i < output.getTime().size(); i++) {
             double time = output.getTime().get(i);
             double function = a * output.getSize().get(i) + b;
-            boolean linearity = (time * 1.002 >= function && time - (time * 0.002) <= function) ? true : false;
+            boolean linearity = time * 1.002 >= function && time - (time * 0.002) <= function;
             if (!linearity) {
                 return false;
             }
@@ -218,7 +214,7 @@ public class ComplexityAnalysis {
         for (int i = 0; i < output.getTime().size(); i++) {
             double time = output.getTime().get(i);
             double function = a * output.getSize().get(i) + b;
-            boolean linearOrFaster = time <= function * margin ? true : false;
+            boolean linearOrFaster = time <= function * margin;
             if (!linearOrFaster) {
                 return false;
             }
@@ -255,7 +251,7 @@ public class ComplexityAnalysis {
         for (int i = 0; i < out.getTime().size(); i++) {
             double time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
-            boolean exponential = (time * 1.002 >= function && time - (time * 0.002) <= function) ? true : false;
+            boolean exponential = time * 1.002 >= function && time - (time * 0.012) <= function;
             if (!exponential) {
                 return false;
             }
@@ -293,7 +289,7 @@ public class ComplexityAnalysis {
         for (int i = 0; i < out.getTime().size(); i++) {
             double time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
-            boolean exponentialOrFaster = time <= function * margin ? true : false;
+            boolean exponentialOrFaster = time <= function * margin;
             if (!exponentialOrFaster) {
                 return false;
             }
@@ -327,7 +323,7 @@ public class ComplexityAnalysis {
             double time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2))) + (b * out.getSize().get(i)) + c;
             //System.out.println("function: " + a + "*" + out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2)) + "+" + b + "*" + out.getSize().get(i) + "+" + c + " = " + function);
-            boolean nlogn = (time * 1.004 >= function && time - (time * 0.004) <= function) ? true : false;
+            boolean nlogn = time * 1.004 >= function && time - (time * 0.004) <= function;
             if (!nlogn) {
                 return false;
             }

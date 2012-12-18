@@ -28,7 +28,7 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
         for (Long l : list) {
             out.addToInput(l);
             out.addToSize(getSize(l));
-            out.addToTime(runStaticNTimes(2, l));
+            out.addToTime(runStatic(l));
         }
         return out;
     }

@@ -13,31 +13,14 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class Graph extends ApplicationFrame {
+public class GraphRenderer extends ApplicationFrame {
 
     final JFreeChart chart;
+    private int length;
 
-    public Graph(final String title, List<Long> time, List<Integer> input) {
+    public GraphRenderer(final String title, List<Line> lines) {
         super(title);
-        final XYDataset dataset = createDataset(time, input, null, null);
-        chart = createChart(dataset);
-        final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
-    }
-
-    public Graph(final String title, List<Long> time, List<Integer> input, String actualName, String paramName) {
-        super(title);
-        final XYDataset dataset = createDataset(time, input, actualName, paramName);
-        chart = createChart(dataset);
-        final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
-    }
-
-    public Graph(List<List<Integer>> inputs, List<List<Long>> times, List<String> names) {
-        super("Graph");
-        final XYDataset dataset = createDataset(times, inputs, names);
+        final XYDataset dataset = createDataset(lines, null, null);
         chart = createChart(dataset);
         final ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
@@ -54,34 +37,21 @@ public class Graph extends ApplicationFrame {
         return chart;
     }
 
-    /*
-     * Creates the dataset from two Output objects.
-     */
-    private XYDataset createDataset(List<Long> time, List<Integer> input, String actualName, String paramName) {
+    private XYDataset createDataset(List<Line> lines, String actualName, String paramName) {
+        length = lines.size();
         String name1 = (actualName == null ? "Actual" : actualName);
         String name2 = (paramName == null ? "Param" : paramName);
-        final XYSeries series1 = new XYSeries(name1);
-        for (int i = 0; i < time.size(); i++) {
-            series1.add(input.get(i), time.get(i));
-        }
         final XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series1);
+        for (int j = 0; j < lines.size(); j++) {
+            final XYSeries series1 = new XYSeries(lines.get(j).name);
+            for (int i = 0; i < lines.get(j).input.size(); i++) {
+                series1.add(lines.get(j).input.get(i), lines.get(j).time.get(i));
+            }
+            dataset.addSeries(series1);
+        }   
         return dataset;
     }
 
-    private XYDataset createDataset(List<List<Long>> times, List<List<Integer>> inputs, List<String> names) {
-        final XYSeriesCollection dataset = new XYSeriesCollection();
-        for (int i = 0; i < times.size(); i++) {
-            System.err.println(times.size());
-            final XYSeries series = new XYSeries(i+1);
-            for (int j = 0; j < times.get(i).size(); j++) {
-                series.add(inputs.get(i).get(j), times.get(i).get(j));
-            }
-            dataset.addSeries(series);
-        }
-        return dataset;
-    }
-    
     /*
      * Builds and returns the chart from a custom dataset.
      */
@@ -109,10 +79,10 @@ public class Graph extends ApplicationFrame {
         plot.setRangeGridlinePaint(Color.white);
 
         final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesLinesVisible(0, true);
-        renderer.setSeriesShapesVisible(0, false);
-        renderer.setSeriesLinesVisible(1, true);
-        renderer.setSeriesShapesVisible(1, false);
+        for (int i = 0; i < length; i++){
+            renderer.setSeriesLinesVisible(i, true);
+            renderer.setSeriesShapesVisible(i, false);
+        }
         plot.setRenderer(renderer);
 
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();

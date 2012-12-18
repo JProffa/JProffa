@@ -19,66 +19,96 @@ import java.util.Random;
 import org.jfree.chart.ChartUtilities;
 import fi.lolcatz.profiler.Output;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 public class GraphWriter implements TestRule {
 
-    private String fileName = "jproffa_data.txt"; // todo: from env
+    private String methodName = "jproffa_data.txt"; 
     private String testName = "test";
+    private String mainDirectory = "GraphDataFolder";
+    private String classDirectory = "GraphTest";
+    private File parentDir;
+    private File classDir;
+    private File txtfile;
+    boolean requireInit = true;
 
     public GraphWriter() {
-        File f = new File(fileName);
-        f.delete();
-    }
-    
-    public GraphWriter(String file) {
-        File f = new File(file);
-        f.delete();
-        this.fileName = file;
+        if (System.getenv("DIRECTORY") != null) {
+            mainDirectory = System.getenv("DIRECTORY");
+        }
+        createFolders();
     }
 
-    public GraphWriter(String file, String testName) {
-        File f = new File(file);
-        f.delete();
-        this.fileName = file;
-        this.testName = testName;
+    public GraphWriter(String className) {
+        this.classDirectory = className;
+        if (System.getenv("DIRECTORY") != null) {
+            mainDirectory = System.getenv("DIRECTORY");
+        }
+        createFolders();
     }
 
-    public String getFileName() {
-        return fileName;
+    public GraphWriter(String className, String methodName) {
+        this.methodName = methodName;
+        this.classDirectory = className;
+        if (System.getenv("DIRECTORY") != null) {
+            mainDirectory = System.getenv("DIRECTORY");
+        }
+        createFolders();
+
+    }
+
+    public String getMethodName() {
+        return methodName;
     }
 
     public String getTestName() {
         return testName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public String getClassName() {
+        return classDirectory;
+    }
+
+    public void setMethodName(String fileName) {
+        this.methodName = fileName;
     }
 
     public void setTestName(String testName) {
         this.testName = testName;
     }
 
-//    private static void drawGraph(List<Long> time, List<Integer> input) {
-//        //generate example outputs for one param
-//        //linear, quadric ,nlogn       
-//        if (System.getenv("PROFILER_VISUALIZATIONS_TO_FILE") != null) {
-//            Graph g = new Graph("Test", time, input);
-//            Random r = new Random();
-//            File f = new File(System.getenv("PROFILER_VISUALIZATIONS_TO_FILE"));
-//            try {
-//                ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
-//            } catch (IOException ex) {
-//            }
-//        } else if (System.getenv("PROFILER_VISUALIZATIONS_SHOW") != null) {
-//            Graph g = new Graph("Test", time, input);
-//            g.init();
-//        }
-//    }
-    
+    public void setClassName(String classDirectory) {
+        this.classDirectory = classDirectory;
+    }
+
+    private void createFolders() {
+        parentDir = new File(mainDirectory);
+        if (!parentDir.exists()) {
+            parentDir.mkdir();
+        }
+        classDir = new File(parentDir, classDirectory);
+        if (!classDir.exists()) {
+            classDir.mkdir();
+        }
+
+    }
+
+    private void createFile() {
+        txtfile = new File(classDir, methodName);
+        if (txtfile.exists()) {
+            txtfile.delete();
+        }
+        try {
+            txtfile.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(GraphWriter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
      * saveGraphFromFile.
@@ -86,13 +116,16 @@ public class GraphWriter implements TestRule {
      * @param time List of times
      * @param input List of inputs
      */
-    public void saveDataToFile(List<Long> time, List<Integer> input) throws Exception {
+    public void save(List<Long> time, List<Integer> input) throws Exception {
         try {
-            File f = new File(fileName);
-            FileWriter fstream = new FileWriter(f, true);
+            if (requireInit) {
+                createFile();
+                requireInit = false;
+            }
+            FileWriter fstream = new FileWriter(txtfile, true);
             BufferedWriter fbw = new BufferedWriter(fstream);
             Gson gson = new Gson();
-            String data = gson.toJson(new GsonDataStructure(time, input, testName));
+            String data = gson.toJson(new Line(time, input, testName));
             fbw.write(data);
             fbw.newLine();
             fbw.close();
@@ -101,84 +134,8 @@ public class GraphWriter implements TestRule {
         }
     }
 
-    public void saveDataToFile(Output<?> out) throws Exception {
-        saveDataToFile(out.getTime(), out.getSize());
-    }
-
-    //TODO
-    // Map<String, List<Käppyrä>>  tai joku tuon idean wräppäävä luokka
-    
-
-    /**
-     * Reads and initializes the graph from a file.
-     *
-     * @param graphName Name of the graph to be initialized
-     * @param fileName File the graph is loaded from
-     * @throws Exception
-     */
-    public void showGraphFromFile(String fileName, String... graphName) throws Exception {
-        try {
-            Gson gson = new Gson();
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            List<GsonDataStructure> dtList = new ArrayList<GsonDataStructure>();
-            while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine();
-                GsonDataStructure t = gson.fromJson(line, GsonDataStructure.class);
-                for (int i = 0; i < graphName.length; i++) {
-                    String s = graphName[i];
-                    if (t.name.equals(s)) {
-                        dtList.add(t);
-                        break;
-                    }
-                }
-            }
-            List<List<Integer>> inputList = new ArrayList<List<Integer>>();
-            List<List<Long>> timeList = new ArrayList<List<Long>>();
-            List<String> nameList = new ArrayList<String>();
-            for (GsonDataStructure dt : dtList) {
-                inputList.add(dt.input);
-                timeList.add(dt.time);
-                nameList.add(dt.name);
-            }
-            Graph g = new Graph(inputList, timeList, nameList);
-            g.init();
-            return;
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-    }
-
-    /**
-     * Reads a graph from a file and saves it to a new .png file.
-     *
-     * @param graphName Name of the graph to be saved
-     * @param fileName Name of the file the data is in
-     * @param destination Name of the .png file
-     * @throws Exception
-     */
-    public void saveGraphFromFile(String graphName, String fileName, String destination) throws Exception {
-        try {
-            Gson gson = new Gson();
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-            GsonDataStructure t = null;
-            while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine();
-                t = gson.fromJson(line, GsonDataStructure.class);
-                if (t.name.equals(graphName)) {
-                    Graph g = new Graph(graphName, t.time, t.input);
-                    File f = new File(destination);
-                    try {
-                        ChartUtilities.saveChartAsPNG(f, g.getChart(), 500, 270);
-                    } catch (IOException ex) {
-                        System.err.println(ex);
-                    }
-                    return;
-                }
-            }
-
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+    public void save(Output<?> out) throws Exception {
+        save(out.getTime(), out.getSize());
     }
 
     @Override
@@ -186,6 +143,9 @@ public class GraphWriter implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
+                requireInit = true;
+                classDirectory = description.getClassName();
+                methodName = description.getMethodName();
                 testName = description.getClassName() + " " + description.getMethodName();
                 base.evaluate();
             }

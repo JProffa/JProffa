@@ -21,7 +21,7 @@ public class GraphTest {
 
     IntegerImpl impl;
     ComplexityAnalysis framework;
-    GraphWriter ui;
+    public GraphWriter ui = new GraphWriter("GraphTest");
 
     @BeforeClass
     public static void classSetup() {
@@ -53,8 +53,7 @@ public class GraphTest {
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        ui.saveDataToFile(actual.getTime(), actual.getInput());
-        ui.saveGraphFromFile("Graph", "DataFile", "newGraphFile2");
+        ui.save(actual.getTime(), actual.getInput());
     }
         
     @Test
@@ -68,7 +67,7 @@ public class GraphTest {
         
         Output<Integer> actual = impl.runMethod(list);
         
-        impl.setMethodName("squaredFunction");
+        impl.setMethodName("quadraticFunction");
         
         Output<Integer> param = impl.runMethod(list);
 

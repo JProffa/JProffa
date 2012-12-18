@@ -59,8 +59,8 @@ public abstract class AbstractImpl {
      * @return Total cost
      * @throws Exception 
      */
-    public long runStatic(Object... inputs) throws Exception {
-        return run(null, inputs);
+    public long runStaticOnce(Object... inputs) throws Exception {
+        return runOnce(null, inputs);
     }
     
     /**
@@ -70,7 +70,7 @@ public abstract class AbstractImpl {
      * @return Total cost
      * @throws Exception 
      */
-    public long run(Object instance, Object... inputs) throws Exception {
+    public long runOnce(Object instance, Object... inputs) throws Exception {
         ProfileData.disallowProfiling();
         System.runFinalization();
         System.gc();
@@ -107,7 +107,7 @@ public abstract class AbstractImpl {
         if (n < 1) throw new Exception("runNTimes(): n must be at least 1");
         long[] times = new long[n];
         for (int i = 0; i < n; i++) {
-            times[i] = run(instance, inputs);
+            times[i] = runOnce(instance, inputs);
         }
         Arrays.sort(times);
         return times[0];
@@ -123,6 +123,29 @@ public abstract class AbstractImpl {
      */
     public long runStaticNTimes(int n, Object... inputs) throws Exception {
         return runNTimes(n, null, inputs);
+    }
+
+    /**
+     * Run method of given instance with given inputs with runNtimes(2, instance, inputs).
+     *
+     * @param instance Instance of the class which we are testing.
+     * @param inputs Input variables. Primitive boxing classes (Integer, Boolean, etc.) must not be nulls.
+     * @return Total cost
+     * @throws Exception
+     */
+    public long run(Object instance, Object... inputs) throws Exception {
+        return runNTimes(2, instance, inputs);
+    }
+
+    /**
+     * Run static method with given inputs with runStaticNTimes(2, inputs).
+     *
+     * @param inputs Input variables. Primitive boxing classes (Integer, Boolean, etc.) must not be nulls.
+     * @return Total cost
+     * @throws Exception
+     */
+    public long runStatic(Object... inputs) throws Exception {
+        return runStaticNTimes(2, inputs);
     }
 
     public long getMarginOfError(long cost) {

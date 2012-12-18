@@ -6,13 +6,13 @@ package jproffa.graph;
 
 import java.util.List;
 
-class GsonDataStructure {
+public class Line {
 
     public List<Long> time;
     public List<Integer> input;
     String name;
 
-    public GsonDataStructure(List<Long> time, List<Integer> input, String name) {
+    public Line(List<Long> time, List<Integer> input, String name) {
         this.time = time;
         this.input = input;
         this.name = name;
