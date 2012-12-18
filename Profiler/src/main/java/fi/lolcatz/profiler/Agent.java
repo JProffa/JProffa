@@ -77,6 +77,7 @@ public class Agent {
             }
 
             inst.addTransformer(new ProfilerTransformer(), true);
+            inst.addTransformer(new DenyThreadsInMain(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
             
             retransforming = true;
