@@ -19,7 +19,6 @@ public class ComplexityQuadraticTest {
     }
     
     IntegerImpl impl;
-    ComplexityAnalysis framework;
     
     @BeforeClass
     public static void setUpClass() {
@@ -74,9 +73,9 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }      
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));       
-        framework.assertQuadratic("assertQuadratic", o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic("assertQuadratic", o);
 
     }
 
@@ -90,9 +89,9 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }   
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertQuadratic(o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic(o);
 
     }
 
@@ -105,9 +104,9 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        framework.assertQuadratic(o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic(o);
     }
     
     @Test
@@ -123,9 +122,9 @@ public class ComplexityQuadraticTest {
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }   
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertQuadratic(o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic(o);
     }
  
      public void printResults(String testname, long[] results) {
