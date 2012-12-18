@@ -67,7 +67,7 @@ public class GraphTest {
         
         Output<Integer> actual = impl.runMethod(list);
         
-        impl.setMethodName("squaredFunction");
+        impl.setMethodName("quadraticFunction");
         
         Output<Integer> param = impl.runMethod(list);
 
