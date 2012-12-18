@@ -46,9 +46,9 @@ public class GraphTestWithRule {
 
     private void initOutputs() {
         input = Arrays.asList(1, 2, 3, 4, 50);
-        time = Arrays.asList(new Long(1), new Long(2), new Long(3), new Long(4), new Long(12));
+        time = Arrays.asList(1L, 2L, 3L, 4L, 12L);
 
         input2 = Arrays.asList(1, 2, 3, 4, 50);
-        time2 = Arrays.asList(new Long(1), new Long(2), new Long(3), new Long(4), new Long(40));
+        time2 = Arrays.asList(1L, 2L, 3L, 4L, 40L);
     }
 }
