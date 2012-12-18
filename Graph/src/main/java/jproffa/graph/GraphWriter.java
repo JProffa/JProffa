@@ -29,7 +29,7 @@ public class GraphWriter implements TestRule {
 
     private String methodName = "jproffa_data.txt"; // todo: from env
     private String testName = "test";
-    private String mainDirectory = "testFolder";
+    private String mainDirectory = "GraphDataFolder";
     private String classDirectory = "GraphTest";
     private File parentDir;
     private File classDir;

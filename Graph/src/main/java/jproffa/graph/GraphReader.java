@@ -30,11 +30,4 @@ public class GraphReader {
         return dtList;
     }
 
-    public static List<?> getGraphsByTest(String className, String methodName) {
-        return null;
-    }
-
-    public static List<?> readGraphsFromFile(String fileName, String methodName) {
-        return null;
-    }
 }

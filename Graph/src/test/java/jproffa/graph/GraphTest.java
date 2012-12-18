@@ -14,7 +14,7 @@ public class GraphTest {
     List<Integer> input;
     List<Integer> input2;
     
-    GraphReader reader = new GraphReader("testFolder");
+    GraphReader reader = new GraphReader("GraphDataFolder");
     
     @Rule
     public GraphWriter ui = new GraphWriter();
