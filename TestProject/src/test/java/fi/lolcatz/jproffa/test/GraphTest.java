@@ -32,7 +32,6 @@ public class GraphTest {
 
         ClassBlacklist.add(ComplexityLinearTest.class);
         Util.loadAgent();
-        Logger.getRootLogger().setLevel(Level.OFF);
     }
 
     @Before
@@ -49,7 +48,7 @@ public class GraphTest {
 
         List<Integer> list2 = Arrays.asList(16, 32, 64);
 
-        Output<Integer> param = impl.runMethod(list2);
+        impl.runMethod(list2);
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }

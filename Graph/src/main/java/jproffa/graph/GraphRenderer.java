@@ -52,13 +52,11 @@ public class GraphRenderer extends ApplicationFrame {
 
     private XYDataset createDataset(List<Line> lines, String actualName, String paramName) {
         length = lines.size();
-        String name1 = (actualName == null ? "Actual" : actualName);
-        String name2 = (paramName == null ? "Param" : paramName);
         final XYSeriesCollection dataset = new XYSeriesCollection();
-        for (int j = 0; j < lines.size(); j++) {
-            final XYSeries series1 = new XYSeries(lines.get(j).name);
-            for (int i = 0; i < lines.get(j).input.size(); i++) {
-                series1.add(lines.get(j).input.get(i), lines.get(j).time.get(i));
+        for (Line line : lines) {
+            final XYSeries series1 = new XYSeries(line.name);
+            for (int i = 0; i < line.input.size(); i++) {
+                series1.add(line.input.get(i), line.time.get(i));
             }
             dataset.addSeries(series1);
         }

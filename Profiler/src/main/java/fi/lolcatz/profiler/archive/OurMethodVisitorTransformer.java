@@ -29,7 +29,6 @@ public class OurMethodVisitorTransformer implements ClassFileTransformer {
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         OurMethodVisitor cv = new OurMethodVisitor(cw, className);
         cr.accept(cv, 0);
-        DataOutputStream dout;
         byte[] modifiedClassFileBuffer = cw.toByteArray();
         Util.writeByteArrayToFile(className + ".class", modifiedClassFileBuffer);
 

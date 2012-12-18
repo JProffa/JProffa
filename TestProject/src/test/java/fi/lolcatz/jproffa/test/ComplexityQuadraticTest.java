@@ -19,13 +19,11 @@ public class ComplexityQuadraticTest {
     }
     
     IntegerImpl impl;
-    ComplexityAnalysis framework;
     
     @BeforeClass
     public static void setUpClass() {
         ClassBlacklist.add(ComplexityQuadraticTest.class);
         Util.loadAgent();
-        Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
     }
 
     @Before
@@ -72,13 +70,12 @@ public class ComplexityQuadraticTest {
         
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192,16000,32000,64000, 128000/*,16384, 32768, 65536, 131072, 262144*/);
         Output<Integer> o = impl.runMethod(list);
-        int i = 0;
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }      
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));       
-        framework.assertQuadratic("assertQuadratic", o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic("assertQuadratic", o);
 
     }
 
@@ -87,15 +84,14 @@ public class ComplexityQuadraticTest {
         
         impl.setMethodName("approximatedQuadraticFunction");
         
-        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192,16000,32000,64000/*,16384, 32768, 65536, 131072, 262144*/);
+        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192,16000,32000,64000, 128000/*,16384, 32768, 65536, 131072, 262144*/);
         Output<Integer> o = impl.runMethod(list);
-        int i = 0;
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }   
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertQuadratic(o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic(o);
 
     }
 
@@ -105,13 +101,12 @@ public class ComplexityQuadraticTest {
         
         List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192/*,16384, 32768, 65536, 131072, 262144*/);
         Output<Integer> o = impl.runMethod(list);
-        int i = 0;
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));
-        framework.assertQuadratic(o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic(o);
     }
     
     @Test
@@ -124,13 +119,12 @@ public class ComplexityQuadraticTest {
         List<Integer> list2 = Arrays.asList(0,0,0,0,0,0,0,0,0,0);
         List<Integer> list3 = Arrays.asList(0,0,0,0,0,0,0,0,0,0);
         Output<Integer> o = impl.runMethod(list, list2, list3);
-        int i = 0;
         for (Long l : o.getTime()){
             assertTrue(l > 0);
         }   
-        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", framework.isLinearOrFaster(o, 1.0));        
-        framework.assertQuadratic(o);
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
+        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        ComplexityAnalysis.assertQuadratic(o);
     }
  
      public void printResults(String testname, long[] results) {
