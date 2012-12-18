@@ -90,7 +90,6 @@
             <artifactId>Profiler</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>test</scope>
-            <systemPath></systemPath>
             <type>jar</type>
         </dependency>
         <dependency>
