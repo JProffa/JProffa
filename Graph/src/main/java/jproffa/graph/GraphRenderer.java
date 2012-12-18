@@ -27,33 +27,6 @@ public class GraphRenderer extends ApplicationFrame {
         setContentPane(chartPanel);
     }
 
-    public GraphRenderer(final String title, List<Long> time, List<Integer> input) {
-        super(title);
-        final XYDataset dataset = createDataset(time, input, null, null);
-        chart = createChart(dataset);
-        final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
-    }
-
-    public GraphRenderer(final String title, List<Long> time, List<Integer> input, String actualName, String paramName) {
-        super(title);
-        final XYDataset dataset = createDataset(time, input, actualName, paramName);
-        chart = createChart(dataset);
-        final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
-    }
-
-    public GraphRenderer(List<List<Integer>> inputs, List<List<Long>> times, List<String> names) {
-        super("Graph");
-        final XYDataset dataset = createDataset(times, inputs, names);
-        chart = createChart(dataset);
-        final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
-    }
-
     public void init() {
         this.pack();
         RefineryUtilities.centerFrameOnScreen(this);
@@ -62,21 +35,6 @@ public class GraphRenderer extends ApplicationFrame {
 
     public JFreeChart getChart() {
         return chart;
-    }
-
-    /*
-     * Creates the dataset from two Output objects.
-     */
-    private XYDataset createDataset(List<Long> time, List<Integer> input, String actualName, String paramName) {
-        String name1 = (actualName == null ? "Actual" : actualName);
-        String name2 = (paramName == null ? "Param" : paramName);
-        final XYSeries series1 = new XYSeries(name1);
-        for (int i = 0; i < time.size(); i++) {
-            series1.add(input.get(i), time.get(i));
-        }
-        final XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series1);
-        return dataset;
     }
 
     private XYDataset createDataset(List<Line> lines, String actualName, String paramName) {
@@ -91,19 +49,6 @@ public class GraphRenderer extends ApplicationFrame {
             }
             dataset.addSeries(series1);
         }   
-        return dataset;
-    }
-
-    private XYDataset createDataset(List<List<Long>> times, List<List<Integer>> inputs, List<String> names) {
-        final XYSeriesCollection dataset = new XYSeriesCollection();
-        for (int i = 0; i < times.size(); i++) {
-            System.err.println(times.size());
-            final XYSeries series = new XYSeries(i + 1);
-            for (int j = 0; j < times.get(i).size(); j++) {
-                series.add(inputs.get(i).get(j), times.get(i).get(j));
-            }
-            dataset.addSeries(series);
-        }
         return dataset;
     }
 

@@ -29,17 +29,18 @@ public class GraphWriter implements TestRule {
 
     private String methodName = "jproffa_data.txt"; // todo: from env
     private String testName = "test";
-    private String mainDirectory = "testFolder";
+    private String mainDirectory = "GraphDataFolder";
     private String classDirectory = "GraphTest";
     private File parentDir;
     private File classDir;
     private File txtfile;
+    boolean requireInit = true;
 
     public GraphWriter() {
         if (System.getenv("DIRECTORY") != null) {
             mainDirectory = System.getenv("DIRECTORY");
         }
-        createFiles();
+        createFolders();
     }
 
     public GraphWriter(String file) {
@@ -47,7 +48,7 @@ public class GraphWriter implements TestRule {
         if (System.getenv("DIRECTORY") != null) {
             mainDirectory = System.getenv("DIRECTORY");
         }
-        createFiles();
+        createFolders();
     }
 
     public GraphWriter(String file, String testName) {
@@ -56,7 +57,7 @@ public class GraphWriter implements TestRule {
         if (System.getenv("DIRECTORY") != null) {
             mainDirectory = System.getenv("DIRECTORY");
         }
-        createFiles();
+        createFolders();
 
     }
 
@@ -84,7 +85,7 @@ public class GraphWriter implements TestRule {
         this.classDirectory = classDirectory;
     }
 
-    private void createFiles() {
+    private void createFolders() {
         parentDir = new File(mainDirectory);
         if (!parentDir.exists()) {
             parentDir.mkdir();
@@ -93,15 +94,18 @@ public class GraphWriter implements TestRule {
         if (!classDir.exists()) {
             classDir.mkdir();
         }
+
+    }
+
+    private void createFile() {
         txtfile = new File(classDir, methodName);
         if (txtfile.exists()) {
             txtfile.delete();
-            txtfile = new File(classDir, methodName);
-            try {
-                txtfile.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(GraphWriter.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
+        try {
+            txtfile.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(GraphWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -114,6 +118,10 @@ public class GraphWriter implements TestRule {
      */
     public void save(List<Long> time, List<Integer> input) throws Exception {
         try {
+            if (requireInit) {
+                createFile();
+                requireInit = false;
+            }
             FileWriter fstream = new FileWriter(txtfile, true);
             BufferedWriter fbw = new BufferedWriter(fstream);
             Gson gson = new Gson();
@@ -135,6 +143,9 @@ public class GraphWriter implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
+                requireInit = true;
+                classDirectory = description.getClassName();
+                methodName = description.getMethodName();
                 testName = description.getClassName() + " " + description.getMethodName();
                 base.evaluate();
             }
