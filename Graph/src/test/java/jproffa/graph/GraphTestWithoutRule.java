@@ -4,8 +4,10 @@
  */
 package jproffa.graph;
 
+import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JPanel;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -42,6 +44,8 @@ public class GraphTestWithoutRule {
         List<Line> list = reader.get("GraphTest", "testGraphDrawingWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer("testGraph", list);
+        JPanel p = renderer.getJpanel();
+        assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
     
@@ -53,6 +57,8 @@ public class GraphTestWithoutRule {
         List<Line> list = reader.get("GraphTest", "testGraphDrawingAgainWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer("testGraph", list);
+        JPanel p = renderer.getJpanel();
+        assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
 

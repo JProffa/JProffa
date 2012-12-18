@@ -1,7 +1,10 @@
 package jproffa.graph;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.List;
+import javax.swing.JPanel;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -33,6 +36,16 @@ public class GraphRenderer extends ApplicationFrame {
         this.setVisible(true);
     }
 
+    public JPanel getJpanel() {
+        JPanel jPanel = new JPanel();
+        ChartPanel myChart = new ChartPanel(chart);
+        jPanel.setLayout(new java.awt.BorderLayout());
+        jPanel.add(myChart, BorderLayout.CENTER);
+        jPanel.validate();
+        jPanel.setPreferredSize(new Dimension(400, 400));
+        return jPanel;
+    }
+
     public JFreeChart getChart() {
         return chart;
     }
@@ -48,7 +61,7 @@ public class GraphRenderer extends ApplicationFrame {
                 series1.add(lines.get(j).input.get(i), lines.get(j).time.get(i));
             }
             dataset.addSeries(series1);
-        }   
+        }
         return dataset;
     }
 
@@ -79,7 +92,7 @@ public class GraphRenderer extends ApplicationFrame {
         plot.setRangeGridlinePaint(Color.white);
 
         final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
             renderer.setSeriesLinesVisible(i, true);
             renderer.setSeriesShapesVisible(i, false);
         }

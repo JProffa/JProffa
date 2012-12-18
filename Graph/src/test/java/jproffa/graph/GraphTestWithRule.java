@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JPanel;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -31,6 +32,8 @@ public class GraphTestWithRule {
         List<Line> list = reader.get("GraphTest", "testGraphDrawing");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer("testGraph", list);
+        JPanel p = renderer.getJpanel();
+        assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
     
@@ -41,6 +44,8 @@ public class GraphTestWithRule {
         List<Line> list = reader.get("GraphTest", "testGraphDrawingAgain");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer("testGraph", list);
+        JPanel p = renderer.getJpanel();
+        assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
 
