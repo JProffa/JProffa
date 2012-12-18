@@ -21,7 +21,7 @@ public class GraphTest {
 
     IntegerImpl impl;
     ComplexityAnalysis framework;
-    GraphWriter ui;
+    public GraphWriter ui = new GraphWriter("GraphTest");
 
     @BeforeClass
     public static void classSetup() {
