@@ -25,7 +25,6 @@ public class ComplexityQuadraticTest {
     public static void setUpClass() {
         ClassBlacklist.add(ComplexityQuadraticTest.class);
         Util.loadAgent();
-        Logger.getRootLogger().setLevel(org.apache.log4j.Level.OFF);
     }
 
     @Before

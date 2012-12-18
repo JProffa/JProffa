@@ -34,7 +34,6 @@ public class ComplexityLinearTest {
 
         ClassBlacklist.add(ComplexityLinearTest.class);
         Util.loadAgent();
-        Logger.getRootLogger().setLevel(Level.OFF);
     }
 
     @Before

@@ -32,7 +32,6 @@ public class GraphTest {
 
         ClassBlacklist.add(ComplexityLinearTest.class);
         Util.loadAgent();
-        Logger.getRootLogger().setLevel(Level.OFF);
     }
 
     @Before
