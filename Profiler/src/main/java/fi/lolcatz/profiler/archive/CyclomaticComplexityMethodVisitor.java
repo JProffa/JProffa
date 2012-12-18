@@ -74,9 +74,9 @@ public class CyclomaticComplexityMethodVisitor extends MethodVisitor implements 
             int edges = 0;
             // Amount of frames
             int nodes = 0;
-            for (int i = 0; i < frames.length; ++i) {
-                if (frames[i] != null) {
-                    Node node = ((Node) frames[i]);
+            for (Frame frame : frames) {
+                if (frame != null) {
+                    Node node = ((Node) frame);
                     edges += node.successors.size();
                     if (node.successors.size() > 1) {
                         System.out.println("New basic block found with " + node.successors.size() + " successors.");
