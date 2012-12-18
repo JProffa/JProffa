@@ -17,7 +17,7 @@ public class GraphTest {
     List<Integer> input2;
     
 //    @Rule
-    public GraphWriter ui = new GraphWriter();
+    public GraphWriter ui = new GraphWriter("jproffa_test.txt", "method5");
     GraphReader reader = new GraphReader("testFolder");
     
     @Before
@@ -27,14 +27,12 @@ public class GraphTest {
 
      @Test
      public void testGraphDrawing() throws Exception{
-         ui.setFileName("jproffa_text.txt");
-         ui.setTestName("method5");
          ui.save(time, input);  
          ui.save(time2, input2); 
-         List<Line> list = reader.get("jproffa_text.txt", "method5");
+         List<Line> list = reader.get("jproffa_test.txt", "method5");
          assertTrue(list.size() > 0);
          GraphRenderer renderer = new GraphRenderer("testGraph", list);
-         assertNotNull(renderer.getChart());
+         assertNotNull(renderer.getChart()); 
      }
 
     private void initOutputs() {

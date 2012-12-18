@@ -16,6 +16,7 @@ import org.jfree.ui.RefineryUtilities;
 public class GraphRenderer extends ApplicationFrame {
 
     final JFreeChart chart;
+    private int length;
 
     public GraphRenderer(final String title, List<Line> lines) {
         super(title);
@@ -79,6 +80,7 @@ public class GraphRenderer extends ApplicationFrame {
     }
 
     private XYDataset createDataset(List<Line> lines, String actualName, String paramName) {
+        length = lines.size();
         String name1 = (actualName == null ? "Actual" : actualName);
         String name2 = (paramName == null ? "Param" : paramName);
         final XYSeriesCollection dataset = new XYSeriesCollection();
@@ -132,10 +134,10 @@ public class GraphRenderer extends ApplicationFrame {
         plot.setRangeGridlinePaint(Color.white);
 
         final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesLinesVisible(0, true);
-        renderer.setSeriesShapesVisible(0, false);
-        renderer.setSeriesLinesVisible(1, true);
-        renderer.setSeriesShapesVisible(1, false);
+        for (int i = 0; i < length; i++){
+            renderer.setSeriesLinesVisible(i, true);
+            renderer.setSeriesShapesVisible(i, false);
+        }
         plot.setRenderer(renderer);
 
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
