@@ -251,7 +251,7 @@ public class ComplexityAnalysis {
         for (int i = 0; i < out.getTime().size(); i++) {
             double time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
-            boolean exponential = time * 1.002 >= function && time - (time * 0.002) <= function;
+            boolean exponential = time * 1.002 >= function && time - (time * 0.012) <= function;
             if (!exponential) {
                 return false;
             }
