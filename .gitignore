@@ -19,3 +19,6 @@ hs_err*.log
 /TestProject/Graphs*
 /TestProject/testFile
 /Graph/testFile
+/TestProject/DataFile
+/TestProject/newGraphFile*
+/Graph/testFolder
