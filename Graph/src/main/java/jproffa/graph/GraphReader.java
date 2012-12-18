@@ -18,20 +18,14 @@ public class GraphReader {
         fileLocation = file;
     }
 
-    public List<Line> get(String fileName, String... graphName) throws Exception {
+    public List<Line> get(String className, String methodName) throws Exception {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation + "/" + fileName));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation + "/" + className + "/" + methodName));
         List<Line> dtList = new ArrayList<Line>();
         while (bufferedReader.ready()) {
             String line = bufferedReader.readLine();
             Line t = gson.fromJson(line, Line.class);
-            for (int i = 0; i < graphName.length; i++) {
-                String s = graphName[i];
-                if (t.name.equals(s)) {
-                    dtList.add(t);
-                    break;
-                }
-            }
+            dtList.add(t);
         }
         return dtList;
     }

@@ -19,16 +19,20 @@ import java.util.Random;
 import org.jfree.chart.ChartUtilities;
 import fi.lolcatz.profiler.Output;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 public class GraphWriter implements TestRule {
 
-    private String fileName = "jproffa_data.txt"; // todo: from env
+    private String methodName = "jproffa_data.txt"; // todo: from env
     private String testName = "test";
     private String mainDirectory = "testFolder";
+    private String classDirectory = "GraphTest";
     private File parentDir;
+    private File classDir;
     private File txtfile;
 
     public GraphWriter() {
@@ -39,7 +43,7 @@ public class GraphWriter implements TestRule {
     }
 
     public GraphWriter(String file) {
-        this.fileName = file;
+        this.methodName = file;
         if (System.getenv("DIRECTORY") != null) {
             mainDirectory = System.getenv("DIRECTORY");
         }
@@ -47,7 +51,7 @@ public class GraphWriter implements TestRule {
     }
 
     public GraphWriter(String file, String testName) {
-        this.fileName = file;
+        this.methodName = file;
         this.testName = testName;
         if (System.getenv("DIRECTORY") != null) {
             mainDirectory = System.getenv("DIRECTORY");
@@ -56,20 +60,28 @@ public class GraphWriter implements TestRule {
 
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getMethodName() {
+        return methodName;
     }
 
     public String getTestName() {
         return testName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public String getClassName() {
+        return classDirectory;
+    }
+
+    public void setMethodName(String fileName) {
+        this.methodName = fileName;
     }
 
     public void setTestName(String testName) {
         this.testName = testName;
+    }
+
+    public void setClassName(String classDirectory) {
+        this.classDirectory = classDirectory;
     }
 
     private void createFiles() {
@@ -77,10 +89,19 @@ public class GraphWriter implements TestRule {
         if (!parentDir.exists()) {
             parentDir.mkdir();
         }
-        txtfile = new File(parentDir, fileName);
+        classDir = new File(parentDir, classDirectory);
+        if (!classDir.exists()) {
+            classDir.mkdir();
+        }
+        txtfile = new File(classDir, methodName);
         if (txtfile.exists()) {
             txtfile.delete();
-            txtfile = new File(parentDir, fileName);
+            txtfile = new File(classDir, methodName);
+            try {
+                txtfile.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(GraphWriter.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -119,5 +140,4 @@ public class GraphWriter implements TestRule {
             }
         };
     }
-
 }
