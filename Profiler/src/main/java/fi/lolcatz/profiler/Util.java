@@ -958,13 +958,13 @@ public class Util implements Opcodes {
 
 class ValueComparator implements Comparator<String> {
 
-    Map<String, Long> base;
+    private Map<String, Long> base;
 
     public ValueComparator(Map<String, Long> base) {
         this.base = base;
     }
 
-    // Note: this comparator imposes orderings that are inconsistent with equals.    
+    // Note: this comparator imposes orderings that are inconsistent with equals.
     public int compare(String a, String b) {
         if (base.get(a) >= base.get(b)) {
             return -1;

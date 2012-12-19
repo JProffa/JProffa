@@ -2,7 +2,7 @@ package fi.lolcatz.profiler;
 
 public class ComplexityCost {
 
-    public static int[] complexityCost = new int[256];
+    private static int[] complexityCost = new int[256];
     private static boolean wantToUse = true;
     
     static {

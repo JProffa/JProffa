@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
 
 public class ProfilerTransformerTest implements Opcodes {
 
-    public static LinkedList<AbstractInsnNode> oneInsnList;
-    public static LinkedList<AbstractInsnNode> fiveInsnList;
-    public static LinkedList<AbstractInsnNode> emptyInsnList;
+    private static LinkedList<AbstractInsnNode> oneInsnList;
+    private static LinkedList<AbstractInsnNode> fiveInsnList;
+    private static LinkedList<AbstractInsnNode> emptyInsnList;
 
-    public ProfilerTransformer transformer;
+    private ProfilerTransformer transformer;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
