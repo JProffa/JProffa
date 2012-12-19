@@ -1,12 +1,12 @@
 package fi.lolcatz.jproffa.testproject;
 
 public class ObjectExample {
-    
+
     /**
      * Simplifying things.
-     * 
+     *
      * @param amount
-     * @return 
+     * @return
      */
     public static void createPersons(int amount) {
         Person p;
@@ -14,5 +14,5 @@ public class ObjectExample {
             p = new Person("tester", i);
         }
     }
-    
+
 }

@@ -8,10 +8,10 @@ public class Line {
     public List<Integer> input;
     public String className;
     public String methodName;
-    
+
     /**
      * Extra text optionally specified by the test writer.
-     * 
+     * <p/>
      * The annotation may be null. There may be multiple lines with the same annotation.
      */
     public String annotation;

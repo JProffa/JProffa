@@ -68,7 +68,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             if (!Agent.isRetransforming()) ProfileData.initialize();
 
             ProfileData.allowProfiling();
-            
+
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
             logger.fatal(e.getMessage(), e);
@@ -124,8 +124,8 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 case FRAME:
                     break;
                 case METHOD_INSN:
-                    MethodInsnNode n = (MethodInsnNode)node;
-                    if (CostlyMethodList.isMethodCostly(n.owner+ "." +n.name+n.desc))
+                    MethodInsnNode n = (MethodInsnNode) node;
+                    if (CostlyMethodList.isMethodCostly(n.owner + "." + n.name + n.desc))
                         cost += CostlyMethodList.getCostOfCostlyMethods();
                 default:
                     cost += ComplexityCost.getCost(type);

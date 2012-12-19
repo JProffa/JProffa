@@ -16,7 +16,7 @@ public class GraphWriter implements TestRule {
 
     private static final String DEFAULT_MAIN_DIRECTORY = "GraphDataFolder";
     private static final String MAIN_DIR_ENV_VAR_NAME = "JPROFFA_GRAPH_DIR";
-    
+
     private File mainDir;
     private String className;
     private String methodName;
@@ -44,7 +44,7 @@ public class GraphWriter implements TestRule {
     public String getClassName() {
         return className;
     }
-    
+
     public String getMethodName() {
         return methodName;
     }
@@ -52,7 +52,7 @@ public class GraphWriter implements TestRule {
     public void setClassName(String className) {
         this.className = className;
     }
-    
+
     public void setMethodName(String fileName) {
         this.methodName = fileName;
     }

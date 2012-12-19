@@ -7,7 +7,7 @@ import fi.lolcatz.profiler.Output;
 import java.util.List;
 
 public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
-   
+
     @Override
     public String getInput(int size) {
         String s = "";
@@ -30,9 +30,9 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
         }
         return b.toString();
     }
-    
+
     @Override
-    public int getSize(String input){
+    public int getSize(String input) {
         return input.length();
     }
 
@@ -40,7 +40,7 @@ public class StringImpl extends AbstractImpl implements Benchmarkable<String> {
     public Output<String> runMethod(List<String> list) throws Exception {
         run("");
         Output<String> out = new Output<String>();
-        for (String s : list){
+        for (String s : list) {
             out.addToInput(s);
             out.addToSize(getSize(s));
             out.addToTime(runStatic(s));

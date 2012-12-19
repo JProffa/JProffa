@@ -24,13 +24,13 @@ public class ProfileData {
     private static List<Long> basicBlockCostAccumulator = new ArrayList<Long>();
     private static List<String> basicBlockDesc = new ArrayList<String>();
     private static Map<String, Integer> methodStarterBlockMap = new HashMap<String, Integer>();
-    
+
     private static boolean profilingAllowed = true;
     private static int numOfBlockingThreads = 0;
-    
+
     /**
      * Adds basic block with default cost (1).
-     * 
+     *
      * @return Index of basic block in arrays.
      */
     public static int addBasicBlock() {
@@ -39,9 +39,8 @@ public class ProfileData {
 
     /**
      * Adds a new basic block.
-     * 
-     * @param cost
-     *            Cost of the basic block.
+     *
+     * @param cost Cost of the basic block.
      * @return Index of the basic block in the arrays.
      */
     public static int addBasicBlock(long cost) {
@@ -50,11 +49,9 @@ public class ProfileData {
 
     /**
      * Adds a new basic block with a description.
-     * 
-     * @param cost
-     *            Cost of the basic block.
-     * @param desc
-     *            Description of the basic block.
+     *
+     * @param cost Cost of the basic block.
+     * @param desc Description of the basic block.
      * @return Index of the basic block in the arrays.
      */
     public static int addBasicBlock(long cost, String desc, boolean starter) {
@@ -121,15 +118,16 @@ public class ProfileData {
         return basicBlockDesc;
     }
 
-    
+
     /**
      * Are counter increments allowed.
-     * @return 
+     *
+     * @return
      */
     public static boolean isProfilingAllowed() {
         return profilingAllowed;
     }
-    
+
     /**
      * Disallow counter increments.
      */
@@ -137,7 +135,7 @@ public class ProfileData {
         numOfBlockingThreads++;
         profilingAllowed = false;
     }
-    
+
     /**
      * Allow counter increments.
      */
@@ -147,7 +145,7 @@ public class ProfileData {
             profilingAllowed = true;
             numOfBlockingThreads = 0;
         }
-        
+
     }
 
     public static Map<String, Integer> getMethodStarterBlockMap() {

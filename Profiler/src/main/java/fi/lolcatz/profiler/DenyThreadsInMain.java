@@ -54,7 +54,7 @@ public class DenyThreadsInMain implements ClassFileTransformer, Opcodes {
 
         // allow if starting thread isn't called main
         insnList.add(new LdcInsnNode("main"));
-        insnList.add(new MethodInsnNode(INVOKESTATIC, thread, "currentThread", "()L" + thread  + ";"));
+        insnList.add(new MethodInsnNode(INVOKESTATIC, thread, "currentThread", "()L" + thread + ";"));
         insnList.add(new MethodInsnNode(INVOKEVIRTUAL, thread, "getName", "()L" + string + ";"));
         insnList.add(new MethodInsnNode(INVOKEVIRTUAL, string, "equals", "(Ljava/lang/Object;)Z"));
         insnList.add(new JumpInsnNode(IFEQ, endLabel));

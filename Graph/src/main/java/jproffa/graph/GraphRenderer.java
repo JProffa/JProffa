@@ -67,7 +67,7 @@ public class GraphRenderer {
                 true, // include legend
                 true, // tooltips
                 false // urls
-                );
+        );
 
         result.setBackgroundPaint(Color.white);
 

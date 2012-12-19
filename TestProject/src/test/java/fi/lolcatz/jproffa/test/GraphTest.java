@@ -54,7 +54,7 @@ public class GraphTest {
         }
         writer.save(actual.getTime(), actual.getInput());
     }
-        
+
     @Test
     public void testCreateLinearAndQuadraticGraph() throws Exception {
         List<Integer> list = new ArrayList<Integer>();
@@ -63,11 +63,11 @@ public class GraphTest {
 
         }
         impl.setMethodName("linearFunction");
-        
+
         Output<Integer> actual = impl.runMethod(list);
-        
+
         impl.setMethodName("quadraticFunction");
-        
+
         Output<Integer> param = impl.runMethod(list);
 
         for (Long l : actual.getTime()) {

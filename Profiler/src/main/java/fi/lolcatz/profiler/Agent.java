@@ -75,7 +75,7 @@ public class Agent {
             inst.addTransformer(new ProfilerTransformer(), true);
             inst.addTransformer(new DenyThreadsInMain(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
-            
+
             retransforming = true;
             inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
             retransforming = false;
@@ -111,9 +111,10 @@ public class Agent {
         // Arrays.toString(inst.getInitiatedClasses(ClassLoader.getSystemClassLoader())));
     }
 
-    
+
     /**
      * Is retransformClasses running.
+     *
      * @return Returns true if this is currently retransforming classes
      */
     public static boolean isRetransforming() {

@@ -11,14 +11,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class GraphTestWithoutRule {
-    
+
     List<Long> time;
     List<Long> time2;
     List<Integer> input;
     List<Integer> input2;
-    
+
     GraphReader reader = new GraphReader("GraphDataFolder");
-    
+
     public GraphWriter writer = new GraphWriter("GraphTest");
 
     @Before
@@ -38,7 +38,7 @@ public class GraphTestWithoutRule {
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
-    
+
     @Test
     public void testGraphDrawingAgainWithoutRule() throws Exception {
         writer.setMethodName("testGraphDrawingAgainWithoutRule");

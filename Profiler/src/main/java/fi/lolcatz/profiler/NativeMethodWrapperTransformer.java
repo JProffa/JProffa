@@ -45,7 +45,7 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
                     System.out.println("    Wrappable native method " + className + "." + mn.name + " found!");
                     logger.info("    Node: " + mn.toString() + " Desc: " + mn.desc + " sign: " + mn.signature + " exep: " +
                             mn.exceptions + " acc: " + mn.access + " ins: " + mn.instructions + " attrs: " + mn.attrs +
-                    " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
+                            " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
 
                     MethodNode wrapper = new MethodNode();
                     wrapper.name = mn.name;
@@ -74,7 +74,6 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
                 }
             }
             cn.methods.addAll(wrappers);
-
 
 
             byte[] newBytecode = Util.generateBytecode(cn);

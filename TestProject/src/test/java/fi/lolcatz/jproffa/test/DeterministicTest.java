@@ -17,7 +17,7 @@ public class DeterministicTest {
     public DeterministicTest() {
     }
 
-    
+
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(DeterministicTest.class);
@@ -31,7 +31,7 @@ public class DeterministicTest {
         impl.setClassName("fi.lolcatz.jproffa.testproject.IterativeExample");
     }
 
-    
+
     /**
      * Test to determine if the function is deterministic. Allows for 25 bytecode offset.
      */
@@ -46,7 +46,7 @@ public class DeterministicTest {
         long second = impl.runStatic(500);
 
         long marginError = impl.getMarginOfError(first);
-        
+
         assertTrue(first != 0 && second != 0);
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
 
@@ -94,23 +94,23 @@ public class DeterministicTest {
         long first = impl.runStatic(impl.getInput(500));
         long second = impl.runStatic(impl.getInput(500));
 
-        long marginError = impl.getMarginOfError(first);        
-        
+        long marginError = impl.getMarginOfError(first);
+
         assertTrue(first != 0 && second != 0);
         assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - marginError && first < second + marginError);
     }
-    
+
     @Test
     public void testRecursionCostIsDeterministic() throws Exception {
         impl.setClassName("fi.lolcatz.jproffa.testproject.RecursiveComplexityExample");
         impl.setMethodName("recursiveFunction");
-        
+
         impl.runStatic(impl.getInput(500));
-        
+
         long first = impl.runStatic(500);
         long second = impl.runStatic(500);
         System.out.println("Margin of error: " + impl.getMarginOfError(first));
-        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second-impl.getMarginOfError(first) && first < second+impl.getMarginOfError(first));
-        
+        assertTrue("Suorituskerrat eivät olleet 50 sisällä toisistaan", first > second - impl.getMarginOfError(first) && first < second + impl.getMarginOfError(first));
+
     }
 }

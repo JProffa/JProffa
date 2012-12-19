@@ -16,21 +16,21 @@ import static org.junit.Assert.assertTrue;
 
 
 public class BlacklistTest {
-    
+
     public BlacklistTest() {
     }
-    
+
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(BlacklistTest.class);
         Util.loadAgent();
     }
-    
+
     @Before
     public void testSetup() {
         ProfileData.resetCounters();
     }
-    
+
     @Test
     public void testProfileDataPackageBlacklist() {
         IterativeExample.iterativeFunction(5);
@@ -39,7 +39,7 @@ public class BlacklistTest {
         String basicBlockCostsString = Util.getBasicBlockCostsString(false, blacklist);
         assertFalse(basicBlockCostsString.contains("com/mycompany/testproject/"));
     }
-    
+
     @Test
     public void testProfileDataClassBlacklist() {
         IterativeExample.iterativeFunction(5);
@@ -48,7 +48,7 @@ public class BlacklistTest {
         String basicBlockCostsString = Util.getBasicBlockCostsString(false, blacklist);
         assertFalse(basicBlockCostsString.contains("fi/lolcatz/jproffa/testproject/IterativeExample"));
     }
-    
+
     @Test
     public void testProfileDataMethodBlacklist() {
         IterativeExample.iterativeFunction(5);

@@ -4,7 +4,7 @@ public class ComplexityCost {
 
     private static int[] complexityCost = new int[256];
     private static boolean wantToUse = true;
-    
+
     static {
         complexityCost[0] = 1;
         complexityCost[1] = 1;
@@ -270,15 +270,15 @@ public class ComplexityCost {
     }
 
     public static int getCost(int opcode) {
-        if(wantToUse) return complexityCost[opcode];
+        if (wantToUse) return complexityCost[opcode];
         return 1;
     }
-    
-    public static void enableComplexityCost(){
+
+    public static void enableComplexityCost() {
         wantToUse = true;
     }
-    
-    public static void disableComplexityCost(){
+
+    public static void disableComplexityCost() {
         wantToUse = false;
     }
 }

@@ -2,45 +2,48 @@ package fi.lolcatz.jproffa.testproject;
 
 
 public class IterativeExample {
-    
-    
-    static int[] numbers = new int[] {1,2,3,4,5,6,7,8,9,10};
+
+
+    static int[] numbers = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
     /**
      * Factorial function used to test for loops
+     *
      * @param number
-     * @return 
+     * @return
      */
-    public static int factorialForFunction(int number){
+    public static int factorialForFunction(int number) {
         int sum = number;
-        for (int i = number-1; i > 0; i--){
+        for (int i = number - 1; i > 0; i--) {
             sum *= i;
         }
         return sum;
     }
-    
+
     /**
      * Factorial function used to test while loops
+     *
      * @param number
-     * @return 
+     * @return
      */
-    public static int factorialWhileFunction(int number){
+    public static int factorialWhileFunction(int number) {
         int sum = number;
         while (number > 0) {
             sum *= number;
-            number --;
+            number--;
         }
         return sum;
     }
-    
-    public static int factorialForEachFunction(int number){
+
+    public static int factorialForEachFunction(int number) {
         int sum = numbers[0];
         for (int i : numbers) {
             sum *= i;
         }
         return sum;
     }
-    
-    
+
+
     public static int iterativeFunction(int number) {
         while (number != 1) {
             if (number % 2 == 0) {
@@ -52,7 +55,6 @@ public class IterativeExample {
         }
         return number;
     }
-    
-    
-    
+
+
 }

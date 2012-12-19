@@ -641,7 +641,7 @@ public class Util implements Opcodes {
             String profilerJarPath = jarFile.getPath();
             vm.loadAgent(profilerJarPath);
             vm.detach();
-        } catch(NoClassDefFoundError e) {
+        } catch (NoClassDefFoundError e) {
             throw new LinkageError("NoClassDefFoundError thrown: tools.jar probably not loaded.", e);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -890,7 +890,7 @@ public class Util implements Opcodes {
         }
         ProfileData.allowProfiling();
     }
-    
+
     public static void printCallsPerMethod() {
         printCallsPerMethod(null);
     }
@@ -939,7 +939,7 @@ public class Util implements Opcodes {
         }
         return -1;
     }
-    
+
     /**
      * Check that agent is loaded. If not, throw RuntimeException.
      */

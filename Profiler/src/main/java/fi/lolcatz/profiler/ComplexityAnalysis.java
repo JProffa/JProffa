@@ -11,57 +11,63 @@ public class ComplexityAnalysis {
 
     /**
      * Throws AssertionError if the parameter is not linear
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertLinear(Output<?> output) throws AssertionError {
         if (!isLinear(output)) {
             throw new AssertionError();
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is not linear
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertLinear(String message, Output<?> output) throws AssertionError {
         if (!isLinear(output)) {
             throw new AssertionError(message);
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is linear
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNotLinear(Output<?> output) throws AssertionError {
         if (isLinear(output)) {
             throw new AssertionError();
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is linear
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNotLinear(String message, Output<?> output) throws AssertionError {
         if (isLinear(output)) {
             throw new AssertionError(message);
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is slower than linear
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertLinearOrFaster(Output<?> output, double margin) throws AssertionError {
         if (!isLinearOrFaster(output, margin)) {
             throw new AssertionError();
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is slower than linear
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertLinearOrFaster(String message, Output<?> output, double margin) throws AssertionError {
         if (!isLinearOrFaster(output, margin)) {
@@ -71,115 +77,129 @@ public class ComplexityAnalysis {
 
     /**
      * Throws AssertionError if the parameter is not quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertQuadratic(Output<?> output) throws AssertionError {
         if (!isQuadratic(output)) {
             throw new AssertionError();
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is not quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertQuadratic(String message, Output<?> output) throws AssertionError {
         if (!isQuadratic(output)) {
             throw new AssertionError(message);
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNotQuadratic(Output<?> output) throws AssertionError {
         if (isQuadratic(output)) {
             throw new AssertionError();
         }
     }
-    
-        /**
+
+    /**
      * Throws AssertionError if the parameter is quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNotQuadratic(String message, Output<?> output) throws AssertionError {
         if (isQuadratic(output)) {
             throw new AssertionError(message);
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is slower than quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertQuadraticOrFaster(Output<?> output, double margin) throws AssertionError {
         if (!isQuadraticOrFaster(output, margin)) {
             throw new AssertionError();
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is slower than quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertQuadraticOrFaster(String message, Output<?> output, double margin) throws AssertionError {
         if (!isQuadraticOrFaster(output, margin)) {
             throw new AssertionError(message);
         }
     }
+
     /**
      * Throws AssertionError if the parameter is slower than quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertFasterThanQuadratic(Output<?> output) throws AssertionError {
         if (!isFasterThanQuadratic(output)) {
             throw new AssertionError();
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is slower than quadratic
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertFasterThanQuadratic(String message, Output<?> output) throws AssertionError {
         if (!isFasterThanQuadratic(output)) {
             throw new AssertionError(message);
         }
     }
+
     /**
      * Throws AssertionError if the parameter is not NlogN
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNlogN(Output<?> output) throws AssertionError {
         if (!isNlogN(output)) {
             throw new AssertionError();
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is not NlogN
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNlogN(String message, Output<?> output) throws AssertionError {
         if (!isNlogN(output)) {
             throw new AssertionError(message);
         }
     }
-    
+
     /**
      * Throws AssertionError if the parameter is NlogN
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNotNlogN(Output<?> output) throws AssertionError {
         if (isNlogN(output)) {
             throw new AssertionError();
         }
     }
-    
-     /**
+
+    /**
      * Throws AssertionError if the parameter is NlogN
-     * @throws AssertionError 
+     *
+     * @throws AssertionError
      */
     public static void assertNotNlogN(String message, Output<?> output) throws AssertionError {
         if (isNlogN(output)) {
@@ -217,7 +237,7 @@ public class ComplexityAnalysis {
      * Calculates the runtime speed of the parameter output
      *
      * @return True if the output is linear or faster, false if the output is
-     * slower
+     *         slower
      */
     public static boolean isLinearOrFaster(Output<?> output, double margin) {
         if (output.getSize().size() < 2) {
@@ -242,10 +262,10 @@ public class ComplexityAnalysis {
 
     /**
      * Calculates whether the parameter output is O(n*n)
-     * 
+     * <p/>
      * a, b and c are from the function an*n+bn+c
      * denom is the common divider for them.
-     * 
+     *
      * @param out size must be >= 3
      * @return True if output is quadratic, false if not
      */
@@ -279,13 +299,13 @@ public class ComplexityAnalysis {
 
     /**
      * Calculates the runtime speed of the parameter output
-     *
+     * <p/>
      * a, b and c are from the function an*n+bn+c
      * denom is the common divider for them.
-     * 
-     * @param out size must be >= 3     
+     *
+     * @param out size must be >= 3
      * @return True if the output is quadratic or faster, false if the output is
-     * slower
+     *         slower
      */
     public static boolean isQuadraticOrFaster(Output<?> out, double margin) {
         if (out.getSize().size() < 2) {
@@ -314,16 +334,16 @@ public class ComplexityAnalysis {
         }
         return true;
     }
-    
+
     /**
      * Calculates the runtime speed of the parameter output
-     *
+     * <p/>
      * a, b and c are from the function an*n+bn+c
      * denom is the common divider for them.
-     * 
-     * @param out size must be >= 4     
+     *
+     * @param out size must be >= 4
      * @return True if the output is faster than quadratic, false if the output is
-     * slower
+     *         slower
      */
     public static boolean isFasterThanQuadratic(Output<?> out) {
         if (out.getSize().size() < 2) {

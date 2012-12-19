@@ -17,9 +17,9 @@ public class GraphTestWithRule {
     List<Long> time2;
     List<Integer> input;
     List<Integer> input2;
-    
+
     GraphReader reader = new GraphReader("GraphDataFolder");
-    
+
     @Rule
     public GraphWriter writer = new GraphWriter();
 
@@ -40,7 +40,7 @@ public class GraphTestWithRule {
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
-    
+
     @Test
     public void testGraphDrawingAgain() throws Exception {
         writer.save(time, input);
