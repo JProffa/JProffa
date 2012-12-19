@@ -11,6 +11,8 @@ import fi.lolcatz.profiledata.ProfileData;
 
 import java.io.*;
 import java.lang.management.ManagementFactory;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import org.objectweb.asm.Type;
 
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
@@ -895,18 +898,59 @@ public class Util implements Opcodes {
         }
         ProfileData.allowProfiling();
     }
-    
+
+    /**
+     * Print number of calls per method.
+     */
     public static void printCallsPerMethod() {
         printCallsPerMethod(null);
     }
 
+    /**
+     * Print number of calls per method.
+     *
+     * @param classBlacklist List of classnames to blacklist.
+     */
     public static void printCallsPerMethod(List<String> classBlacklist) {
+        ProfileData.disallowProfiling();
+        System.out.print(getCallsPerMethods(classBlacklist));
+        ProfileData.allowProfiling();
+    }
+
+    /**
+     * Get number of calls per method.
+     *
+     * @param classBlacklist List of classnames to blacklist.
+     * @return List of calls per method as a string.
+     */
+    public static String getCallsPerMethods(List<String> classBlacklist) {
+        ProfileData.disallowProfiling();
+        Map<String, Long> sortedMap = getCallsPerMethodMap(classBlacklist);
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
+            if (entry.getValue() == 0) {
+                break;
+            }
+            sb.append(String.format("Calls: %8d Method: %s", entry.getValue(), entry.getKey()));
+            sb.append(System.getProperty("line.separator"));
+        }
+        ProfileData.allowProfiling();
+        return sb.toString();
+    }
+
+    /**
+     * Get number of calls per method.
+     *
+     * @param classBlacklist List of classnames to blacklist.
+     * @return Sorted Map<String, Long> containing the data.
+     */
+    public static Map<String, Long> getCallsPerMethodMap(List<String> classBlacklist) {
         checkAgentIsLoaded();
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
 
         if (callsToBasicBlock == null) {
             System.out.println("ProfileData hasn't been initialized (no classes loaded).");
-            return;
+            return null;
         }
 
         ProfileData.disallowProfiling();
@@ -920,19 +964,129 @@ public class Util implements Opcodes {
 
         Map<String, Long> methodCallsMap = new TreeMap<String, Long>();
         for (Entry<String, Integer> e : methodStarterBlockMap.entrySet()) {
+            for (String blacklistedClass : classBlacklist) {
+                if (e.getKey().startsWith(blacklistedClass)) {
+                    continue;
+                }
+            }
             methodCallsMap.put(e.getKey(), callsToBasicBlock[e.getValue()]);
         }
 
         Map<String, Long> sortedMap = new TreeMap<String, Long>(new ValueComparator(methodCallsMap));
         sortedMap.putAll(methodCallsMap);
+        ProfileData.allowProfiling();
+        return sortedMap;
+    }
+
+    /**
+     * Get number of calls for given method.
+     *
+     * @param m Method to get number of calls for.
+     * @return Number of calls.
+     */
+    public static long getCallsPerMethod(Method m) {
+        if (m == null) {
+            return 0;
+        }
+        ProfileData.disallowProfiling();
+        Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(null);
+        Long cost = callsPerMethodMap.get(m.getDeclaringClass().getName().replace('.', '/') + "." + m.getName() + Type.getMethodDescriptor(m));
+        ProfileData.allowProfiling();
+        return cost == null ? 0 : cost.longValue();
+    }
+
+    /**
+     * Get number of calls for given constructor.
+     *
+     * @param c Constructor to get number of calls for.
+     * @return Number of calls.
+     */
+    public static long getCallsPerConstructor(Constructor c) {
+        if (c == null) {
+            return 0;
+        }
+        ProfileData.disallowProfiling();
+        Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(null);
+        Long cost = callsPerMethodMap.get(c.getDeclaringClass().getName().replace('.', '/') + "." + c.getName() + Type.getConstructorDescriptor(c));
+        ProfileData.allowProfiling();
+        return cost == null ? 0 : cost.longValue();
+    }
+
+    /**
+     * Get all constructor calls for given class.
+     *
+     * @param c Class to get number of constructor calls for.
+     * @return Number of calls.
+     */
+    public static long getConstructorCalls(Class<?> c) {
+        ProfileData.disallowProfiling();
+        Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(null);
+        long calls = 0;
+        for (Entry<String, Long> e : callsPerMethodMap.entrySet()) {
+            if (e.getKey().contains("<init>") && e.getKey().startsWith(c.getName().replace('.', '/'))) {
+                calls += e.getValue();
+            }
+        }
+        ProfileData.allowProfiling();
+        return calls;
+    }
+
+    /**
+     * Print object allocation data.
+     */
+    public static void printObjectAllocationData() {
+        printObjectAllocationData(null);
+    }
+
+    /**
+     * Print object allocation data.
+     *
+     * @param classBlacklist List of classnames to blacklist.
+     */
+    public static void printObjectAllocationData(List<String> classBlacklist) {
+        System.out.print(getObjectAllocationData(classBlacklist));
+    }
+
+    /**
+     * Get object allocation data.
+     *
+     * @param classBlacklist List of classnames to blacklist.
+     * @return List of allocations per object as a string.
+     */
+    public static String getObjectAllocationData(List<String> classBlacklist) {
+        ProfileData.disallowProfiling();
+        Map<String, Long> sortedMap = getObjectAllocationDataMap(classBlacklist);
+        StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
             if (entry.getValue() == 0) {
                 break;
             }
-            System.out.printf("Calls: %8d Method: %s", entry.getValue(), entry.getKey());
-            System.out.println();
+            sb.append(String.format("Allocations: %8d Constructor: %s", entry.getValue(), entry.getKey()));
+            sb.append(System.getProperty("line.separator"));
         }
         ProfileData.allowProfiling();
+        return sb.toString();
+    }
+
+    /**
+     * Get object allocation data.
+     *
+     * @param classBlacklist List of classnames to blacklist.
+     * @return Sorted Map<String, Long> containing the data.
+     */
+    public static Map<String, Long> getObjectAllocationDataMap(List<String> classBlacklist) {
+        ProfileData.disallowProfiling();
+        Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(classBlacklist);
+        Map<String, Long> constructors = new TreeMap<String, Long>();
+        for (Entry<String, Long> e : callsPerMethodMap.entrySet()) {
+            if (e.getKey().contains("<init>")) {
+                constructors.put(e.getKey(), e.getValue());
+            }
+        }
+        Map<String, Long> sortedMap = new TreeMap<String, Long>(new ValueComparator(constructors));
+        sortedMap.putAll(constructors);
+        ProfileData.allowProfiling();
+        return sortedMap;
     }
 
     private static int multicharIndexOf(String string, char... chars) {
@@ -964,8 +1118,9 @@ class ValueComparator implements Comparator<String> {
     }
 
     // Note: this comparator imposes orderings that are inconsistent with equals.    
+    @Override
     public int compare(String a, String b) {
-        if (base.get(a) >= base.get(b)) {
+        if (base == null || !base.containsKey(a) || !base.containsKey(b) || base.get(a) >= base.get(b)) {
             return -1;
         } else {
             return 1;
