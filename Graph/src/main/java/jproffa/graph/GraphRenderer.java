@@ -24,7 +24,8 @@ public class GraphRenderer {
     }
 
     /** 
-     * Returns the generated chart as JPanel
+     * Returns the generated chart as JPanel.
+     * 
      * @return new JPanel containing the chart
      */
     public JPanel getJPanel() {
