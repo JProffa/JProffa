@@ -141,8 +141,21 @@ public class ComplexityQuadraticTest {
         assertTrue("isFasterThanQuadratic()", ComplexityAnalysis.isFasterThanQuadratic(o));
         ComplexityAnalysis.assertFasterThanQuadratic(o);
     }
-
-    public void printResults(String testname, long[] results) {
+    
+    @Test
+    public void testNlogNisFasterThanQuadratic() throws Exception {
+        impl.setMethodName("approximatedNlogNFunction");
+        
+        List<Integer> list = Arrays.asList(2,4,8,16,32,64,512,1024,2048,4096,8192);
+        Output<Integer> o = impl.runMethod(list);
+        for (Long l : o.getTime()){
+            assertTrue(l > 0);
+        }
+        assertTrue("isFasterThanQuadratic()", ComplexityAnalysis.isFasterThanQuadratic(o));
+        ComplexityAnalysis.assertFasterThanQuadratic(o);
+    }
+ 
+     public void printResults(String testname, long[] results) {
         System.out.println("---" + testname + "---");
         int i = 0;
         for (long l : results) {
