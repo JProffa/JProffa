@@ -55,7 +55,6 @@
             <groupId>fi.lolcatz.profiler</groupId>
             <artifactId>Profiler</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <systemPath></systemPath>
             <type>jar</type>
         </dependency>
     </dependencies>

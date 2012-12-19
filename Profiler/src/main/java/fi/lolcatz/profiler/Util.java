@@ -780,13 +780,11 @@ public class Util implements Opcodes {
             }
         } catch (IOException e) {
             logger.fatal("Writing to " + filename + " failed", e);
-            return;
         } finally {
             try {
                 fileWriter.close();
             } catch (IOException e) {
                 logger.fatal("Closing FileWriter failed", e);
-                return;
             }
         }
     }

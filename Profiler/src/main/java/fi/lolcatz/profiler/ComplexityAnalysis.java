@@ -128,7 +128,25 @@ public class ComplexityAnalysis {
             throw new AssertionError(message);
         }
     }
-
+    /**
+     * Throws AssertionError if the parameter is slower than quadratic
+     * @throws AssertionError 
+     */
+    public static void assertFasterThanQuadratic(Output<?> output) throws AssertionError {
+        if (!isFasterThanQuadratic(output)) {
+            throw new AssertionError();
+        }
+    }
+    
+    /**
+     * Throws AssertionError if the parameter is slower than quadratic
+     * @throws AssertionError 
+     */
+    public static void assertFasterThanQuadratic(String message, Output<?> output) throws AssertionError {
+        if (!isFasterThanQuadratic(output)) {
+            throw new AssertionError(message);
+        }
+    }
     /**
      * Throws AssertionError if the parameter is not NlogN
      * @throws AssertionError 
@@ -185,7 +203,7 @@ public class ComplexityAnalysis {
         double a = Math.abs(y0 - yn) / Math.abs(x0 - xn);
         double b = y0 - a * x0;
         for (int i = 0; i < output.getTime().size(); i++) {
-            double time = output.getTime().get(i);
+            long time = output.getTime().get(i);
             double function = a * output.getSize().get(i) + b;
             boolean linearity = time * 1.002 >= function && time - (time * 0.002) <= function;
             if (!linearity) {
@@ -212,7 +230,7 @@ public class ComplexityAnalysis {
         double a = Math.abs(y0 - yn) / Math.abs(x0 - xn);
         double b = y0 - a * x0;
         for (int i = 0; i < output.getTime().size(); i++) {
-            double time = output.getTime().get(i);
+            long time = output.getTime().get(i);
             double function = a * output.getSize().get(i) + b;
             boolean linearOrFaster = time <= function * margin;
             if (!linearOrFaster) {
@@ -249,9 +267,9 @@ public class ComplexityAnalysis {
         double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
 
         for (int i = 0; i < out.getTime().size(); i++) {
-            double time = out.getTime().get(i);
+            long time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
-            boolean exponential = time * 1.002 >= function && time - (time * 0.002) <= function;
+            boolean exponential = time * 1.1 >= function && time * 0.9 <= function;
             if (!exponential) {
                 return false;
             }
@@ -287,10 +305,48 @@ public class ComplexityAnalysis {
         double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
 
         for (int i = 0; i < out.getTime().size(); i++) {
-            double time = out.getTime().get(i);
+            long time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
             boolean exponentialOrFaster = time <= function * margin;
             if (!exponentialOrFaster) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Calculates the runtime speed of the parameter output
+     *
+     * a, b and c are from the function an*n+bn+c
+     * denom is the common divider for them.
+     * 
+     * @param out size must be >= 4     
+     * @return True if the output is faster than quadratic, false if the output is
+     * slower
+     */
+    public static boolean isFasterThanQuadratic(Output<?> out) {
+        if (out.getSize().size() < 2) {
+            return false;
+        }
+        Integer x1 = out.getSize().get(0);
+        Integer x2 = out.getSize().get(1);
+        Integer x3 = out.getSize().get(2);
+
+        long y1 = out.getTime().get(0);
+        long y2 = out.getTime().get(1);
+        long y3 = out.getTime().get(2);
+
+        double denom = (x1 - x2) * (x1 - x3) * (x2 - x3);
+        double a = (x3 * (y2 - y1) + x2 * (y1 - y3) + x1 * (y3 - y2)) / denom;
+        double b = (x3 * x3 * (y1 - y2) + x2 * x2 * (y3 - y1) + x1 * x1 * (y2 - y3)) / denom;
+        double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
+
+        for (int i = 3; i < out.getTime().size(); i++) {
+            long time = out.getTime().get(i);
+            double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
+            boolean fasterThanQuadratic = time < function * 1.1;
+            if (!fasterThanQuadratic) {
                 return false;
             }
         }
@@ -320,7 +376,7 @@ public class ComplexityAnalysis {
         double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
 
         for (int i = 0; i < out.getTime().size(); i++) {
-            double time = out.getTime().get(i);
+            long time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2))) + (b * out.getSize().get(i)) + c;
             //System.out.println("function: " + a + "*" + out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2)) + "+" + b + "*" + out.getSize().get(i) + "+" + c + " = " + function);
             boolean nlogn = time * 1.004 >= function && time - (time * 0.004) <= function;
