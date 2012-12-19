@@ -8,7 +8,7 @@ import java.util.List;
 public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 
     public Long getInput(long l) {
-        return new Long(l);
+        return l;
     }
 
     @Override
@@ -18,12 +18,12 @@ public class LongImpl extends AbstractImpl implements Benchmarkable<Long> {
 
     @Override
     public Long getInput(int size) {
-        return new Long(size);
+        return (long) size;
     }
 
     @Override
     public Output<Long> runMethod(List<Long> list) throws Exception {
-        run(new Long(1));
+        run(1L);
         Output<Long> out = new Output<Long>();
         for (Long l : list) {
             out.addToInput(l);

@@ -9,12 +9,12 @@ public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> 
 
     @Override
     public Integer getInput(int size) {
-        return new Integer(size);
+        return size;
     }
 
     @Override
     public int getSize(Integer input) {
-        return input.intValue();
+        return input;
     }
 
     @Override
