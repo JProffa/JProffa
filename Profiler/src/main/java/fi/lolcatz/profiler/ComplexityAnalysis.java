@@ -185,7 +185,7 @@ public class ComplexityAnalysis {
         double a = Math.abs(y0 - yn) / Math.abs(x0 - xn);
         double b = y0 - a * x0;
         for (int i = 0; i < output.getTime().size(); i++) {
-            double time = output.getTime().get(i);
+            long time = output.getTime().get(i);
             double function = a * output.getSize().get(i) + b;
             boolean linearity = time * 1.002 >= function && time - (time * 0.002) <= function;
             if (!linearity) {
@@ -212,7 +212,7 @@ public class ComplexityAnalysis {
         double a = Math.abs(y0 - yn) / Math.abs(x0 - xn);
         double b = y0 - a * x0;
         for (int i = 0; i < output.getTime().size(); i++) {
-            double time = output.getTime().get(i);
+            long time = output.getTime().get(i);
             double function = a * output.getSize().get(i) + b;
             boolean linearOrFaster = time <= function * margin;
             if (!linearOrFaster) {
@@ -249,9 +249,9 @@ public class ComplexityAnalysis {
         double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
 
         for (int i = 0; i < out.getTime().size(); i++) {
-            double time = out.getTime().get(i);
+            long time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
-            boolean exponential = time * 1.002 >= function && time - (time * 0.012) <= function;
+            boolean exponential = time * 1.1 >= function && time * 0.9 <= function;
             if (!exponential) {
                 return false;
             }
@@ -287,7 +287,7 @@ public class ComplexityAnalysis {
         double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
 
         for (int i = 0; i < out.getTime().size(); i++) {
-            double time = out.getTime().get(i);
+            long time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * out.getSize().get(i)) + (b * out.getSize().get(i)) + c;
             boolean exponentialOrFaster = time <= function * margin;
             if (!exponentialOrFaster) {
@@ -320,7 +320,7 @@ public class ComplexityAnalysis {
         double c = (x2 * x3 * (x2 - x3) * y1 + x3 * x1 * (x3 - x1) * y2 + x1 * x2 * (x1 - x2) * y3) / denom;
 
         for (int i = 0; i < out.getTime().size(); i++) {
-            double time = out.getTime().get(i);
+            long time = out.getTime().get(i);
             double function = (a * out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2))) + (b * out.getSize().get(i)) + c;
             //System.out.println("function: " + a + "*" + out.getSize().get(i) * (Math.log(out.getSize().get(i)) / Math.log(2)) + "+" + b + "*" + out.getSize().get(i) + "+" + c + " = " + function);
             boolean nlogn = time * 1.004 >= function && time - (time * 0.004) <= function;
