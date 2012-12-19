@@ -49,7 +49,6 @@ public class Agent {
      *
      * @param args String given to loadAgent() when loading this agent.
      * @param inst Instrumentation object that can be used to instrument classes that are given to this agent.
-     * @throws Exception
      */
     public static void agentmain(String args, Instrumentation inst) {
         loadLoggingConf();
@@ -117,7 +116,7 @@ public class Agent {
     
     /**
      * Is retransformClasses running.
-     * @return 
+     * @return Returns true if this is currently retransforming classes
      */
     public static boolean isRetransforming() {
         return retransforming;
