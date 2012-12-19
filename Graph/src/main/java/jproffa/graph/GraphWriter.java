@@ -1,112 +1,78 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jproffa.graph;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonStreamParser;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.List;
-import java.util.Random;
-import org.jfree.chart.ChartUtilities;
 import fi.lolcatz.profiler.Output;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 public class GraphWriter implements TestRule {
 
-    private String methodName = "jproffa_data.txt"; 
-    private String testName = "test";
-    private String mainDirectory = "GraphDataFolder";
-    private String classDirectory = "GraphTest";
-    private File parentDir;
-    private File classDir;
-    private File txtfile;
-    boolean requireInit = true;
+    private final String DEFAULT_MAIN_DIRECTORY = "GraphDataFolder";
+    private final String MAIN_DIR_ENV_VAR_NAME = "JPROFFA_GRAPH_DIR";
+    
+    private File mainDir;
+    private String className;
+    private String methodName;
+    private String annotation = null;
+    private boolean clearOnNextWrite = true;
 
     public GraphWriter() {
-        if (System.getenv("DIRECTORY") != null) {
-            mainDirectory = System.getenv("DIRECTORY");
-        }
-        createFolders();
+        this("UnknownClass", "unknownTest");
     }
 
     public GraphWriter(String className) {
-        this.classDirectory = className;
-        if (System.getenv("DIRECTORY") != null) {
-            mainDirectory = System.getenv("DIRECTORY");
-        }
-        createFolders();
+        this(className, "unknownTest");
     }
 
     public GraphWriter(String className, String methodName) {
+        this.className = className;
         this.methodName = methodName;
-        this.classDirectory = className;
-        if (System.getenv("DIRECTORY") != null) {
-            mainDirectory = System.getenv("DIRECTORY");
+        if (System.getenv(MAIN_DIR_ENV_VAR_NAME) != null) {
+            mainDir = new File(System.getenv(MAIN_DIR_ENV_VAR_NAME));
+        } else {
+            mainDir = new File(DEFAULT_MAIN_DIRECTORY);
         }
-        createFolders();
-
     }
 
+    public String getClassName() {
+        return className;
+    }
+    
     public String getMethodName() {
         return methodName;
     }
 
-    public String getTestName() {
-        return testName;
+    public void setClassName(String className) {
+        this.className = className;
     }
-
-    public String getClassName() {
-        return classDirectory;
-    }
-
+    
     public void setMethodName(String fileName) {
         this.methodName = fileName;
     }
 
-    public void setTestName(String testName) {
-        this.testName = testName;
+    public String getAnnotation() {
+        return annotation;
     }
 
-    public void setClassName(String classDirectory) {
-        this.classDirectory = classDirectory;
+    public void setAnnotation(String annotation) {
+        this.annotation = annotation;
     }
 
-    private void createFolders() {
-        parentDir = new File(mainDirectory);
-        if (!parentDir.exists()) {
-            parentDir.mkdir();
-        }
-        classDir = new File(parentDir, classDirectory);
-        if (!classDir.exists()) {
-            classDir.mkdir();
-        }
-
-    }
-
-    private void createFile() {
-        txtfile = new File(classDir, methodName);
-        if (txtfile.exists()) {
+    private File getFile() {
+        File classDir = new File(mainDir, className);
+        File txtfile = new File(classDir, methodName);
+        if (clearOnNextWrite) {
+            classDir.mkdirs();
             txtfile.delete();
+            clearOnNextWrite = false;
         }
-        try {
-            txtfile.createNewFile();
-        } catch (IOException ex) {
-            Logger.getLogger(GraphWriter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        return txtfile;
     }
 
     /**
@@ -116,25 +82,18 @@ public class GraphWriter implements TestRule {
      * @param time List of times
      * @param input List of inputs
      */
-    public void save(List<Long> time, List<Integer> input) throws Exception {
-        try {
-            if (requireInit) {
-                createFile();
-                requireInit = false;
-            }
-            FileWriter fstream = new FileWriter(txtfile, true);
-            BufferedWriter fbw = new BufferedWriter(fstream);
-            Gson gson = new Gson();
-            String data = gson.toJson(new Line(time, input, testName));
-            fbw.write(data);
-            fbw.newLine();
-            fbw.close();
-        } catch (Exception e) {
-            System.err.println(e);
-        }
+    public void save(List<Long> time, List<Integer> input) throws IOException {
+        File file = getFile();
+        FileWriter fstream = new FileWriter(file, true);
+        BufferedWriter fbw = new BufferedWriter(fstream);
+        Gson gson = new Gson();
+        String data = gson.toJson(new Line(time, input, className, methodName, annotation));
+        fbw.write(data);
+        fbw.newLine();
+        fbw.close();
     }
 
-    public void save(Output<?> out) throws Exception {
+    public void save(Output<?> out) throws IOException {
         save(out.getTime(), out.getSize());
     }
 
@@ -143,10 +102,9 @@ public class GraphWriter implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                requireInit = true;
-                classDirectory = description.getClassName();
+                clearOnNextWrite = true;
+                className = description.getClassName();
                 methodName = description.getMethodName();
-                testName = description.getClassName() + " " + description.getMethodName();
                 base.evaluate();
             }
         };

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jproffa.graph;
 
 import java.util.List;
@@ -10,11 +6,21 @@ public class Line {
 
     public List<Long> time;
     public List<Integer> input;
-    String name;
+    public String className;
+    public String methodName;
+    
+    /**
+     * Extra text optionally specified by the test writer.
+     * 
+     * The annotation may be null. There may be multiple lines with the same annotation.
+     */
+    public String annotation;
 
-    public Line(List<Long> time, List<Integer> input, String name) {
+    public Line(List<Long> time, List<Integer> input, String className, String methodName, String annotation) {
         this.time = time;
         this.input = input;
-        this.name = name;
+        this.className = className;
+        this.methodName = methodName;
+        this.annotation = annotation;
     }
 }
