@@ -23,6 +23,10 @@ public class GraphRenderer {
         chart = createChart(dataset);
     }
 
+    /** 
+     * Returns the generated chart as JPanel
+     * @return new JPanel containing the chart
+     */
     public JPanel getJPanel() {
         JPanel jPanel = new JPanel();
         ChartPanel myChart = new ChartPanel(chart);

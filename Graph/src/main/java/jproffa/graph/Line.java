@@ -10,7 +10,7 @@ public class Line {
     public String methodName;
     
     /**
-     * Extra text optionally specified by the test writer.
+     * Additional description optionally specified by the test writer.
      * 
      * The annotation may be null. There may be multiple lines with the same annotation.
      */

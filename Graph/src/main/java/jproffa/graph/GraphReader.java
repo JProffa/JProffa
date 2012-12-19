@@ -14,7 +14,14 @@ public class GraphReader {
     public GraphReader(String file) {
         fileLocation = file;
     }
-
+    
+    /** Reads the file specified by parameters and returns the data as Line objects.
+     * 
+     * @param className Name of the class
+     * @param methodName Name of the method
+     * @return All Line objects contained in the file
+     * @throws IOException 
+     */
     public List<Line> get(String className, String methodName) throws IOException {
         Gson gson = new Gson();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileLocation + "/" + className + "/" + methodName));

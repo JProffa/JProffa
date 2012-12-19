@@ -76,8 +76,7 @@ public class GraphWriter implements TestRule {
     }
 
     /**
-     * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
-     * saveGraphFromFile.
+     * Saves the data to a file. This data can be read using GraphReader.
      *
      * @param time List of times
      * @param input List of inputs
@@ -93,6 +92,13 @@ public class GraphWriter implements TestRule {
         fbw.close();
     }
 
+    
+    /**
+     * Saves the output objects time and size lists to file. This data can be read using GraphReader.
+     * 
+     * @param out The output object containing non-empty list of times and list of sizes.
+     * @throws IOException 
+     */
     public void save(Output<?> out) throws IOException {
         save(out.getTime(), out.getSize());
     }
