@@ -1,7 +1,5 @@
 package jproffa.graph;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
@@ -18,7 +16,7 @@ public class GraphTestWithRule {
     GraphReader reader = new GraphReader("GraphDataFolder");
     
     @Rule
-    public GraphWriter ui = new GraphWriter();
+    public GraphWriter writer = new GraphWriter();
 
     @Before
     public void setUp() {
@@ -27,24 +25,25 @@ public class GraphTestWithRule {
 
     @Test
     public void testGraphDrawing() throws Exception {
-        ui.save(time, input);
-        ui.save(time2, input2);
+        writer.save(time, input);
+        writer.save(time2, input2);
         List<Line> list = reader.get("GraphTest", "testGraphDrawing");
         assertTrue(list.size() > 0);
-        GraphRenderer renderer = new GraphRenderer("testGraph", list);
-        JPanel p = renderer.getJpanel();
+        GraphRenderer renderer = new GraphRenderer(list);
+        JPanel p = renderer.getJPanel();
+        Thread.sleep(5000);
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
     
     @Test
     public void testGraphDrawingAgain() throws Exception {
-        ui.save(time, input);
-        ui.save(time2, input2);
+        writer.save(time, input);
+        writer.save(time2, input2);
         List<Line> list = reader.get("GraphTest", "testGraphDrawingAgain");
         assertTrue(list.size() > 0);
-        GraphRenderer renderer = new GraphRenderer("testGraph", list);
-        JPanel p = renderer.getJpanel();
+        GraphRenderer renderer = new GraphRenderer(list);
+        JPanel p = renderer.getJPanel();
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }

@@ -1,25 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jproffa.graph;
 
-import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Rule;
+import org.junit.Before;
+import org.junit.Test;
 
-/**
- *
- * @author oorissan
- */
 public class GraphTestWithoutRule {
     
     List<Long> time;
@@ -29,7 +16,7 @@ public class GraphTestWithoutRule {
     
     GraphReader reader = new GraphReader("GraphDataFolder");
     
-    public GraphWriter ui = new GraphWriter("GraphTest");
+    public GraphWriter writer = new GraphWriter("GraphTest");
 
     @Before
     public void setUp() {
@@ -38,26 +25,26 @@ public class GraphTestWithoutRule {
 
     @Test
     public void testGraphDrawingWithoutRule() throws Exception {
-        ui.setMethodName("testGraphDrawingWithoutRule");
-        ui.save(time, input);
-        ui.save(time2, input2);
+        writer.setMethodName("testGraphDrawingWithoutRule");
+        writer.save(time, input);
+        writer.save(time2, input2);
         List<Line> list = reader.get("GraphTest", "testGraphDrawingWithoutRule");
         assertTrue(list.size() > 0);
-        GraphRenderer renderer = new GraphRenderer("testGraph", list);
-        JPanel p = renderer.getJpanel();
+        GraphRenderer renderer = new GraphRenderer(list);
+        JPanel p = renderer.getJPanel();
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
     
     @Test
     public void testGraphDrawingAgainWithoutRule() throws Exception {
-        ui.setMethodName("testGraphDrawingAgainWithoutRule");
-        ui.save(time, input);
-        ui.save(time2, input2);
+        writer.setMethodName("testGraphDrawingAgainWithoutRule");
+        writer.save(time, input);
+        writer.save(time2, input2);
         List<Line> list = reader.get("GraphTest", "testGraphDrawingAgainWithoutRule");
         assertTrue(list.size() > 0);
-        GraphRenderer renderer = new GraphRenderer("testGraph", list);
-        JPanel p = renderer.getJpanel();
+        GraphRenderer renderer = new GraphRenderer(list);
+        JPanel p = renderer.getJPanel();
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }

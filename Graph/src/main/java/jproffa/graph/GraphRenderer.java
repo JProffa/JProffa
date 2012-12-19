@@ -13,30 +13,17 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
-public class GraphRenderer extends ApplicationFrame {
+public class GraphRenderer {
 
-    final JFreeChart chart;
-    private int length;
+    private final JFreeChart chart;
 
-    public GraphRenderer(final String title, List<Line> lines) {
-        super(title);
-        final XYDataset dataset = createDataset(lines, null, null);
+    public GraphRenderer(List<Line> lines) {
+        final XYDataset dataset = createDataset(lines);
         chart = createChart(dataset);
-        final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
     }
 
-    public void init() {
-        this.pack();
-        RefineryUtilities.centerFrameOnScreen(this);
-        this.setVisible(true);
-    }
-
-    public JPanel getJpanel() {
+    public JPanel getJPanel() {
         JPanel jPanel = new JPanel();
         ChartPanel myChart = new ChartPanel(chart);
         jPanel.setLayout(new java.awt.BorderLayout());
@@ -50,11 +37,14 @@ public class GraphRenderer extends ApplicationFrame {
         return chart;
     }
 
-    private XYDataset createDataset(List<Line> lines, String actualName, String paramName) {
-        length = lines.size();
+    private XYDataset createDataset(List<Line> lines) {
         final XYSeriesCollection dataset = new XYSeriesCollection();
         for (Line line : lines) {
-            final XYSeries series1 = new XYSeries(line.name);
+            String label = line.className + " " + line.methodName;
+            if (line.annotation != null) {
+                label += " - " + line.annotation;
+            }
+            final XYSeries series1 = new XYSeries(label);
             for (int i = 0; i < line.input.size(); i++) {
                 series1.add(line.input.get(i), line.time.get(i));
             }
@@ -67,7 +57,7 @@ public class GraphRenderer extends ApplicationFrame {
      * Builds and returns the chart from a custom dataset.
      */
     private JFreeChart createChart(final XYDataset dataset) {
-        final JFreeChart chart = ChartFactory.createXYLineChart(
+        final JFreeChart result = ChartFactory.createXYLineChart(
                 "Runtime chart", // chart title
                 "Input", // x axis label
                 "Time", // y axis label
@@ -78,19 +68,19 @@ public class GraphRenderer extends ApplicationFrame {
                 false // urls
                 );
 
-        chart.setBackgroundPaint(Color.white);
+        result.setBackgroundPaint(Color.white);
 
         //        final StandardLegend legend = (StandardLegend) chart.getLegend();
         //      legend.setDisplaySeriesShapes(true);
 
-        final XYPlot plot = chart.getXYPlot();
+        final XYPlot plot = result.getXYPlot();
         plot.setBackgroundPaint(Color.lightGray);
         //    plot.setAxisOffset(new Spacer(Spacer.ABSOLUTE, 5.0, 5.0, 5.0, 5.0));
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
 
         final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < dataset.getSeriesCount(); i++) {
             renderer.setSeriesLinesVisible(i, true);
             renderer.setSeriesShapesVisible(i, false);
         }
@@ -99,7 +89,7 @@ public class GraphRenderer extends ApplicationFrame {
         final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-        return chart;
+        return result;
 
     }
 }
