@@ -86,6 +86,7 @@ public class Util implements Opcodes {
         return cn;
     }
 
+    @SuppressWarnings("unchecked")
     public static String getInsnListString(InsnList insns) {
         StringBuilder sb = new StringBuilder();
         String newline = System.getProperty("line.separator");

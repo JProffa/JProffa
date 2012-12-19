@@ -14,6 +14,7 @@ public class DenyThreadsInMain implements ClassFileTransformer, Opcodes {
     private static Logger logger = Logger.getLogger(DenyThreadsInMain.class);
 
     @Override
+    @SuppressWarnings("unchecked")
     public byte[] transform(
             ClassLoader loader,
             String className,

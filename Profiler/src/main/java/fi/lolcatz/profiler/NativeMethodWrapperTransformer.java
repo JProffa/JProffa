@@ -23,6 +23,7 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public byte[] transform(
             ClassLoader loader,
             String className,
