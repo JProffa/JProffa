@@ -1,13 +1,15 @@
 package fi.lolcatz.profiler;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ProfilerTransformerTest implements Opcodes {
 

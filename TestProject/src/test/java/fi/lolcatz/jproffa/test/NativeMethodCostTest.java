@@ -6,12 +6,13 @@ import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.CostlyMethodList;
 import fi.lolcatz.profiler.Util;
-import java.io.IOException;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertTrue;
 
 public class NativeMethodCostTest {
     

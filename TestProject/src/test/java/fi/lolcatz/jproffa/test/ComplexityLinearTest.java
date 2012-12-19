@@ -6,14 +6,14 @@ import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
-import java.util.Arrays;
-import java.util.List;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class ComplexityLinearTest {
     

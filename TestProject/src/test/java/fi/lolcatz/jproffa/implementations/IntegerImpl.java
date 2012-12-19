@@ -3,6 +3,7 @@ package fi.lolcatz.jproffa.implementations;
 import fi.lolcatz.profiler.AbstractImpl;
 import fi.lolcatz.profiler.Benchmarkable;
 import fi.lolcatz.profiler.Output;
+
 import java.util.List;
 
 public class IntegerImpl extends AbstractImpl implements Benchmarkable<Integer> {

@@ -1,16 +1,18 @@
 package fi.lolcatz.jproffa.test;
 
 import fi.lolcatz.jproffa.testproject.IterativeExample;
-import fi.lolcatz.jproffa.testproject.RecursiveComplexityExample;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class BlacklistTest {

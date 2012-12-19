@@ -1,14 +1,15 @@
 package fi.lolcatz.jproffa.test;
 
-import fi.lolcatz.jproffa.testproject.Example;
 import fi.lolcatz.jproffa.implementations.IntegerImpl;
+import fi.lolcatz.jproffa.testproject.Example;
 import fi.lolcatz.jproffa.testproject.ObjectExample;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class ObjectTest {
     

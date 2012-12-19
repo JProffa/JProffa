@@ -1,15 +1,16 @@
 package jproffa.graph;
 
 import com.google.gson.Gson;
+import fi.lolcatz.profiler.Output;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import fi.lolcatz.profiler.Output;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
 
 public class GraphWriter implements TestRule {
 

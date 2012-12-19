@@ -1,24 +1,18 @@
 package fi.lolcatz.profiler;
 
 import com.sun.tools.attach.VirtualMachine;
+import fi.lolcatz.profiledata.ProfileData;
 import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-import fi.lolcatz.profiledata.ProfileData;
 
 import java.io.*;
 import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
