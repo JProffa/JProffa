@@ -21,7 +21,7 @@ public class GraphTest {
 
     IntegerImpl impl;
     ComplexityAnalysis framework;
-    public GraphWriter ui = new GraphWriter("GraphTest");
+    public GraphWriter writer = new GraphWriter();
 
     @BeforeClass
     public static void classSetup() {
@@ -52,7 +52,7 @@ public class GraphTest {
         for (Long l : actual.getTime()) {
             assertTrue(l > 0);
         }
-        ui.save(actual.getTime(), actual.getInput());
+        writer.save(actual.getTime(), actual.getInput());
     }
         
     @Test
