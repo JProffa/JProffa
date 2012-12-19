@@ -76,8 +76,16 @@ public class GraphWriter implements TestRule {
     }
 
     /**
-     * Saves the data to a file. This data can be read using GraphReader.
-     *
+     * Saves the data to a file. This data can be read using GraphReader. <p>
+     * Example:
+     * <pre> {@code @Rule
+     * GraphWriter gw = new GraphWriter();
+     * Output out = ...;
+     * gw.save(out);
+     * GraphReader gr = new GraphReader("path/to/directory");
+     * List<Line> lines = gr.get("some.TestClass", "testFoo");
+     * GraphRenderer renderer = new GraphRenderer(list);
+     * JPanel panel = renderer.getJPanel(); } </pre> 
      * @param time List of times
      * @param input List of inputs
      */
@@ -91,11 +99,18 @@ public class GraphWriter implements TestRule {
         fbw.newLine();
         fbw.close();
     }
-
     
     /**
-     * Saves the output objects time and size lists to file. This data can be read using GraphReader.
-     * 
+     * Saves the output objects time and size lists to file. This data can be read using GraphReader. <p>
+     * Example:
+     * <pre> {@code @Rule
+     * GraphWriter gw = new GraphWriter();
+     * Output out = ...;
+     * gw.save(out);
+     * GraphReader gr = new GraphReader("path/to/directory");
+     * List<Line> lines = gr.get("some.TestClass", "testFoo");
+     * GraphRenderer renderer = new GraphRenderer(list);
+     * JPanel panel = renderer.getJPanel(); } </pre>
      * @param out The output object containing non-empty list of times and list of sizes.
      * @throws IOException 
      */

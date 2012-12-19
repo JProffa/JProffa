@@ -8,7 +8,6 @@ public class Line {
     public List<Integer> input;
     public String className;
     public String methodName;
-    
     /**
      * Additional description optionally specified by the test writer.
      * 
