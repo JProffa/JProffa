@@ -13,8 +13,8 @@ import org.junit.runners.model.Statement;
 
 public class GraphWriter implements TestRule {
 
-    private final String DEFAULT_MAIN_DIRECTORY = "GraphDataFolder";
-    private final String MAIN_DIR_ENV_VAR_NAME = "JPROFFA_GRAPH_DIR";
+    private static final String DEFAULT_MAIN_DIRECTORY = "GraphDataFolder";
+    private static final String MAIN_DIR_ENV_VAR_NAME = "JPROFFA_GRAPH_DIR";
     
     private File mainDir;
     private String className;
