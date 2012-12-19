@@ -2,7 +2,7 @@ JProffa
 =======
 
 Deterministic Java Profiler
-http://jproffa.github.com/JProffa/
+- http://jproffa.github.com/JProffa/
 
 **Authors**
 
