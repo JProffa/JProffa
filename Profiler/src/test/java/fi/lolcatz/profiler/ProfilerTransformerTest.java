@@ -30,17 +30,9 @@ public class ProfilerTransformerTest implements Opcodes {
         emptyInsnList = new LinkedList<AbstractInsnNode>();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
     @Before
     public void setUp() throws Exception {
         transformer = new ProfilerTransformer();
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test

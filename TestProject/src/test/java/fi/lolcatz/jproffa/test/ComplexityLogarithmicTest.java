@@ -25,19 +25,6 @@ public class ComplexityLogarithmicTest {
         impl.setClassName("fi.lolcatz.jproffa.testproject.IterativeComplexityExample");
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-        
-    }
-    
-    @After
-    public void tearDown() {
-    }
-    
     @Test
     public void testLogarithmic() throws Exception {
         
