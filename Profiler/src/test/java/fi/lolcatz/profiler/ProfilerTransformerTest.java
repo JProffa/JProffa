@@ -1,21 +1,23 @@
 package fi.lolcatz.profiler;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ProfilerTransformerTest implements Opcodes {
 
-    public static LinkedList<AbstractInsnNode> oneInsnList;
-    public static LinkedList<AbstractInsnNode> fiveInsnList;
-    public static LinkedList<AbstractInsnNode> emptyInsnList;
+    private static LinkedList<AbstractInsnNode> oneInsnList;
+    private static LinkedList<AbstractInsnNode> fiveInsnList;
+    private static LinkedList<AbstractInsnNode> emptyInsnList;
 
-    public ProfilerTransformer transformer;
+    private ProfilerTransformer transformer;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
@@ -30,17 +32,9 @@ public class ProfilerTransformerTest implements Opcodes {
         emptyInsnList = new LinkedList<AbstractInsnNode>();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
     @Before
     public void setUp() throws Exception {
         transformer = new ProfilerTransformer();
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test

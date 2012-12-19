@@ -1,21 +1,22 @@
 package jproffa.graph;
 
 import com.google.gson.Gson;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
 import fi.lolcatz.profiler.Output;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
 public class GraphWriter implements TestRule {
 
-    private final String DEFAULT_MAIN_DIRECTORY = "GraphDataFolder";
-    private final String MAIN_DIR_ENV_VAR_NAME = "JPROFFA_GRAPH_DIR";
-    
+    private static final String DEFAULT_MAIN_DIRECTORY = "GraphDataFolder";
+    private static final String MAIN_DIR_ENV_VAR_NAME = "JPROFFA_GRAPH_DIR";
+
     private File mainDir;
     private String className;
     private String methodName;
@@ -43,7 +44,7 @@ public class GraphWriter implements TestRule {
     public String getClassName() {
         return className;
     }
-    
+
     public String getMethodName() {
         return methodName;
     }
@@ -51,7 +52,7 @@ public class GraphWriter implements TestRule {
     public void setClassName(String className) {
         this.className = className;
     }
-    
+
     public void setMethodName(String fileName) {
         this.methodName = fileName;
     }
@@ -76,9 +77,16 @@ public class GraphWriter implements TestRule {
     }
 
     /**
-     * Saves the data to a file. This data can be made into a graph by either calling showGraphFromFile or
-     * saveGraphFromFile.
-     *
+     * Saves the data to a file. This data can be read using GraphReader. <p>
+     * Example:
+     * <pre> {@code @Rule
+     * GraphWriter gw = new GraphWriter();
+     * Output out = ...;
+     * gw.save(out);
+     * GraphReader gr = new GraphReader("path/to/directory");
+     * List<Line> lines = gr.get("some.TestClass", "testFoo");
+     * GraphRenderer renderer = new GraphRenderer(list);
+     * JPanel panel = renderer.getJPanel(); } </pre> 
      * @param time List of times
      * @param input List of inputs
      */
@@ -92,7 +100,21 @@ public class GraphWriter implements TestRule {
         fbw.newLine();
         fbw.close();
     }
-
+    
+    /**
+     * Saves the output objects time and size lists to file. This data can be read using GraphReader. <p>
+     * Example:
+     * <pre> {@code @Rule
+     * GraphWriter gw = new GraphWriter();
+     * Output out = ...;
+     * gw.save(out);
+     * GraphReader gr = new GraphReader("path/to/directory");
+     * List<Line> lines = gr.get("some.TestClass", "testFoo");
+     * GraphRenderer renderer = new GraphRenderer(list);
+     * JPanel panel = renderer.getJPanel(); } </pre>
+     * @param out The output object containing non-empty list of times and list of sizes.
+     * @throws IOException 
+     */
     public void save(Output<?> out) throws IOException {
         save(out.getTime(), out.getSize());
     }

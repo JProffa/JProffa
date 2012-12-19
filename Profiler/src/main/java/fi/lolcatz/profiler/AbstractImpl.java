@@ -14,7 +14,7 @@ public abstract class AbstractImpl {
 
     private String methodName;
     private String className;
-    
+
     public void setMethodName(String name) {
         this.methodName = name;
     }
@@ -30,7 +30,7 @@ public abstract class AbstractImpl {
     public String getMethodName() {
         return methodName;
     }
-    
+
     private Method getMethod(Class<?>... parameterTypes) throws Exception {
         if (className == null) {
             throw new NullPointerException("className is null");
@@ -53,23 +53,25 @@ public abstract class AbstractImpl {
         }
         throw new NoSuchMethodException("Method with name " + methodName + " and suitable parameters not found from " + className);
     }
-    
+
     /**
      * Run static method with given inputs.
+     *
      * @param inputs Input variables. Primitive boxing classes (Integer, Boolean, etc.) must not be nulls.
      * @return Total cost
-     * @throws Exception 
+     * @throws Exception
      */
     public long runStaticOnce(Object... inputs) throws Exception {
         return runOnce(null, inputs);
     }
-    
+
     /**
      * Run method of given instance with given inputs.
+     *
      * @param instance Instance of the class which we are testing.
      * @param inputs Input variables. Primitive boxing classes (Integer, Boolean, etc.) must not be nulls.
      * @return Total cost
-     * @throws Exception 
+     * @throws Exception
      */
     public long runOnce(Object instance, Object... inputs) throws Exception {
         ProfileData.disallowProfiling();
@@ -78,7 +80,7 @@ public abstract class AbstractImpl {
             System.gc();
             System.runFinalization();
             ProfileData.resetCounters();
-            
+
             Class<?>[] parameterTypes = new Class<?>[inputs.length];
             for (int i = 0; i < inputs.length; i++) {
                 parameterTypes[i] = inputs[i].getClass();
@@ -155,10 +157,10 @@ public abstract class AbstractImpl {
 
     public long getMarginOfError(long cost) {
         long len = Long.toString(cost).length();
-        len = (len/3)*(len/3) + (len%3);
-        if(len < 2) return 10;
-        
-        return len*50;
+        len = (len / 3) * (len / 3) + (len % 3);
+        if (len < 2) return 10;
+
+        return len * 50;
     }
 
     private Class<?> changeToPrimitive(Class<?> aClass) {
@@ -191,5 +193,5 @@ public abstract class AbstractImpl {
         }
         return aClass;
     }
-    
+
 }

@@ -5,8 +5,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 
@@ -22,10 +20,9 @@ public class Agent {
      * want to profile.
      *
      * @param agentArgs Command line arguments given to agent when called.
-     * @param inst Instrumentation object that can be used to instrument classses that are given to this agent.
-     * @throws IOException
+     * @param inst Instrumentation object that can be used to instrument classes that are given to this agent.
      */
-    public static void premain(String agentArgs, Instrumentation inst) throws IOException {
+    public static void premain(String agentArgs, Instrumentation inst) {
         loadLoggingConf();
         logger.debug("AgentArgs: " + agentArgs);
 
@@ -50,9 +47,8 @@ public class Agent {
      *
      * @param args String given to loadAgent() when loading this agent.
      * @param inst Instrumentation object that can be used to instrument classes that are given to this agent.
-     * @throws Exception
      */
-    public static void agentmain(String args, Instrumentation inst) throws Exception {
+    public static void agentmain(String args, Instrumentation inst) {
         loadLoggingConf();
 
         try {
@@ -79,7 +75,7 @@ public class Agent {
             inst.addTransformer(new ProfilerTransformer(), true);
             inst.addTransformer(new DenyThreadsInMain(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
-            
+
             retransforming = true;
             inst.retransformClasses(modifiableClasses.toArray(new Class[modifiableClasses.size()]));
             retransforming = false;
@@ -115,10 +111,11 @@ public class Agent {
         // Arrays.toString(inst.getInitiatedClasses(ClassLoader.getSystemClassLoader())));
     }
 
-    
+
     /**
      * Is retransformClasses running.
-     * @return 
+     *
+     * @return Returns true if this is currently retransforming classes
      */
     public static boolean isRetransforming() {
         return retransforming;

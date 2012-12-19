@@ -1,7 +1,5 @@
 package fi.lolcatz.profiler;
 
-import fi.lolcatz.profiledata.ProfileData;
-
 import org.apache.log4j.Logger;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
@@ -23,6 +21,7 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public byte[] transform(
             ClassLoader loader,
             String className,
@@ -46,7 +45,7 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
                     System.out.println("    Wrappable native method " + className + "." + mn.name + " found!");
                     logger.info("    Node: " + mn.toString() + " Desc: " + mn.desc + " sign: " + mn.signature + " exep: " +
                             mn.exceptions + " acc: " + mn.access + " ins: " + mn.instructions + " attrs: " + mn.attrs +
-                    " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
+                            " localvars: " + mn.localVariables + " maxstack: " + mn.maxStack + " maxlocals: " + mn.maxLocals);
 
                     MethodNode wrapper = new MethodNode();
                     wrapper.name = mn.name;
@@ -75,7 +74,6 @@ public class NativeMethodWrapperTransformer implements ClassFileTransformer, Opc
                 }
             }
             cn.methods.addAll(wrappers);
-
 
 
             byte[] newBytecode = Util.generateBytecode(cn);

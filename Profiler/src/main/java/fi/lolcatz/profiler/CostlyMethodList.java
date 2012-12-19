@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Class that stores list of costly methods.
+ * 
+ * Does not take into account the size of the parameters
  */
 public class CostlyMethodList {
 

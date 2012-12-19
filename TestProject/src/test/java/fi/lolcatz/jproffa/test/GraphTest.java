@@ -6,16 +6,16 @@ import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import jproffa.graph.GraphWriter;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class GraphTest {
 
@@ -54,7 +54,7 @@ public class GraphTest {
         }
         writer.save(actual.getTime(), actual.getInput());
     }
-        
+
     @Test
     public void testCreateLinearAndQuadraticGraph() throws Exception {
         List<Integer> list = new ArrayList<Integer>();
@@ -63,11 +63,11 @@ public class GraphTest {
 
         }
         impl.setMethodName("linearFunction");
-        
+
         Output<Integer> actual = impl.runMethod(list);
-        
+
         impl.setMethodName("quadraticFunction");
-        
+
         Output<Integer> param = impl.runMethod(list);
 
         for (Long l : actual.getTime()) {

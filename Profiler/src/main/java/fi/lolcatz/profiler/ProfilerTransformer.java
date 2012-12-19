@@ -24,6 +24,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
      * Transform class using tree API. asm4-guide.pdf pg. 96 {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("unchecked")
     public byte[] transform(
             ClassLoader loader,
             String className,
@@ -67,7 +68,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             if (!Agent.isRetransforming()) ProfileData.initialize();
 
             ProfileData.allowProfiling();
-            
+
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
             logger.fatal(e.getMessage(), e);
@@ -123,8 +124,8 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 case FRAME:
                     break;
                 case METHOD_INSN:
-                    MethodInsnNode n = (MethodInsnNode)node;
-                    if (CostlyMethodList.isMethodCostly(n.owner+ "." +n.name+n.desc))
+                    MethodInsnNode n = (MethodInsnNode) node;
+                    if (CostlyMethodList.isMethodCostly(n.owner + "." + n.name + n.desc))
                         cost += CostlyMethodList.getCostOfCostlyMethods();
                 default:
                     cost += ComplexityCost.getCost(type);
@@ -163,6 +164,7 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
      * @param insns List of instructions where basic blocks are searched from.
      * @return Set of AbstractInsnNode objects that represent first instruction in basic blocks.
      */
+    @SuppressWarnings("unchecked")
     public Set<AbstractInsnNode> findBasicBlockBeginnings(InsnList insns) {
         Set<AbstractInsnNode> basicBlocksBeginnings = new HashSet<AbstractInsnNode>();
         basicBlocksBeginnings.add(insns.getFirst());

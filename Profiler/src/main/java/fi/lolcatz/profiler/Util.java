@@ -1,13 +1,13 @@
 package fi.lolcatz.profiler;
 
 import com.sun.tools.attach.VirtualMachine;
+import fi.lolcatz.profiledata.ProfileData;
 import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-import fi.lolcatz.profiledata.ProfileData;
 
 import java.io.*;
 import java.lang.management.ManagementFactory;
@@ -19,9 +19,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 import org.objectweb.asm.Type;
+import java.util.Map.Entry;
 
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
@@ -89,6 +89,7 @@ public class Util implements Opcodes {
         return cn;
     }
 
+    @SuppressWarnings("unchecked")
     public static String getInsnListString(InsnList insns) {
         StringBuilder sb = new StringBuilder();
         String newline = System.getProperty("line.separator");
@@ -649,7 +650,7 @@ public class Util implements Opcodes {
             String profilerJarPath = jarFile.getPath();
             vm.loadAgent(profilerJarPath);
             vm.detach();
-        } catch(NoClassDefFoundError e) {
+        } catch (NoClassDefFoundError e) {
             throw new LinkageError("NoClassDefFoundError thrown: tools.jar probably not loaded.", e);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -1098,7 +1099,7 @@ public class Util implements Opcodes {
         }
         return -1;
     }
-    
+
     /**
      * Check that agent is loaded. If not, throw RuntimeException.
      */
@@ -1111,7 +1112,7 @@ public class Util implements Opcodes {
 
 class ValueComparator implements Comparator<String> {
 
-    Map<String, Long> base;
+    private Map<String, Long> base;
 
     public ValueComparator(Map<String, Long> base) {
         this.base = base;

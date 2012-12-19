@@ -7,7 +7,6 @@ import org.objectweb.asm.tree.MethodNode;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
-import java.util.Iterator;
 
 public class NativeListerTransformer implements ClassFileTransformer, Opcodes {
     @Override

@@ -1,21 +1,24 @@
 package jproffa.graph;
 
-import java.util.Arrays;
-import java.util.List;
-import javax.swing.JPanel;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.swing.*;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 public class GraphTestWithoutRule {
-    
+
     List<Long> time;
     List<Long> time2;
     List<Integer> input;
     List<Integer> input2;
-    
+
     GraphReader reader = new GraphReader("GraphDataFolder");
-    
+
     public GraphWriter writer = new GraphWriter("GraphTest");
 
     @Before
@@ -35,7 +38,7 @@ public class GraphTestWithoutRule {
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
-    
+
     @Test
     public void testGraphDrawingAgainWithoutRule() throws Exception {
         writer.setMethodName("testGraphDrawingAgainWithoutRule");

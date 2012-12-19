@@ -81,7 +81,8 @@ public class IterativeComplexityExample {
             n = n / 2;
         }
     }
-     /**
+
+    /**
      * Logarithmic function used to test assertLogarithmicApproximated function.
      *
      * @param n
