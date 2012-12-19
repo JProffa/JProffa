@@ -22,3 +22,4 @@ hs_err*.log
 /TestProject/DataFile
 /TestProject/newGraphFile*
 /Graph/GraphDataFolder
+/TestProject/GraphDataFolder
