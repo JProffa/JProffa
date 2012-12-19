@@ -25,7 +25,7 @@ public class Agent {
      * @param inst Instrumentation object that can be used to instrument classses that are given to this agent.
      * @throws IOException
      */
-    public static void premain(String agentArgs, Instrumentation inst) throws IOException {
+    public static void premain(String agentArgs, Instrumentation inst) {
         loadLoggingConf();
         logger.debug("AgentArgs: " + agentArgs);
 
@@ -52,7 +52,7 @@ public class Agent {
      * @param inst Instrumentation object that can be used to instrument classes that are given to this agent.
      * @throws Exception
      */
-    public static void agentmain(String args, Instrumentation inst) throws Exception {
+    public static void agentmain(String args, Instrumentation inst) {
         loadLoggingConf();
 
         try {
