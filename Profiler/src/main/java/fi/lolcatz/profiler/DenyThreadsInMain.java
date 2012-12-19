@@ -38,7 +38,6 @@ public class DenyThreadsInMain implements ClassFileTransformer, Opcodes {
     }
 
     private InsnList denyThreadStartInsnList() {
-
         InsnList insnList = new InsnList();
         final String thread = "java/lang/Thread";
         final String string = "java/lang/String";
@@ -58,15 +57,6 @@ public class DenyThreadsInMain implements ClassFileTransformer, Opcodes {
         insnList.add(new MethodInsnNode(INVOKEVIRTUAL, thread, "getName", "()L" + string + ";"));
         insnList.add(new MethodInsnNode(INVOKEVIRTUAL, string, "equals", "(Ljava/lang/Object;)Z"));
         insnList.add(new JumpInsnNode(IFEQ, endLabel));
-
-//        insnList.add(new MethodInsnNode(INVOKESTATIC, thread, "currentThread", "()L" + thread  + ";"));
-//        insnList.add(new MethodInsnNode(INVOKEVIRTUAL, thread, "getStackTrace", "()[L" + stackTraceElement + ";"));
-//        insnList.add(new InsnNode(ICONST_1));
-//        insnList.add(new InsnNode(AALOAD));
-//        insnList.add(new MethodInsnNode(INVOKEVIRTUAL, stackTraceElement, "getClassName", "()L" + string + ";"));
-//        insnList.add(new MethodInsnNode(
-//                INVOKESTATIC, "fi/lolcatz/profiler/ClassBlacklist", "isBlacklisted", "(L" + string + ";)Z"));
-//        insnList.add(new JumpInsnNode(IFEQ, endLabel));
 
         // throw exception
         insnList.add(new TypeInsnNode(NEW, exception));
