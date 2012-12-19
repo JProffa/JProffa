@@ -22,8 +22,7 @@ public class Agent {
      * want to profile.
      *
      * @param agentArgs Command line arguments given to agent when called.
-     * @param inst Instrumentation object that can be used to instrument classses that are given to this agent.
-     * @throws IOException
+     * @param inst Instrumentation object that can be used to instrument classes that are given to this agent.
      */
     public static void premain(String agentArgs, Instrumentation inst) {
         loadLoggingConf();
