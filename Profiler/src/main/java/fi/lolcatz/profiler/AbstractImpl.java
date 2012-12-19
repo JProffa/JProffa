@@ -12,7 +12,8 @@ public abstract class AbstractImpl {
 
     private static Logger logger = Logger.getLogger(AbstractImpl.class);
 
-    String methodName, className;
+    private String methodName;
+    private String className;
     
     public void setMethodName(String name) {
         this.methodName = name;
