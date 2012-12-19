@@ -47,6 +47,7 @@ public class ObjectTest {
             totalCost[i] = impl.runStatic(impl.getInput(syote));    
         }
         printResults("--- testObjectsLinear ---", totalCost);
+        Util.printCallsPerMethod();
         
         assertTrue(totalCost[0]*2 >= totalCost[1]);
         assertTrue(totalCost[1]*2 >= totalCost[2]);

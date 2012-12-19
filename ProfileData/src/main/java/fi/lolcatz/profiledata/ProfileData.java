@@ -1,6 +1,9 @@
 package fi.lolcatz.profiledata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class that holds counter information from profiling. Use this class by first calling addBasicBlock command for each
@@ -18,8 +21,9 @@ public class ProfileData {
      * amount of bytecodes in the basic block.
      */
     public static long[] basicBlockCost;
-    private static ArrayList<Long> basicBlockCostAccumulator = new ArrayList<Long>();
-    private static ArrayList<String> basicBlockDesc = new ArrayList<String>();
+    private static List<Long> basicBlockCostAccumulator = new ArrayList<Long>();
+    private static List<String> basicBlockDesc = new ArrayList<String>();
+    private static Map<String, Integer> methodStarterBlockMap = new HashMap<String, Integer>();
     
     private static boolean profilingAllowed = true;
     private static int numOfBlockingThreads = 0;
@@ -41,7 +45,7 @@ public class ProfileData {
      * @return Index of the basic block in the arrays.
      */
     public static int addBasicBlock(long cost) {
-        return addBasicBlock(cost, "");
+        return addBasicBlock(cost, "", false);
     }
 
     /**
@@ -53,10 +57,11 @@ public class ProfileData {
      *            Description of the basic block.
      * @return Index of the basic block in the arrays.
      */
-    public static int addBasicBlock(long cost, String desc) {
+    public static int addBasicBlock(long cost, String desc, boolean starter) {
         basicBlockAmount++;
         basicBlockCostAccumulator.add(cost);
         basicBlockDesc.add(desc == null ? "" : desc);
+        if (starter) methodStarterBlockMap.put(desc, basicBlockAmount - 1);
         return basicBlockAmount - 1;
     }
 
@@ -112,7 +117,7 @@ public class ProfileData {
         return basicBlockCost;
     }
 
-    public static ArrayList<String> getBasicBlockDesc() {
+    public static List<String> getBasicBlockDesc() {
         return basicBlockDesc;
     }
 
@@ -143,5 +148,9 @@ public class ProfileData {
             numOfBlockingThreads = 0;
         }
         
+    }
+
+    public static Map<String, Integer> getMethodStarterBlockMap() {
+        return methodStarterBlockMap;
     }
 }

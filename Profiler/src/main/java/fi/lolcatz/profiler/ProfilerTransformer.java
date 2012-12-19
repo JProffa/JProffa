@@ -86,9 +86,19 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
      */
     public void insertCountersToBasicBlocks(MethodNode methodNode, ArrayList<LinkedList<AbstractInsnNode>> basicBlocks) {
         InsnList insns = methodNode.instructions;
+
+        // Don't insert anything into empty (abstract/native) methods
+        if (insns.getFirst() == null) {
+            return;
+        }
+
+        // Add block with count 0 in the beginning to avoid duplicate increments caused by internal GOTOs
+        int index = ProfileData.addBasicBlock(0, className + "." + methodNode.name + methodNode.desc, true);
+        insns.insertBefore(insns.getFirst(), createCounterIncrementInsnList(index));
+
         for (LinkedList<AbstractInsnNode> basicBlockInsns : basicBlocks) {
             long cost = calculateCost(basicBlockInsns);
-            int index = ProfileData.addBasicBlock(cost, className + "." + methodNode.name + methodNode.desc);
+            index = ProfileData.addBasicBlock(cost, className + "." + methodNode.name + methodNode.desc, false);
             AbstractInsnNode basicBlockBeginning = basicBlockInsns.getFirst();
             if (basicBlockBeginning.getType() == LABEL)
                 insns.insert(basicBlockBeginning, createCounterIncrementInsnList(index));

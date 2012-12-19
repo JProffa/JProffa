@@ -1,7 +1,6 @@
 package fi.lolcatz.profiler;
 
 import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.classfile.Dependencies;
 import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -18,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
@@ -682,7 +682,7 @@ public class Util implements Opcodes {
 
         if (classBlacklist == null) classBlacklist = new ArrayList<String>();
 
-        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
 
         classBlacklist.addAll(ClassBlacklist.getBlacklist());
@@ -736,7 +736,7 @@ public class Util implements Opcodes {
 
         ProfileData.disallowProfiling();
 
-        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
 
         if (classBlacklist == null) classBlacklist = new ArrayList<String>();
@@ -768,7 +768,7 @@ public class Util implements Opcodes {
             logger.fatal("Couldn't open filename " + filename + " for writing", e);
             return;
         }
-        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] callsToBasicBlock = ProfileData.callsToBasicBlock;
         long[] basicBlockCost = ProfileData.basicBlockCost;
         try {
@@ -801,7 +801,7 @@ public class Util implements Opcodes {
         }
         ProfileData.disallowProfiling();
 
-        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
 
         if (classBlacklist == null) classBlacklist = new ArrayList<String>();
@@ -823,38 +823,38 @@ public class Util implements Opcodes {
     }
 
     /**
-     * Prints sorted list of classes with most calls.
+     * Prints sorted list of classes with most executed bytecodes.
      */
-    public static void printSortedClasses() {
-        printSortedClasses(null);
+    public static void printCostPerClass() {
+        printCostPerClass(null);
     }
 
     /**
-     * Prints sorted list of classes with most calls.
+     * Prints sorted list of classes with most executed bytecodes.
      *
      * @param classBlacklist List of classnames to blacklist.
      */
-    public static void printSortedClasses(List<String> classBlacklist) {
-        printSortedStuff(classBlacklist, true);
+    public static void printCostPerClass(List<String> classBlacklist) {
+        printCostPerClassOrMethod(classBlacklist, true);
     }
 
     /**
-     * Prints sorted list of methods with most calls.
+     * Prints sorted list of methods with most executed bytecodes.
      */
-    public static void printSortedMethods() {
-        printSortedMethods(null);
+    public static void printCostPerMethod() {
+        printCostPerMethod(null);
     }
 
     /**
-     * Prints sorted list of methods with most calls.
+     * Prints sorted list of methods with most executed bytecodes.
      *
      * @param classBlacklist List of classnames to blacklist.
      */
-    public static void printSortedMethods(List<String> classBlacklist) {
-        printSortedStuff(classBlacklist, false);
+    public static void printCostPerMethod(List<String> classBlacklist) {
+        printCostPerClassOrMethod(classBlacklist, false);
     }
 
-    private static void printSortedStuff(List<String> classBlacklist, boolean stripMethods) {
+    private static void printCostPerClassOrMethod(List<String> classBlacklist, boolean stripMethods) {
         checkAgentIsLoaded();
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
 
@@ -865,7 +865,7 @@ public class Util implements Opcodes {
 
         ProfileData.disallowProfiling();
 
-        ArrayList<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
+        List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
 
         if (classBlacklist == null) classBlacklist = new ArrayList<String>();
@@ -892,7 +892,46 @@ public class Util implements Opcodes {
         Map<String, Long> sortedMap = new TreeMap<String, Long>(new ValueComparator(classCostMap));
         sortedMap.putAll(classCostMap);
         for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
-            System.out.printf("Total: %9d Desc: %s", entry.getValue(), entry.getKey());
+            System.out.printf("Total cost: %9d Method: %s", entry.getValue(), entry.getKey());
+            System.out.println();
+        }
+        ProfileData.allowProfiling();
+    }
+    
+    public static void printCallsPerMethod() {
+        printCallsPerMethod(null);
+    }
+
+    public static void printCallsPerMethod(List<String> classBlacklist) {
+        checkAgentIsLoaded();
+        long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
+
+        if (callsToBasicBlock == null) {
+            System.out.println("ProfileData hasn't been initialized (no classes loaded).");
+            return;
+        }
+
+        ProfileData.disallowProfiling();
+
+        Map<String, Integer> methodStarterBlockMap = ProfileData.getMethodStarterBlockMap();
+
+        if (classBlacklist == null) {
+            classBlacklist = new ArrayList<String>();
+        }
+        classBlacklist.addAll(ClassBlacklist.getBlacklist());
+
+        Map<String, Long> methodCallsMap = new TreeMap<String, Long>();
+        for (Entry<String, Integer> e : methodStarterBlockMap.entrySet()) {
+            methodCallsMap.put(e.getKey(), callsToBasicBlock[e.getValue()]);
+        }
+
+        Map<String, Long> sortedMap = new TreeMap<String, Long>(new ValueComparator(methodCallsMap));
+        sortedMap.putAll(methodCallsMap);
+        for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
+            if (entry.getValue() == 0) {
+                break;
+            }
+            System.out.printf("Calls: %8d Method: %s", entry.getValue(), entry.getKey());
             System.out.println();
         }
         ProfileData.allowProfiling();

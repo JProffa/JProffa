@@ -48,13 +48,13 @@ public class ComplexityLogarithmicTest {
         long syote = 1000L;
         
         totalCost[0] = impl.runStatic(impl.getInput(syote));
-        Util.printSortedClasses();
+        Util.printCostPerClass();
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.runStatic(impl.getInput(syote));
             System.out.println(i+1 + ": -------");
-            Util.printSortedClasses();
+            Util.printCostPerClass();
         }
         printResults("--- testLogarithmic ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
@@ -80,13 +80,13 @@ public class ComplexityLogarithmicTest {
         
         totalCost[0] = impl.runStatic(impl.getInput(syote));
         System.out.println(1 + ": -------");
-        Util.printSortedClasses();
+        Util.printCostPerClass();
         
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.runStatic(impl.getInput(syote));
             System.out.println(i+1 + ": -------");
-            Util.printSortedClasses();
+            Util.printCostPerClass();
             
         }
         printResults("--- testLogarithmicLarge ---", totalCost);
@@ -113,13 +113,13 @@ public class ComplexityLogarithmicTest {
         
         totalCost[0] = impl.runStatic(impl.getInput(syote));
         System.out.println(1 + ": -------");
-        Util.printSortedClasses();
+        Util.printCostPerClass();
             
         for (int i = 1; i < totalCost.length; i++) {
             syote = (long) (syote * Math.pow(4, i));
             totalCost[i] = impl.runStatic(impl.getInput(syote)); 
             System.out.println(i+1 + ": -------");
-            Util.printSortedClasses();
+            Util.printCostPerClass();
         }
         printResults("--- testLogarithmicHuge ---", totalCost);
         assertTrue(totalCost[0]*2 >= totalCost[1]);
