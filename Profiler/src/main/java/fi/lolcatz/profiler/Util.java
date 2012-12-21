@@ -651,7 +651,7 @@ public class Util implements Opcodes {
             vm.loadAgent(profilerJarPath);
             vm.detach();
         } catch (NoClassDefFoundError e) {
-            throw new LinkageError("NoClassDefFoundError thrown: tools.jar probably not loaded.", e);
+            throw new RuntimeException("NoClassDefFoundError thrown: tools.jar probably not loaded.", e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
