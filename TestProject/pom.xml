@@ -2,9 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mycompany</groupId>
+    <parent>
+       <groupId>net.jproffa</groupId>
+       <artifactId>JProffa</artifactId>
+       <version>1.0-SNAPSHOT</version>
+    </parent>
+    
     <artifactId>TestProject</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>TestProject</name>
@@ -40,7 +44,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>fi.lolcatz.profiledata</groupId>
+                                    <groupId>net.jproffa</groupId>
                                     <artifactId>ProfileData</artifactId>
                                     <version>1.0-SNAPSHOT</version>
                                     <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
@@ -86,14 +90,14 @@
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>fi.lolcatz.profiler</groupId>
+            <groupId>net.jproffa</groupId>
             <artifactId>Profiler</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>test</scope>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>jproffa</groupId>
+            <groupId>net.jproffa</groupId>
             <artifactId>Graph</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

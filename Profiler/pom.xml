@@ -2,9 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>fi.lolcatz.profiler</groupId>
+    <parent>
+       <groupId>net.jproffa</groupId>
+       <artifactId>JProffa</artifactId>
+       <version>1.0-SNAPSHOT</version>
+    </parent>
+    
     <artifactId>Profiler</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Profiler</name>
@@ -80,7 +84,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -115,7 +118,7 @@
         </dependency>
 
         <dependency>
-            <groupId>fi.lolcatz.profiledata</groupId>
+            <groupId>net.jproffa</groupId>
             <artifactId>ProfileData</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
