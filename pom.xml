@@ -11,6 +11,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     
+    <url>http://jproffa.net/</url>
+    
     <properties>
         <project-version>1.0-SNAPSHOT</project-version>
     </properties>
