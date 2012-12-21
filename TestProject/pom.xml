@@ -46,7 +46,7 @@
                                 <artifactItem>
                                     <groupId>net.jproffa</groupId>
                                     <artifactId>ProfileData</artifactId>
-                                    <version>1.0-SNAPSHOT</version>
+                                    <version>${project-version}</version>
                                     <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
@@ -92,14 +92,14 @@
         <dependency>
             <groupId>net.jproffa</groupId>
             <artifactId>Profiler</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project-version}</version>
             <scope>test</scope>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>net.jproffa</groupId>
             <artifactId>Graph</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project-version}</version>
         </dependency>
     </dependencies>
 </project>

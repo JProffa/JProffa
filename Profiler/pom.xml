@@ -108,7 +108,7 @@
         <dependency>
             <groupId>net.jproffa</groupId>
             <artifactId>ProfileData</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project-version}</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>

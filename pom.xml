@@ -4,8 +4,16 @@
 
     <groupId>net.jproffa</groupId>
     <artifactId>JProffa</artifactId>
+    <!--
+    Use `mvn versions:update-child-modules` to update the version.
+    For more info, see http://mojo.codehaus.org/versions-maven-plugin/
+    -->
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    
+    <properties>
+        <project-version>1.0-SNAPSHOT</project-version>
+    </properties>
 
     <name>JProffa master</name>
 
