@@ -76,7 +76,7 @@ public class ComplexityLinearTest {
         for (Long l : o.getTime()) {
             assertTrue(l > 0);
         }
-        assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+//        assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
         assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.0));
         ComplexityAnalysis.assertLinear(o);
         ComplexityAnalysis.assertNotQuadratic(o);
