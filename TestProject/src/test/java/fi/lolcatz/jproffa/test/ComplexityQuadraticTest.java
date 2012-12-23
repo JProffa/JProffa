@@ -76,7 +76,7 @@ public class ComplexityQuadraticTest {
             assertTrue(l > 0);
         }
         assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.1));
+//        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.1));
         ComplexityAnalysis.assertQuadratic("assertQuadratic", o);
 
     }
@@ -92,7 +92,7 @@ public class ComplexityQuadraticTest {
             assertTrue(l > 0);
         }
         assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.1));
-        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.1));
+//        assertFalse("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.1));
         ComplexityAnalysis.assertQuadratic(o);
 
     }
