@@ -1,4 +1,4 @@
-package jproffa.graph;
+    package jproffa.graph;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,7 +38,7 @@ public class GraphTestWithRule {
         JPanel p = renderer.getJPanel();
         Thread.sleep(5000);
         assertNotNull(p);
-        assertNotNull(renderer.getChart());
+        assertNotNull(renderer.getChart());   
     }
 
     @Test

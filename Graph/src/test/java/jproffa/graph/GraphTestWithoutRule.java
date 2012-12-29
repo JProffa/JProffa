@@ -6,9 +6,8 @@ import org.junit.Test;
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.jfree.data.xy.XYSeriesCollection;
+import static org.junit.Assert.*;
 
 public class GraphTestWithoutRule {
 
@@ -35,6 +34,8 @@ public class GraphTestWithoutRule {
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();
+        XYSeriesCollection c = (XYSeriesCollection)renderer.getDataset();
+        assertEquals(c.getSeries().size(), 2);
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
@@ -48,6 +49,8 @@ public class GraphTestWithoutRule {
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();
+        XYSeriesCollection c = (XYSeriesCollection)renderer.getDataset();
+        assertEquals(c.getSeries().size(), 2);
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }

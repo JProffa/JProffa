@@ -14,6 +14,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.Plot;
+import org.jfree.data.general.Dataset;
 
 public class GraphRenderer {
 
@@ -24,9 +27,9 @@ public class GraphRenderer {
         chart = createChart(dataset);
     }
 
-    /** 
+    /**
      * Returns the generated chart as JPanel.
-     * 
+     *
      * @return new JPanel containing the chart
      */
     public JPanel getJPanel() {
@@ -59,6 +62,15 @@ public class GraphRenderer {
         return dataset;
     }
 
+    public Dataset getDataset() {
+        Dataset result = null;
+        if (chart != null) {
+            Plot plot = chart.getPlot();
+            result = ((XYPlot) plot).getDataset();
+        }
+        return result;
+    }
+
     /*
      * Builds and returns the chart from a custom dataset.
      */
@@ -72,7 +84,7 @@ public class GraphRenderer {
                 true, // include legend
                 true, // tooltips
                 false // urls
-        );
+                );
 
         result.setBackgroundPaint(Color.white);
 
