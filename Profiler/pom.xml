@@ -52,8 +52,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${java-spec-version}</source>
+                    <target>${java-spec-version}</target>
                 </configuration>
             </plugin>
 
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-all</artifactId>
-            <version>4.0</version>
+            <version>4.1</version>
         </dependency>
 
         <dependency>

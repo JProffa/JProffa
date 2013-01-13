@@ -8,10 +8,10 @@
        <version>1.0-SNAPSHOT</version>
     </parent>
     
-    <artifactId>TestProject</artifactId>
+    <artifactId>Java7TestProject</artifactId>
     <packaging>jar</packaging>
 
-    <name>TestProject</name>
+    <name>Java7TestProject</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -58,8 +58,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.5.1</version>
                 <configuration>
-                    <source>${java-spec-version}</source>
-                    <target>${java-spec-version}</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <compilerArgument>-Djava.endorsed.dirs="${project.build.directory}/endorsed"</compilerArgument>
                 </configuration>
             </plugin>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
-            <version>1.6.0</version>
+            <version>1.7.0</version>
             <scope>system</scope>
             <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
@@ -94,11 +94,6 @@
             <version>${project-version}</version>
             <scope>test</scope>
             <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.jproffa</groupId>
-            <artifactId>Graph</artifactId>
-            <version>${project-version}</version>
         </dependency>
     </dependencies>
 </project>

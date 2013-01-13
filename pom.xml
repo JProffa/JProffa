@@ -15,6 +15,7 @@
     
     <properties>
         <project-version>1.0-SNAPSHOT</project-version>
+        <java-spec-version>1.6</java-spec-version>
     </properties>
 
     <name>JProffa master</name>
@@ -24,5 +25,9 @@
         <module>Profiler</module>
         <module>Graph</module>
         <module>TestProject</module>
+        <!--
+        Java7TestProject is not declared as a submodule to enable
+        the master project to be compiled with Java 1.6.
+        -->
     </modules>
 </project>

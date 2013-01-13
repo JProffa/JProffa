@@ -71,7 +71,12 @@ public class Util implements Opcodes {
      * @return Bytecode.
      */
     public static byte[] generateBytecode(ClassNode cn) {
-        ClassWriter cw = new ClassWriter(0);
+        int flags = 0;
+        if (cn.version >= 50) {
+            // Older classes may use JSR/RET, which prevents ASM from computing frames.
+            flags = ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS;
+        }
+        ClassWriter cw = new ClassWriter(flags);
         cn.accept(cw);
         return cw.toByteArray();
     }
