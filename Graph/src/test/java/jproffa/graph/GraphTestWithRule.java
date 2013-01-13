@@ -32,7 +32,7 @@ public class GraphTestWithRule {
     public void testGraphDrawing() throws Exception {
         writer.save(time, input);
         writer.save(time2, input2);
-        List<Line> list = reader.get("GraphTest", "testGraphDrawing");
+        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawing");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();
@@ -45,7 +45,7 @@ public class GraphTestWithRule {
     public void testGraphDrawingAgain() throws Exception {
         writer.save(time, input);
         writer.save(time2, input2);
-        List<Line> list = reader.get("GraphTest", "testGraphDrawingAgain");
+        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawingAgain");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();

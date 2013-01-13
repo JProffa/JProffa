@@ -18,7 +18,7 @@ public class GraphTestWithoutRule {
 
     GraphReader reader = new GraphReader("GraphDataFolder");
 
-    public GraphWriter writer = new GraphWriter("GraphTest");
+    public GraphWriter writer = new GraphWriter(GraphTestWithoutRule.class.getName());
 
     @Before
     public void setUp() {
@@ -30,7 +30,7 @@ public class GraphTestWithoutRule {
         writer.setMethodName("testGraphDrawingWithoutRule");
         writer.save(time, input);
         writer.save(time2, input2);
-        List<Line> list = reader.get("GraphTest", "testGraphDrawingWithoutRule");
+        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawingWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();
@@ -45,7 +45,7 @@ public class GraphTestWithoutRule {
         writer.setMethodName("testGraphDrawingAgainWithoutRule");
         writer.save(time, input);
         writer.save(time2, input2);
-        List<Line> list = reader.get("GraphTest", "testGraphDrawingAgainWithoutRule");
+        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawingAgainWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();
