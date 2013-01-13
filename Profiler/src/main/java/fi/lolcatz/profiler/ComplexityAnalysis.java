@@ -1,16 +1,11 @@
 package fi.lolcatz.profiler;
 
-import org.apache.log4j.Logger;
-
 public class ComplexityAnalysis {
-
-    private static Logger logger = Logger.getLogger(ComplexityAnalysis.class);
-
     private ComplexityAnalysis() {
     }
 
     /**
-     * Throws AssertionError if the parameter is not linear
+     * Throws AssertionError if the parameter is not linear.
      *
      * @throws AssertionError
      */
@@ -21,7 +16,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is not linear
+     * Throws AssertionError if the parameter is not linear.
      *
      * @throws AssertionError
      */
@@ -32,7 +27,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is linear
+     * Throws AssertionError if the parameter is linear.
      *
      * @throws AssertionError
      */
@@ -43,7 +38,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is linear
+     * Throws AssertionError if the parameter is linear.
      *
      * @throws AssertionError
      */
@@ -54,7 +49,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is slower than linear
+     * Throws AssertionError if the parameter is slower than linear.
      *
      * @throws AssertionError
      */
@@ -65,7 +60,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is slower than linear
+     * Throws AssertionError if the parameter is slower than linear.
      *
      * @throws AssertionError
      */
@@ -76,7 +71,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is not quadratic
+     * Throws AssertionError if the parameter is not quadratic.
      *
      * @throws AssertionError
      */
@@ -87,7 +82,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is not quadratic
+     * Throws AssertionError if the parameter is not quadratic.
      *
      * @throws AssertionError
      */
@@ -98,7 +93,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is quadratic
+     * Throws AssertionError if the parameter is quadratic.
      *
      * @throws AssertionError
      */
@@ -109,7 +104,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is quadratic
+     * Throws AssertionError if the parameter is quadratic.
      *
      * @throws AssertionError
      */
@@ -120,7 +115,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is slower than quadratic
+     * Throws AssertionError if the parameter is slower than quadratic.
      *
      * @throws AssertionError
      */
@@ -131,7 +126,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is slower than quadratic
+     * Throws AssertionError if the parameter is slower than quadratic.
      *
      * @throws AssertionError
      */
@@ -142,7 +137,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is slower than quadratic
+     * Throws AssertionError if the parameter is slower than quadratic.
      *
      * @throws AssertionError
      */
@@ -153,7 +148,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is slower than quadratic
+     * Throws AssertionError if the parameter is slower than quadratic.
      *
      * @throws AssertionError
      */
@@ -164,7 +159,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is not NlogN
+     * Throws AssertionError if the parameter is not NlogN.
      *
      * @throws AssertionError
      */
@@ -175,7 +170,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is not NlogN
+     * Throws AssertionError if the parameter is not NlogN.
      *
      * @throws AssertionError
      */
@@ -186,7 +181,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is NlogN
+     * Throws AssertionError if the parameter is NlogN.
      *
      * @throws AssertionError
      */
@@ -197,7 +192,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Throws AssertionError if the parameter is NlogN
+     * Throws AssertionError if the parameter is NlogN.
      *
      * @throws AssertionError
      */
@@ -208,7 +203,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Calculates the linearity of the parameter output
+     * Calculates the linearity of the parameter output.
      *
      * @return True if the output is linear, false if the output is not linear
      */
@@ -234,7 +229,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Calculates the runtime speed of the parameter output
+     * Calculates the runtime speed of the parameter output.
      *
      * @return True if the output is linear or faster, false if the output is
      *         slower
@@ -261,8 +256,9 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Calculates whether the parameter output is O(n*n)
-     * <p/>
+     * Calculates whether the parameter output is O(n*n).
+     * 
+     * <p>
      * a, b and c are from the function an*n+bn+c
      * denom is the common divider for them.
      *
@@ -298,8 +294,9 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Calculates the runtime speed of the parameter output
-     * <p/>
+     * Calculates the runtime speed of the parameter output.
+     * 
+     * <p>
      * a, b and c are from the function an*n+bn+c
      * denom is the common divider for them.
      *
@@ -336,8 +333,9 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Calculates the runtime speed of the parameter output
-     * <p/>
+     * Calculates the runtime speed of the parameter output.
+     * 
+     * <p>
      * a, b and c are from the function an*n+bn+c
      * denom is the common divider for them.
      *
@@ -374,7 +372,7 @@ public class ComplexityAnalysis {
     }
 
     /**
-     * Calculates whether the class variable output is O(NlogN)
+     * Calculates whether the class variable output is O(NlogN).
      *
      * @return True if output is O(NlogN), false if not
      */

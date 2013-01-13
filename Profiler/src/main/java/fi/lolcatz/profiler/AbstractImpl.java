@@ -41,9 +41,13 @@ public abstract class AbstractImpl {
         Class<?> c = Class.forName(className);
         outer:
         for (Method method : c.getMethods()) {
-            if (!methodName.equals(method.getName())) continue;
+            if (!methodName.equals(method.getName())) {
+                continue;
+            }
             Class<?>[] methodParameterTypes = method.getParameterTypes();
-            if (methodParameterTypes.length != parameterTypes.length) continue;
+            if (methodParameterTypes.length != parameterTypes.length) {
+                continue;
+            }
             for (int i = 0; i < parameterTypes.length; i++) {
                 if (!changeToPrimitive(parameterTypes[i]).equals(changeToPrimitive(methodParameterTypes[i]))) {
                     continue outer;
@@ -73,31 +77,27 @@ public abstract class AbstractImpl {
      * @return Total cost
      * @throws Exception
      */
-    public long runOnce(Object instance, Object... inputs) throws Exception {
-        ProfileData.disallowProfiling();
-        Method method;
-        try {
+    public long runOnce(final Object instance, final Object... inputs) throws Exception {
+        for (int i = 0; i < 5; ++i) {
             System.gc();
             System.runFinalization();
-            ProfileData.resetCounters();
+        }
 
-            Class<?>[] parameterTypes = new Class<?>[inputs.length];
-            for (int i = 0; i < inputs.length; i++) {
-                parameterTypes[i] = inputs[i].getClass();
-            }
-            method = getMethod(parameterTypes);
-            if (!Modifier.isStatic(method.getModifiers()) && instance == null) {
-                throw new NullPointerException("Cannot access instance method of a null instance");
-            }
-        } finally {
-            ProfileData.allowProfiling();
+        Class<?>[] parameterTypes = new Class<?>[inputs.length];
+        for (int i = 0; i < inputs.length; i++) {
+            parameterTypes[i] = inputs[i].getClass();
         }
-        try {
-            method.invoke(instance, (Object[]) inputs);
-        } catch (Exception x) {
-            logger.fatal("Exception when running", x);
-            throw x;
+        final Method method = getMethod(parameterTypes);
+        if (!Modifier.isStatic(method.getModifiers()) && instance == null) {
+            throw new NullPointerException("Cannot access instance method of a null instance");
         }
+        
+        WithProfiling.in(new RunnableEx() {
+            @Override
+            public void run() throws Exception {
+                method.invoke(instance, (Object[]) inputs);
+            }
+        });
         return Util.getTotalCost();
     }
 
@@ -111,7 +111,9 @@ public abstract class AbstractImpl {
      * @throws Exception
      */
     public long runNTimes(int n, Object instance, Object... inputs) throws Exception {
-        if (n < 1) throw new Exception("runNTimes(): n must be at least 1");
+        if (n < 1) {
+            throw new IllegalArgumentException("runNTimes(): n must be at least 1");
+        }
         long[] times = new long[n];
         for (int i = 0; i < n; i++) {
             times[i] = runOnce(instance, inputs);
@@ -158,7 +160,9 @@ public abstract class AbstractImpl {
     public long getMarginOfError(long cost) {
         long len = Long.toString(cost).length();
         len = (len / 3) * (len / 3) + (len % 3);
-        if (len < 2) return 10;
+        if (len < 2) {
+            return 10;
+        }
 
         return len * 50;
     }

@@ -1,6 +1,12 @@
 package fi.lolcatz.profiler;
 
-public class ComplexityCost {
+/**
+ * Knows the approximate relative costs of different JVM instructions.
+ * 
+ * Derived from <a href="http://www.jopdesign.com/doc/timing.pdf">http://www.jopdesign.com/doc/timing.pdf</a>.
+ * More research into this subject would be welcome.
+ */
+public class InstructionCost {
 
     private static int[] complexityCost = new int[256];
     private static boolean wantToUse = true;
@@ -270,7 +276,9 @@ public class ComplexityCost {
     }
 
     public static int getCost(int opcode) {
-        if (wantToUse) return complexityCost[opcode];
+        if (wantToUse) {
+            return complexityCost[opcode];
+        }
         return 1;
     }
 

@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
-import org.objectweb.asm.Opcodes;
+import static org.objectweb.asm.Opcodes.*;
 import org.objectweb.asm.tree.*;
 
 import java.io.*;
@@ -26,7 +26,7 @@ import java.util.Map.Entry;
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
 
-public class Util implements Opcodes {
+public class Util {
 
     private static boolean agentLoaded = false;
     private static Logger logger = Logger.getLogger(Util.class.getName());
@@ -644,8 +644,9 @@ public class Util implements Opcodes {
      * Load profiler agent to the running Java VM.
      */
     public static void loadAgent() {
-        if (agentLoaded) return;
-        agentLoaded = true;
+        if (agentLoaded) {
+            return;
+        }
         String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
         String pid = nameOfRunningVM.substring(0, nameOfRunningVM.indexOf('@'));
         // System.out.println("VM pid: " + pid);
@@ -654,6 +655,7 @@ public class Util implements Opcodes {
             File jarFile = new File(Util.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
             String profilerJarPath = jarFile.getPath();
             vm.loadAgent(profilerJarPath);
+            agentLoaded = true;
             vm.detach();
         } catch (NoClassDefFoundError e) {
             throw new RuntimeException("NoClassDefFoundError thrown: tools.jar probably not loaded.", e);
@@ -687,8 +689,6 @@ public class Util implements Opcodes {
             return 0;
         }
 
-        ProfileData.disallowProfiling();
-
         if (classBlacklist == null) classBlacklist = new ArrayList<String>();
 
         List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
@@ -706,8 +706,6 @@ public class Util implements Opcodes {
             long cost = basicBlockCost[i];
             totalCost += calls * cost;
         }
-
-        ProfileData.allowProfiling();
 
         return totalCost;
     }
@@ -743,8 +741,6 @@ public class Util implements Opcodes {
             return;
         }
 
-        ProfileData.disallowProfiling();
-
         List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
 
@@ -761,7 +757,6 @@ public class Util implements Opcodes {
                     basicBlockDesc.get(i));
             System.out.println();
         }
-        ProfileData.allowProfiling();
     }
 
     public static String getBasicBlockCostsString(boolean showBlocksWithNoCalls) {
@@ -806,7 +801,6 @@ public class Util implements Opcodes {
             logger.warn("ProfileData hasn't been initialized (no classes loaded).");
             return "";
         }
-        ProfileData.disallowProfiling();
 
         List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
@@ -825,7 +819,6 @@ public class Util implements Opcodes {
                     basicBlockDesc.get(i)));
             sb.append(System.getProperty("line.separator"));
         }
-        ProfileData.allowProfiling();
         return sb.toString();
     }
 
@@ -870,8 +863,6 @@ public class Util implements Opcodes {
             return;
         }
 
-        ProfileData.disallowProfiling();
-
         List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
 
@@ -902,7 +893,6 @@ public class Util implements Opcodes {
             System.out.printf("Total cost: %9d Method: %s", entry.getValue(), entry.getKey());
             System.out.println();
         }
-        ProfileData.allowProfiling();
     }
 
     /**
@@ -918,9 +908,7 @@ public class Util implements Opcodes {
      * @param classBlacklist List of classnames to blacklist.
      */
     public static void printCallsPerMethod(List<String> classBlacklist) {
-        ProfileData.disallowProfiling();
         System.out.print(getCallsPerMethods(classBlacklist));
-        ProfileData.allowProfiling();
     }
 
     /**
@@ -930,7 +918,6 @@ public class Util implements Opcodes {
      * @return List of calls per method as a string.
      */
     public static String getCallsPerMethods(List<String> classBlacklist) {
-        ProfileData.disallowProfiling();
         Map<String, Long> sortedMap = getCallsPerMethodMap(classBlacklist);
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
@@ -940,7 +927,6 @@ public class Util implements Opcodes {
             sb.append(String.format("Calls: %8d Method: %s", entry.getValue(), entry.getKey()));
             sb.append(System.getProperty("line.separator"));
         }
-        ProfileData.allowProfiling();
         return sb.toString();
     }
 
@@ -958,8 +944,6 @@ public class Util implements Opcodes {
             System.out.println("ProfileData hasn't been initialized (no classes loaded).");
             return null;
         }
-
-        ProfileData.disallowProfiling();
 
         Map<String, Integer> methodStarterBlockMap = ProfileData.getMethodStarterBlockMap();
 
@@ -980,7 +964,6 @@ public class Util implements Opcodes {
 
         Map<String, Long> sortedMap = new TreeMap<String, Long>(new ValueComparator(methodCallsMap));
         sortedMap.putAll(methodCallsMap);
-        ProfileData.allowProfiling();
         return sortedMap;
     }
 
@@ -994,10 +977,8 @@ public class Util implements Opcodes {
         if (m == null) {
             return 0;
         }
-        ProfileData.disallowProfiling();
         Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(null);
         Long cost = callsPerMethodMap.get(m.getDeclaringClass().getName().replace('.', '/') + "." + m.getName() + Type.getMethodDescriptor(m));
-        ProfileData.allowProfiling();
         return cost == null ? 0 : cost.longValue();
     }
 
@@ -1011,10 +992,8 @@ public class Util implements Opcodes {
         if (c == null) {
             return 0;
         }
-        ProfileData.disallowProfiling();
         Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(null);
         Long cost = callsPerMethodMap.get(c.getDeclaringClass().getName().replace('.', '/') + "." + c.getName() + Type.getConstructorDescriptor(c));
-        ProfileData.allowProfiling();
         return cost == null ? 0 : cost.longValue();
     }
 
@@ -1025,7 +1004,6 @@ public class Util implements Opcodes {
      * @return Number of calls.
      */
     public static long getConstructorCalls(Class<?> c) {
-        ProfileData.disallowProfiling();
         Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(null);
         long calls = 0;
         for (Entry<String, Long> e : callsPerMethodMap.entrySet()) {
@@ -1033,7 +1011,6 @@ public class Util implements Opcodes {
                 calls += e.getValue();
             }
         }
-        ProfileData.allowProfiling();
         return calls;
     }
 
@@ -1060,7 +1037,6 @@ public class Util implements Opcodes {
      * @return List of allocations per object as a string.
      */
     public static String getObjectAllocationData(List<String> classBlacklist) {
-        ProfileData.disallowProfiling();
         Map<String, Long> sortedMap = getObjectAllocationDataMap(classBlacklist);
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Long> entry : sortedMap.entrySet()) {
@@ -1070,7 +1046,6 @@ public class Util implements Opcodes {
             sb.append(String.format("Allocations: %8d Constructor: %s", entry.getValue(), entry.getKey()));
             sb.append(System.getProperty("line.separator"));
         }
-        ProfileData.allowProfiling();
         return sb.toString();
     }
 
@@ -1081,7 +1056,6 @@ public class Util implements Opcodes {
      * @return Sorted Map<String, Long> containing the data.
      */
     public static Map<String, Long> getObjectAllocationDataMap(List<String> classBlacklist) {
-        ProfileData.disallowProfiling();
         Map<String, Long> callsPerMethodMap = getCallsPerMethodMap(classBlacklist);
         Map<String, Long> constructors = new TreeMap<String, Long>();
         for (Entry<String, Long> e : callsPerMethodMap.entrySet()) {
@@ -1091,7 +1065,6 @@ public class Util implements Opcodes {
         }
         Map<String, Long> sortedMap = new TreeMap<String, Long>(new ValueComparator(constructors));
         sortedMap.putAll(constructors);
-        ProfileData.allowProfiling();
         return sortedMap;
     }
 

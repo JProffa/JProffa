@@ -2,10 +2,10 @@ package fi.lolcatz.jproffa.test;
 
 import fi.lolcatz.jproffa.implementations.IntegerImpl;
 import fi.lolcatz.jproffa.testproject.IterativeComplexityExample;
-import fi.lolcatz.profiler.ClassBlacklist;
+import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
-import fi.lolcatz.profiler.Util;
+import fi.lolcatz.profiler.WithProfiling;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,25 +14,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import org.junit.Rule;
 
 public class ComplexityLinearTest {
+    
+    @Rule public WithProfiling profiling = WithProfiling.rule();
 
-    public ComplexityLinearTest() {
-    }
-
-    public static long freshTime;
-    IntegerImpl impl;
+    private static long unprofiledTime;
+    private IntegerImpl impl;
 
     @BeforeClass
     public static void classSetup() {
-        System.out.println("Testing");
+        ProfileData.disableProfiling();
+        System.out.println("Running unprofiled benchmark");
         long startTime = System.currentTimeMillis();
         IterativeComplexityExample.linearFunction(200000000);
         long endTime = System.currentTimeMillis();
-        freshTime = endTime - startTime;
-
-        ClassBlacklist.add(ComplexityLinearTest.class);
-        Util.loadAgent();
+        unprofiledTime = endTime - startTime;
     }
 
     @Before
@@ -68,21 +66,6 @@ public class ComplexityLinearTest {
     }
 
     @Test
-    public void testLinearWithFramework() throws Exception {
-        impl.setMethodName("linearFunction");
-
-        List<Integer> list = Arrays.asList(1000, 3000, 2000, 4000, 6000, 5000, 7000);
-        Output<Integer> o = impl.runMethod(list);
-        for (Long l : o.getTime()) {
-            assertTrue(l > 0);
-        }
-//        assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
-        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.0));
-        ComplexityAnalysis.assertLinear(o);
-        ComplexityAnalysis.assertNotQuadratic(o);
-    }
-
-    @Test
     public void testLinearLarge() throws Exception {
         impl.setMethodName("linearFunction");
 
@@ -91,12 +74,28 @@ public class ComplexityLinearTest {
         for (Long l : o.getTime()) {
             assertTrue(l > 0);
         }
-        assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
-//        assertTrue("isQuadraticOrFaster()", framework.isQuadraticOrFaster(o, 1.0));
-        ComplexityAnalysis.assertLinear("assertLinear", o);
-//        framework.assertNotQuadratic("assertNotQuadratic", o);
+        /*assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.0));
+        ComplexityAnalysis.assertLinear("assertLinear", o);*/
+System.out.println(o);
+        ComplexityAnalysis.assertLinearOrFaster("assertLinear", o, 1.0);
+        ComplexityAnalysis.assertQuadraticOrFaster("assertQuadraticOrFaster", o, 1.0);
     }
+    
+    @Test
+    public void testLinearOrFaster() throws Exception {
+        impl.setMethodName("linearFunction");
 
+        List<Integer> list = Arrays.asList(1000, 3000, 2000, 4000, 6000, 5000, 7000);
+        Output<Integer> o = impl.runMethod(list);
+        for (Long l : o.getTime()) {
+            assertTrue(l > 0);
+        }
+        assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
+        assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.0));
+        ComplexityAnalysis.assertLinear(o);
+        ComplexityAnalysis.assertNotQuadratic(o);
+    }
 
     @Test
     public void testGenerateOutput() throws Exception {
@@ -109,7 +108,6 @@ public class ComplexityLinearTest {
         assertTrue("isQuadraticOrFaster()", ComplexityAnalysis.isQuadraticOrFaster(o, 1.0));
         assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.0));
         ComplexityAnalysis.assertLinear("AssertLinear", o);
-//        framework.assertNotQuadratic("assertNotQuadratic", o);
     }
 
     @Test
@@ -119,7 +117,6 @@ public class ComplexityLinearTest {
         Output<Integer> o = impl.runMethod(list);
         assertTrue("isLinearOrFaster()", ComplexityAnalysis.isLinearOrFaster(o, 1.1));
         ComplexityAnalysis.assertLinear("assertLinear", o);
-//        framework.assertNotQuadratic("assertNotQuadratic", o);
     }
 
     @Test
@@ -150,9 +147,9 @@ public class ComplexityLinearTest {
         ComplexityAnalysis.assertNotQuadratic(o);
     }
 
-    /**
-     * Noting, that profiling nullifies all system related optimization,
-     * but if code is not optimized to begin with (like in the example)
+    /*
+     * Note that profiling nullifies many automatic optimizations,
+     * but if code is not optimized to begin with (like in the example),
      * its about as fast whether or not you profile it.
      */
 
@@ -163,10 +160,10 @@ public class ComplexityLinearTest {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
 
-        System.out.println("Runtime without profiler was " + freshTime + "ms");
+        System.out.println("Runtime without profiler was " + unprofiledTime + "ms");
         System.out.println("Runtime with profiler was " + totalTime + "ms");
 
-        assertTrue(totalTime < 10 * freshTime);
+        assertTrue(totalTime < 10 * unprofiledTime);
 
     }
 

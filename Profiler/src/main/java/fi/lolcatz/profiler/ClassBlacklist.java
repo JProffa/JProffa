@@ -1,18 +1,19 @@
 package fi.lolcatz.profiler;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Class that stores list of blacklisted classes.
+ * Stores the list of blacklisted classes.
  */
 public class ClassBlacklist {
 
-    private static List<String> classBlacklist;
+    // TODO: perhaps optimize with a Trie or similar?
+    private static final Set<String> classBlacklist;
 
     static {
-        classBlacklist = new ArrayList<String>();
+        classBlacklist = new HashSet<String>();
 
         // Add classes blacklisted by default
 
@@ -54,17 +55,8 @@ public class ClassBlacklist {
      *
      * @return List of blacklisted classes
      */
-    public static List<String> getBlacklist() {
+    public static Set<String> getBlacklist() {
         return classBlacklist;
-    }
-
-    /**
-     * Set list of classes to be blacklisted.
-     *
-     * @param classBlacklistToSet List of classes to be blacklisted
-     */
-    public static void setBlacklist(List<String> classBlacklistToSet) {
-        classBlacklist = classBlacklistToSet;
     }
 
     /**
@@ -75,7 +67,9 @@ public class ClassBlacklist {
      */
     public static boolean isBlacklisted(String className) {
         for (String blacklistedClass : classBlacklist) {
-            if (className.startsWith(blacklistedClass)) return true;
+            if (className.startsWith(blacklistedClass)) {
+                return true;
+            }
         }
         return false;
     }
@@ -91,14 +85,5 @@ public class ClassBlacklist {
             className = className.replace('.', '/');
             classBlacklist.add(className);
         }
-    }
-
-    /**
-     * Add given classnames to the blacklist.
-     *
-     * @param classNamesToBlacklist List of classnames to blacklist.
-     */
-    public static void add(String... classNamesToBlacklist) {
-        classBlacklist.addAll(Arrays.asList(classNamesToBlacklist));
     }
 }

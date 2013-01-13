@@ -25,8 +25,7 @@ public class ProfileData {
     private static List<String> basicBlockDesc = new ArrayList<String>();
     private static Map<String, Integer> methodStarterBlockMap = new HashMap<String, Integer>();
 
-    private static boolean profilingAllowed = true;
-    private static int numOfBlockingThreads = 0;
+    private static boolean profilingEnabled = false;
 
     /**
      * Adds basic block with default cost (1).
@@ -58,19 +57,25 @@ public class ProfileData {
         basicBlockAmount++;
         basicBlockCostAccumulator.add(cost);
         basicBlockDesc.add(desc == null ? "" : desc);
-        if (starter) methodStarterBlockMap.put(desc, basicBlockAmount - 1);
+        if (starter) {
+            methodStarterBlockMap.put(desc, basicBlockAmount - 1);
+        }
         return basicBlockAmount - 1;
     }
 
     public static void incrementCallsToBasicBlock(int index) {
-        if (profilingAllowed) callsToBasicBlock[index] += 1;
+        if (profilingEnabled) {
+            callsToBasicBlock[index] += 1;
+        }
     }
 
     /**
      * Reset callsToBasicBlock arrays elements to 0.
      */
     public static void resetCounters() {
-        if (callsToBasicBlock == null) initialize();
+        if (callsToBasicBlock == null) {
+            initialize();
+        }
         for (int i = 0; i < callsToBasicBlock.length; i++) {
             callsToBasicBlock[i] = 0L;
         }
@@ -90,16 +95,6 @@ public class ProfileData {
         for (int i = 0; i < basicBlockCostAccumulator.size(); i++) {
             basicBlockCost[i] = basicBlockCostAccumulator.get(i);
         }
-    }
-
-    /**
-     * Reset everything. Removes added basic blocks.
-     */
-    public static void resetBasicBlocks() {
-        callsToBasicBlock = null;
-        basicBlockCost = null;
-        basicBlockAmount = 0;
-        basicBlockCostAccumulator = new ArrayList<Long>();
     }
 
     public static long[] getCallsToBasicBlock() {
@@ -124,28 +119,22 @@ public class ProfileData {
      *
      * @return
      */
-    public static boolean isProfilingAllowed() {
-        return profilingAllowed;
+    public static boolean isProfilingEnabled() {
+        return profilingEnabled;
     }
 
     /**
      * Disallow counter increments.
      */
-    public static synchronized void disallowProfiling() {
-        numOfBlockingThreads++;
-        profilingAllowed = false;
+    public static synchronized void disableProfiling() {
+        profilingEnabled = false;
     }
 
     /**
      * Allow counter increments.
      */
-    public static synchronized void allowProfiling() {
-        numOfBlockingThreads--;
-        if (numOfBlockingThreads <= 0) {
-            profilingAllowed = true;
-            numOfBlockingThreads = 0;
-        }
-
+    public static synchronized void enableProfiling() {
+        profilingEnabled = true;
     }
 
     public static Map<String, Integer> getMethodStarterBlockMap() {

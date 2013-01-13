@@ -33,10 +33,8 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             byte[] classfileBuffer) throws IllegalClassFormatException {
         this.className = className;
         try {
-            ProfileData.disallowProfiling();
             // Don't touch the class if it's blacklisted
             if (ClassBlacklist.isBlacklisted(className)) {
-                ProfileData.allowProfiling();
                 return null;
             }
             logger.info("Class: " + className);
@@ -65,9 +63,9 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             //Util.writeByteArrayToFile(filename + ".class", bytecode);
 
             // Initialize counter arrays
-            if (!Agent.isRetransforming()) ProfileData.initialize();
-
-            ProfileData.allowProfiling();
+            if (!Agent.isRetransforming()) {
+                ProfileData.initialize();
+            }
 
             return bytecode;
         } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
@@ -75,7 +73,6 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
         } catch (Error e) {
             logger.fatal(e.getMessage(), e);
         }
-        ProfileData.allowProfiling();
         return null;
     }
 
@@ -101,10 +98,11 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             long cost = calculateCost(basicBlockInsns);
             index = ProfileData.addBasicBlock(cost, className + "." + methodNode.name + methodNode.desc, false);
             AbstractInsnNode basicBlockBeginning = basicBlockInsns.getFirst();
-            if (basicBlockBeginning.getType() == LABEL)
+            if (basicBlockBeginning.getType() == LABEL) {
                 insns.insert(basicBlockBeginning, createCounterIncrementInsnList(index));
-            else
+            } else {
                 insns.insertBefore(basicBlockBeginning, createCounterIncrementInsnList(index));
+            }
         }
     }
 
@@ -125,10 +123,12 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                     break;
                 case METHOD_INSN:
                     MethodInsnNode n = (MethodInsnNode) node;
-                    if (CostlyMethodList.isMethodCostly(n.owner + "." + n.name + n.desc))
+                    if (CostlyMethodList.isMethodCostly(n.owner + "." + n.name + n.desc)) {
                         cost += CostlyMethodList.getCostOfCostlyMethods();
+                    }
+                    // fall-through
                 default:
-                    cost += ComplexityCost.getCost(type);
+                    cost += InstructionCost.getCost(type);
             }
         }
         return cost;
@@ -145,7 +145,9 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
     public ArrayList<LinkedList<AbstractInsnNode>> findBasicBlockInsns(Set<AbstractInsnNode> basicBlockBeginnings) {
         ArrayList<LinkedList<AbstractInsnNode>> basicBlocks = new ArrayList<LinkedList<AbstractInsnNode>>();
         for (AbstractInsnNode basicBlockBeginning : basicBlockBeginnings) {
-            if (basicBlockBeginning == null) continue;
+            if (basicBlockBeginning == null) {
+                continue;
+            }
             LinkedList<AbstractInsnNode> basicBlock = new LinkedList<AbstractInsnNode>();
             basicBlock.add(basicBlockBeginning);
             AbstractInsnNode nextInsn = basicBlockBeginning.getNext();
@@ -175,7 +177,9 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
                 case JUMP_INSN:
                     JumpInsnNode jumpInsnNode = (JumpInsnNode) insn;
                     basicBlocksBeginnings.add(jumpInsnNode.label);
-                    if (jumpInsnNode.getNext() != null) basicBlocksBeginnings.add(jumpInsnNode.getNext());
+                    if (jumpInsnNode.getNext() != null) {
+                        basicBlocksBeginnings.add(jumpInsnNode.getNext());
+                    }
                     break;
                 case METHOD_INSN:
                     basicBlocksBeginnings.add(insn.getNext());

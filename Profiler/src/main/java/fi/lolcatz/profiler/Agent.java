@@ -69,11 +69,13 @@ public class Agent {
                 }
                 if (inst.isModifiableClass(clazz) && !profilerPackage.equals(clazz.getPackage())) {
                     modifiableClasses.add(clazz);
-                } else logger.info("Unmodifiable class: " + clazz.getName());
+                } else {
+                    logger.info("Unmodifiable class: " + clazz.getName());
+                }
             }
 
             inst.addTransformer(new ProfilerTransformer(), true);
-            inst.addTransformer(new DenyThreadsInMain(), true);
+            inst.addTransformer(new ThreadBlockerTransformer(), true);
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
 
             retransforming = true;
