@@ -1,17 +1,15 @@
-    package jproffa.graph;
+package jproffa.graph;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
+import org.jfree.data.xy.XYSeriesCollection;
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-public class GraphTestWithRule {
+public class GraphWithoutRuleTest {
 
     List<Long> time;
     List<Long> time2;
@@ -20,8 +18,7 @@ public class GraphTestWithRule {
 
     GraphReader reader = new GraphReader("GraphDataFolder");
 
-    @Rule
-    public GraphWriter writer = new GraphWriter();
+    public GraphWriter writer = new GraphWriter(GraphWithoutRuleTest.class.getName());
 
     @Before
     public void setUp() {
@@ -29,26 +26,31 @@ public class GraphTestWithRule {
     }
 
     @Test
-    public void testGraphDrawing() throws Exception {
+    public void testGraphDrawingWithoutRule() throws Exception {
+        writer.setMethodName("testGraphDrawingWithoutRule");
         writer.save(time, input);
         writer.save(time2, input2);
-        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawing");
+        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawingWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();
-        Thread.sleep(5000);
+        XYSeriesCollection c = (XYSeriesCollection)renderer.getDataset();
+        assertEquals(c.getSeries().size(), 2);
         assertNotNull(p);
-        assertNotNull(renderer.getChart());   
+        assertNotNull(renderer.getChart());
     }
 
     @Test
-    public void testGraphDrawingAgain() throws Exception {
+    public void testGraphDrawingAgainWithoutRule() throws Exception {
+        writer.setMethodName("testGraphDrawingAgainWithoutRule");
         writer.save(time, input);
         writer.save(time2, input2);
-        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawingAgain");
+        List<Line> list = reader.get(this.getClass().getName(), "testGraphDrawingAgainWithoutRule");
         assertTrue(list.size() > 0);
         GraphRenderer renderer = new GraphRenderer(list);
         JPanel p = renderer.getJPanel();
+        XYSeriesCollection c = (XYSeriesCollection)renderer.getDataset();
+        assertEquals(c.getSeries().size(), 2);
         assertNotNull(p);
         assertNotNull(renderer.getChart());
     }
