@@ -9,7 +9,6 @@ import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 
 public class Agent {
-
     private static Instrumentation inst;
     private static Logger logger = Logger.getLogger(Agent.class);
     private static final String log4jConfFilename = "log4j.properties";
@@ -30,6 +29,7 @@ public class Agent {
         printInstrumentationInfo(inst);
         // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
         inst.addTransformer(new ProfilerTransformer());
+        inst.addTransformer(new ThreadBlockerTransformer());
 
         // Add shutdown hook to print total cost
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -92,10 +92,11 @@ public class Agent {
 
     private static void loadLoggingConf() {
         File f = new File(log4jConfFilename);
-        if (f.exists())
+        if (f.exists()) {
             PropertyConfigurator.configure(log4jConfFilename);
-        else
+        } else {
             System.out.println(log4jConfFilename + " not found. Loading default configuration file.");
+        }
     }
 
     /**

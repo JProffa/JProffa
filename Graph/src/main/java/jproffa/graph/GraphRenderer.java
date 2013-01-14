@@ -1,5 +1,6 @@
 package jproffa.graph;
 
+import fi.lolcatz.profiler.Output;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,8 +14,11 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.jfree.chart.plot.CategoryPlot;
+import java.util.concurrent.Semaphore;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.jfree.chart.plot.Plot;
 import org.jfree.data.general.Dataset;
 
@@ -27,6 +31,56 @@ public class GraphRenderer {
         chart = createChart(dataset);
     }
 
+    //TODO: generalize the convenience overloads of showAndWait
+    
+    public static void showAndWait(
+            String className,
+            String methodName,
+            Output<?> output,
+            UnivariateFunction maxFunc,
+            double tolerance) {
+        List<Long> maxTimes = new ArrayList<Long>(output.entryCount());
+        for (int s : output.getSize()) {
+            maxTimes.add((long)Math.round(maxFunc.value(s) * tolerance));
+        }
+        
+        Line actual = new Line(output, className, methodName, null);
+        Line expected = new Line(maxTimes, output.getSize(), className, methodName, null);
+        showAndWait(actual, expected);
+    }
+    
+    public static void showAndWait(Line... lines) {
+        showAndWait(Arrays.asList(lines));
+    }
+    
+    public static void showAndWait(final List<Line> lines) {
+        final Semaphore sem = new Semaphore(0);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GraphRenderer renderer = new GraphRenderer(lines);
+                JPanel panel = renderer.getJPanel();
+                JFrame frame = new JFrame() {
+                    @Override
+                    public void dispose() {
+                        super.dispose();
+                        sem.release();
+                    }
+                };
+                frame.setSize(400, 400);
+                frame.add(panel);
+                frame.pack();
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setVisible(true);
+            }
+        });
+        try {
+            sem.acquire();
+        } catch (InterruptedException ex) {
+            // continue
+        }
+    }
+    
     /**
      * Returns the generated chart as JPanel.
      *

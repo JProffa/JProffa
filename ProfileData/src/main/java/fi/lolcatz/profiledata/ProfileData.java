@@ -126,14 +126,14 @@ public class ProfileData {
     /**
      * Disallow counter increments.
      */
-    public static synchronized void disableProfiling() {
+    public static void disableProfiling() {
         profilingEnabled = false;
     }
 
     /**
      * Allow counter increments.
      */
-    public static synchronized void enableProfiling() {
+    public static void enableProfiling() {
         profilingEnabled = true;
     }
 

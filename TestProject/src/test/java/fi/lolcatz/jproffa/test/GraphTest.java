@@ -3,7 +3,6 @@ package fi.lolcatz.jproffa.test;
 import fi.lolcatz.jproffa.implementations.IntegerImpl;
 import fi.lolcatz.jproffa.testproject.IterativeComplexityExample;
 import fi.lolcatz.profiler.ClassBlacklist;
-import fi.lolcatz.profiler.ComplexityAnalysis;
 import fi.lolcatz.profiler.Output;
 import fi.lolcatz.profiler.Util;
 import jproffa.graph.GraphWriter;
@@ -20,7 +19,6 @@ import static org.junit.Assert.assertTrue;
 public class GraphTest {
 
     IntegerImpl impl;
-    ComplexityAnalysis framework;
     public GraphWriter writer = new GraphWriter();
 
     @BeforeClass

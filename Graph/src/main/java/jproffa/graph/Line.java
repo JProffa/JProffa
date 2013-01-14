@@ -1,5 +1,6 @@
 package jproffa.graph;
 
+import fi.lolcatz.profiler.Output;
 import java.util.List;
 
 public class Line {
@@ -16,6 +17,10 @@ public class Line {
      */
     public String annotation;
 
+    public Line(Output<?> output, String className, String methodName, String annotation) {
+        this(output.getTime(), output.getSize(), className, methodName, annotation);
+    }
+    
     public Line(List<Long> time, List<Integer> input, String className, String methodName, String annotation) {
         this.time = time;
         this.input = input;

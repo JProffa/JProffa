@@ -1,7 +1,6 @@
 package fi.lolcatz.profiler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Output<T> {
@@ -101,7 +100,6 @@ public class Output<T> {
                 sb.append(row[j]);
             }
             sb.append(" |").append("\n");
-            
         }
         return sb.toString();
     }

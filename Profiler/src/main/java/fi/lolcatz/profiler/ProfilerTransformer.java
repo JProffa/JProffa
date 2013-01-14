@@ -2,7 +2,7 @@ package fi.lolcatz.profiler;
 
 import fi.lolcatz.profiledata.ProfileData;
 import org.apache.log4j.Logger;
-import org.objectweb.asm.Opcodes;
+import static org.objectweb.asm.Opcodes.*;
 import org.objectweb.asm.tree.*;
 
 import java.lang.instrument.ClassFileTransformer;
@@ -15,7 +15,7 @@ import static org.objectweb.asm.tree.AbstractInsnNode.*;
 /**
  * Transformer that inserts counter increment code in the beginning of basic blocks.
  */
-public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
+public class ProfilerTransformer implements ClassFileTransformer {
 
     public String className;
     private static Logger logger = Logger.getLogger(ProfilerTransformer.class.getName());
@@ -68,10 +68,8 @@ public class ProfilerTransformer implements ClassFileTransformer, Opcodes {
             }
 
             return bytecode;
-        } catch (Exception e) { // Catch all exceptions because they are silenced otherwise.
-            logger.fatal(e.getMessage(), e);
-        } catch (Error e) {
-            logger.fatal(e.getMessage(), e);
+        } catch (Throwable e) { // Log all exceptions because they are silenced otherwise.
+            logger.error(e.getMessage(), e);
         }
         return null;
     }

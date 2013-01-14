@@ -3,26 +3,18 @@ package fi.lolcatz.jproffa.testproject;
 import java.util.Random;
 
 public class IterativeComplexityExample {
+    
+    // Random is used occasionally to prevent optimization by the JVM
 
-    /**
-     * Linear function used to test assertLinear Functions, uses coin flips to nullify optimization
-     *
-     * @param i input
-     */
     public static void linearFunction(int i) {
         int r = 0;
         Random ra = new Random();
         for (int j = 0; j < i; j++) {
             r += ra.nextInt(2);
-//          r ++;
         }
     }
 
-    /**
-     * Approximated quadratic complexity function for testing approximation on assertQuadratic functions
-     *
-     * @param i input
-     */
+
     public static void approximatedQuadraticFunction(int i) {
         int r = 0;
         for (int j = 0; j < i; j++) {
@@ -32,11 +24,6 @@ public class IterativeComplexityExample {
         }
     }
 
-    /**
-     * Quadratic complexity function used to test assertQuadratic functions
-     *
-     * @param i input
-     */
     public static void quadraticFunction(int i) {
         int r = 0;
         for (int j = 0; j < i * i; j++) {
@@ -44,11 +31,6 @@ public class IterativeComplexityExample {
         }
     }
 
-    /**
-     * Approximated quadratic complexity function used to test assertQuadratic functions without optimization
-     *
-     * @param i input
-     */
     public static void quadraticCoinFlipFunction(int i) {
         int r = 0;
         Random ra = new Random();
@@ -59,11 +41,6 @@ public class IterativeComplexityExample {
         }
     }
 
-    /**
-     * Cubic function used to test assertCubic functions
-     *
-     * @param i
-     */
     public static void cubicFunction(int i) {
         int r = 0;
         for (int j = 0; j < i * i * i; j++) {
@@ -71,29 +48,21 @@ public class IterativeComplexityExample {
         }
     }
 
-    /**
-     * Logarithmic function used to test assertLogarithmic function.
-     *
-     * @param n
-     */
-    public static void logarithmicFunction(Long n) {
+    public static void logarithmicFunction(long n) {
         while (n >= 1) {
             n = n / 2;
         }
     }
-
-    /**
-     * Logarithmic function used to test assertLogarithmicApproximated function.
-     *
-     * @param n
-     */
-    public static void approximatedNlogNFunction(int i) {
+    
+    public static int approximatedNlogNFunction(int i) {
+        int result = 0;
         for (int j = 0; j < i; j++) {
             int n = i;
             while (n >= 1) {
                 n = n / 2;
+                result += System.currentTimeMillis();
             }
         }
-
+        return result;
     }
 }
