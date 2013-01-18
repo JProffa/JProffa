@@ -671,17 +671,6 @@ public class Util {
      * @return Total cost of execution.
      */
     public static long getTotalCost() {
-        return getTotalCost(null);
-    }
-
-    /**
-     * Gets total cost. This is counted by multiplying the amount of calls to a basic block by its cost and adding them
-     * together.
-     *
-     * @param classBlacklist List of classnames to be ignored.
-     * @return Total cost of execution.
-     */
-    public static long getTotalCost(List<String> classBlacklist) {
         checkAgentIsLoaded();
         long[] callsToBasicBlock = ProfileData.getCallsToBasicBlock();
 
@@ -689,9 +678,7 @@ public class Util {
             return 0;
         }
 
-        if (classBlacklist == null) {
-            classBlacklist = new ArrayList<String>();
-        }
+        ArrayList<String> classBlacklist = new ArrayList<String>();
 
         List<String> basicBlockDesc = ProfileData.getBasicBlockDesc();
         long[] basicBlockCost = ProfileData.getBasicBlockCost();
