@@ -11,7 +11,7 @@
     <artifactId>Java7TestProject</artifactId>
     <packaging>jar</packaging>
 
-    <name>Java7TestProject</name>
+    <name>JProffa Java 7 Test Project</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -11,7 +11,7 @@
     <artifactId>ProfileData</artifactId>
     <packaging>jar</packaging>
 
-    <name>ProfileData</name>
+    <name>JProffa Profile Data</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

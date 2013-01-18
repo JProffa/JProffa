@@ -11,7 +11,7 @@
     <artifactId>Graph</artifactId>
     <packaging>jar</packaging>
 
-    <name>Graph</name>
+    <name>JProffa Graph</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
