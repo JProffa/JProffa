@@ -78,6 +78,7 @@ public abstract class AbstractImpl {
      * @throws Exception
      */
     public long runOnce(final Object instance, final Object... inputs) throws Exception {
+        ProfileData.disableProfiling();
         for (int i = 0; i < 5; ++i) {
             System.gc();
             System.runFinalization();

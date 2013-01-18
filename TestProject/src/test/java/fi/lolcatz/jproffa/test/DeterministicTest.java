@@ -1,7 +1,6 @@
 package fi.lolcatz.jproffa.test;
 
 import fi.lolcatz.jproffa.implementations.IntegerImpl;
-import fi.lolcatz.jproffa.testproject.Example;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
 import org.junit.Before;
@@ -21,7 +20,6 @@ public class DeterministicTest {
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(DeterministicTest.class);
-        Example.main(null);
         Util.loadAgent();
     }
 

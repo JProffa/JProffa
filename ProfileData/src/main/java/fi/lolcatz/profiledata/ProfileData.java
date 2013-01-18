@@ -53,7 +53,7 @@ public class ProfileData {
      * @param desc Description of the basic block.
      * @return Index of the basic block in the arrays.
      */
-    public static int addBasicBlock(long cost, String desc, boolean starter) {
+    public static synchronized int addBasicBlock(long cost, String desc, boolean starter) {
         basicBlockAmount++;
         basicBlockCostAccumulator.add(cost);
         basicBlockDesc.add(desc == null ? "" : desc);
@@ -72,7 +72,7 @@ public class ProfileData {
     /**
      * Reset callsToBasicBlock arrays elements to 0.
      */
-    public static void resetCounters() {
+    public static synchronized void resetCounters() {
         if (callsToBasicBlock == null) {
             initialize();
         }
@@ -84,7 +84,7 @@ public class ProfileData {
     /**
      * Initialize arrays from added basic blocks. Needs to be called before using the arrays.
      */
-    public static void initialize() {
+    public static synchronized void initialize() {
         long[] newCallsToBasicBlock = new long[basicBlockAmount];
         if (callsToBasicBlock != null) {
             System.arraycopy(callsToBasicBlock, 0, newCallsToBasicBlock, 0, callsToBasicBlock.length);

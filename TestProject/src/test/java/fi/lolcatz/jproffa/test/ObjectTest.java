@@ -1,7 +1,6 @@
 package fi.lolcatz.jproffa.test;
 
 import fi.lolcatz.jproffa.implementations.IntegerImpl;
-import fi.lolcatz.jproffa.testproject.Example;
 import fi.lolcatz.jproffa.testproject.ObjectExample;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
@@ -18,7 +17,6 @@ public class ObjectTest {
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(ObjectTest.class);
-        Example.main(null);
         // Used to initialize the method, creating objects for the first time causes problems with profiler
         ObjectExample.createPersons(1);
         Util.loadAgent();

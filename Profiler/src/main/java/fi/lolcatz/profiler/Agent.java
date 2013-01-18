@@ -1,6 +1,7 @@
 package fi.lolcatz.profiler;
 
 import fi.lolcatz.profiledata.ProfileData;
+import fi.lolcatz.profiledata.ThreadBlocker;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -27,9 +28,7 @@ public class Agent {
 
         Agent.inst = inst;
         printInstrumentationInfo(inst);
-        // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
-        inst.addTransformer(new ProfilerTransformer());
-        inst.addTransformer(new ThreadBlockerTransformer());
+        addTransformers(inst, false);
 
         // Add shutdown hook to print total cost
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -76,6 +75,8 @@ public class Agent {
 
             inst.addTransformer(new ProfilerTransformer(), true);
             inst.addTransformer(new ThreadBlockerTransformer(), true);
+            ThreadBlocker.addPolicy(new DefaultThreadBlockerPolicy());
+            
             logger.info("Retransforming " + modifiableClasses.size() + "/" + loadedClasses.length + " classes");
 
             retransforming = true;
@@ -122,5 +123,12 @@ public class Agent {
      */
     public static boolean isRetransforming() {
         return retransforming;
+    }
+
+    private static void addTransformers(Instrumentation inst, boolean canRetransform) {
+        // This adds a new ClassFileTransformer. Each transformer is called once for each loaded class.
+        inst.addTransformer(new ProfilerTransformer(), canRetransform);
+        inst.addTransformer(new ThreadBlockerTransformer(), canRetransform);
+        ThreadBlocker.addPolicy(new DefaultThreadBlockerPolicy());
     }
 }

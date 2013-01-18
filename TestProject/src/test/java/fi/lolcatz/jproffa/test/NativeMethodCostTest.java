@@ -1,36 +1,20 @@
 package fi.lolcatz.jproffa.test;
 
-import fi.lolcatz.jproffa.testproject.Example;
 import fi.lolcatz.jproffa.testproject.NativeExample;
 import fi.lolcatz.profiledata.ProfileData;
-import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.CostlyMethodList;
 import fi.lolcatz.profiler.Util;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import fi.lolcatz.profiler.WithProfiling;
 import org.junit.Test;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
+import org.junit.Rule;
 
 public class NativeMethodCostTest {
 
-    public NativeMethodCostTest() {
-    }
-
-
-    @BeforeClass
-    public static void classSetup() {
-        ClassBlacklist.add(NativeMethodCostTest.class);
-        Example.main(null);
-        Util.loadAgent();
-    }
-
-    @Before
-    public void testSetup() {
-        ProfileData.resetCounters();
-    }
+    @Rule public WithProfiling profiling = WithProfiling.rule();
 
     @Test
     public void testNativeExample() throws IOException {
@@ -46,12 +30,9 @@ public class NativeMethodCostTest {
         long cost1 = Util.getTotalCost();
         CostlyMethodList.setCostOfCostlyMethods(0);
         ProfileData.resetCounters();
-        example = new NativeExample();
+        
         example.writeSomething();
         long cost2 = Util.getTotalCost();
         assertTrue(cost1 > cost2);
-
-        Util.printBasicBlocksCost(false);
-
     }
 }

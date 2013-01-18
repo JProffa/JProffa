@@ -1,7 +1,6 @@
 package fi.lolcatz.jproffa.test;
 
 import fi.lolcatz.jproffa.implementations.StringImpl;
-import fi.lolcatz.jproffa.testproject.Example;
 import fi.lolcatz.profiledata.ProfileData;
 import fi.lolcatz.profiler.ClassBlacklist;
 import fi.lolcatz.profiler.Util;
@@ -21,7 +20,6 @@ public class StringTest {
     @BeforeClass
     public static void classSetup() {
         ClassBlacklist.add(StringTest.class);
-        Example.main(null);
         Util.loadAgent();
     }
 
@@ -39,13 +37,13 @@ public class StringTest {
         impl.runStatic(impl.getInput(25), "a", "b");
 
         long[] totalCost = new long[5];
-        int syote = 100;
+        int input = 100;
 
-        totalCost[0] = impl.runStatic(impl.getInput(syote), "a", "b");
+        totalCost[0] = impl.runStatic(impl.getInput(input), "a", "b");
 
         for (int i = 1; i < totalCost.length; i++) {
-            syote = 2 * syote;
-            totalCost[i] = impl.runStatic(impl.getInput(syote), "a", "b");
+            input = 2 * input;
+            totalCost[i] = impl.runStatic(impl.getInput(input), "a", "b");
         }
 
         printResults("testStringReplaceLinear", totalCost);
@@ -68,13 +66,13 @@ public class StringTest {
         impl.runStatic(impl.getInput(25), "a", "b");
 
         long[] totalCost = new long[5];
-        int syote = 10000;
+        int input = 10000;
 
-        totalCost[0] = impl.runStatic(impl.getInput(syote), "a", "b");
+        totalCost[0] = impl.runStatic(impl.getInput(input), "a", "b");
 
         for (int i = 1; i < totalCost.length; i++) {
-            syote = 2 * syote;
-            totalCost[i] = impl.runStatic(impl.getInput(syote), "a", "b");
+            input = 2 * input;
+            totalCost[i] = impl.runStatic(impl.getInput(input), "a", "b");
         }
 
         printResults("testStringReplaceLinearLarge", totalCost);
@@ -96,7 +94,7 @@ public class StringTest {
         impl.runStatic(impl.getInput(25), "a", "b");
 
         long[] totalCost = new long[5];
-        int syote = 5000000;
+        int syote = 500000;
 
         totalCost[0] = impl.runStatic(impl.getInput(syote), "a", "b");
 
