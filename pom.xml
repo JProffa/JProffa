@@ -8,7 +8,7 @@
     Use `mvn versions:update-child-modules` to update the version.
     For more info, see http://mojo.codehaus.org/versions-maven-plugin/
     -->
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <url>http://jproffa.net/</url>
